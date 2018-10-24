@@ -9,6 +9,7 @@ import com.desktopclient.entidades.Carrera;
 import com.desktopclient.entidades.Asignatura;
 import com.desktopclient.Logic.Recursos;
 import com.desktopclient.datatypes.DtUsuarioLogueado;
+import com.desktopclient.entidades.Curso;
 import java.util.List;
 import javax.swing.JOptionPane;
 /**
@@ -208,7 +209,12 @@ public class HorariosCursos extends javax.swing.JFrame {
 
     private void AsignaturasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_AsignaturasItemStateChanged
         // TODO add your handling code here:
-        
+        List<Curso> cursos = Recursos.getCursosBynC_nA(Carreras.getSelectedItem().toString(), Asignaturas.getSelectedItem().toString(), ul.getToken());
+        Curso c = new Curso();
+        for (int i = 0; i < cursos.size(); i++) {
+            c = cursos.get(i);
+            Asignaturas.addItem(c.getId().toString());
+        }
     }//GEN-LAST:event_AsignaturasItemStateChanged
 
     /**

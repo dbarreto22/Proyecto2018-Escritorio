@@ -77,6 +77,7 @@ public class Recursos {
     }
     public static List<Curso> getCursosBynC_nA(String nombreCarrera,String nombreAsignatura,String token) {
         List<Curso> cursos = new ArrayList<Curso>();
+        //List<Horario> horariosCurso = new ArrayList<Horario>();
         Curso c = new Curso();
         JSONArray jsonArray = ejecutarRequest("director/asignaturacarrera",token);
         JSONArray cursosJSon = null;

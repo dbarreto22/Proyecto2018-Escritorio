@@ -29,6 +29,28 @@ import org.json.JSONObject;
  */
 public class MetodosEnvio {
     
+    public static JSONArray ejecutarRequest(String endpoint,String token){
+        JSONArray jsonArray = new JSONArray();
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpResponse response;
+            
+            HttpGet getRequest = new HttpGet(urlbase+endpoint);
+            getRequest.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON);
+            getRequest.addHeader(HttpHeaders.AUTHORIZATION, "Bearer "+token);
+            response = httpClient.execute(getRequest);
+            HttpEntity responseEntity = response.getEntity();
+            if (responseEntity != null) {
+                //System.out.println(EntityUtils.toString(responseEntity));
+                jsonArray = new JSONArray(EntityUtils.toString(responseEntity));
+            }
+            httpClient.getConnectionManager().shutdown();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return jsonArray;
+    }
+    
     public static DtUsuarioLogueado login(String cedula,String pass){
         
         DtUsuario u = new DtUsuario();
