@@ -4,6 +4,7 @@
 package com.desktopclient.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 /**
  * @author Windows XP
@@ -13,6 +14,16 @@ public class Curso implements Serializable {
     private Long id;
 
     private Asignatura_Carrera asignatura_Carrera;
+    
+    private Date fecha;
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
     private List<Horario> horarios;
 

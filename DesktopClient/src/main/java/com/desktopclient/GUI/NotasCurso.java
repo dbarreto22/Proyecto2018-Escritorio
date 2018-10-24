@@ -8,12 +8,23 @@ package com.desktopclient.GUI;
 import com.desktopclient.entidades.Carrera;
 import com.desktopclient.entidades.Asignatura;
 import com.desktopclient.Logic.Recursos;
+import com.desktopclient.datatypes.DtUsuarioLogueado;
 import java.util.List;
 /**
  *
  * @author Ernesto
  */
 public class NotasCurso extends javax.swing.JFrame {
+    
+    private DtUsuarioLogueado ul;
+
+    public DtUsuarioLogueado getUl() {
+        return ul;
+    }
+
+    public void setUl(DtUsuarioLogueado ul) {
+        this.ul = ul;
+    }
 
     /**
      * Creates new form HorariosCursos
@@ -158,7 +169,7 @@ public class NotasCurso extends javax.swing.JFrame {
 
     private void CarrerasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CarrerasItemStateChanged
         // TODO add your handling code here:
-        List<Carrera> carreras = Recursos.getAllCarreras();
+        List<Carrera> carreras = Recursos.getAllCarreras(ul.getToken());
         long idCarrera = 0;
         for (int i = 0; i < carreras.size(); i++) {
             if (carreras.get(i).getNombre().equals(Carreras.getSelectedItem().toString())){
@@ -167,7 +178,7 @@ public class NotasCurso extends javax.swing.JFrame {
             }
         }
         
-        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera);
+        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,ul.getToken());
         Asignatura a = new Asignatura();
         
         for (int i = 0; i < asignaturas.size(); i++) {
@@ -224,7 +235,7 @@ public class NotasCurso extends javax.swing.JFrame {
     
     public void cargarCarreras() {
         
-        List<Carrera> carreras = Recursos.getAllCarreras();
+        List<Carrera> carreras = Recursos.getAllCarreras(ul.getToken());
         Carrera c = new Carrera();
         
         for (int i = 0; i < carreras.size(); i++) {

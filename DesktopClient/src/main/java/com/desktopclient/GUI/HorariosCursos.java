@@ -8,21 +8,35 @@ package com.desktopclient.GUI;
 import com.desktopclient.entidades.Carrera;
 import com.desktopclient.entidades.Asignatura;
 import com.desktopclient.Logic.Recursos;
+import com.desktopclient.datatypes.DtUsuarioLogueado;
 import java.util.List;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Ernesto
  */
 public class HorariosCursos extends javax.swing.JFrame {
+    
+    private DtUsuarioLogueado ul;
+
+    public DtUsuarioLogueado getUl() {
+        return ul;
+    }
+
+    public void setUl(DtUsuarioLogueado ul) {
+        this.ul = ul;
+        cargarCarreras();
+    }
 
     /**
      * Creates new form HorariosCursos
      */    
     public HorariosCursos() {
         initComponents();
-        cargarCarreras();
-        this.setVisible(true);
+        this.setVisible(rootPaneCheckingEnabled);
     }
+
+    
     
     
 
@@ -58,6 +72,12 @@ public class HorariosCursos extends javax.swing.JFrame {
         Carreras.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 CarrerasItemStateChanged(evt);
+            }
+        });
+
+        Asignaturas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                AsignaturasItemStateChanged(evt);
             }
         });
 
@@ -113,10 +133,8 @@ public class HorariosCursos extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Carreras, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Asignaturas, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(120, 120, 120)
+                            .addComponent(Asignaturas, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(anio, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -169,7 +187,7 @@ public class HorariosCursos extends javax.swing.JFrame {
 
     private void CarrerasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CarrerasItemStateChanged
         // TODO add your handling code here:
-        List<Carrera> carreras = Recursos.getAllCarreras();
+        List<Carrera> carreras = Recursos.getAllCarreras(ul.getToken());
         long idCarrera = 0;
         for (int i = 0; i < carreras.size(); i++) {
             if (carreras.get(i).getNombre().equals(Carreras.getSelectedItem().toString())){
@@ -178,7 +196,7 @@ public class HorariosCursos extends javax.swing.JFrame {
             }
         }
         
-        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera);
+        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,ul.getToken());
         Asignatura a = new Asignatura();
         
         for (int i = 0; i < asignaturas.size(); i++) {
@@ -187,6 +205,11 @@ public class HorariosCursos extends javax.swing.JFrame {
         }
         //System.out.println(Carreras.getSelectedItem().toString());
     }//GEN-LAST:event_CarrerasItemStateChanged
+
+    private void AsignaturasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_AsignaturasItemStateChanged
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_AsignaturasItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -225,7 +248,7 @@ public class HorariosCursos extends javax.swing.JFrame {
     
     public void cargarCarreras() {
         
-        List<Carrera> carreras = Recursos.getAllCarreras();
+        List<Carrera> carreras = Recursos.getAllCarreras(ul.getToken());
         Carrera c = new Carrera();
         
         for (int i = 0; i < carreras.size(); i++) {

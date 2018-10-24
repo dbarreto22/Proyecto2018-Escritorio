@@ -5,6 +5,8 @@
  */
 package com.desktopclient.Logic;
 
+import com.desktopclient.datatypes.DtUsuario;
+import com.desktopclient.datatypes.DtUsuarioLogueado;
 import com.desktopclient.entidades.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,16 +17,55 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
  * @author Ernesto
  */
 public class MetodosEnvio {
-    public void saveNotasCurso(Estudiante_Curso e){
+    
+    public static DtUsuarioLogueado login(String cedula,String pass){
+        
+        DtUsuario u = new DtUsuario();
+        DtUsuarioLogueado ul = new DtUsuarioLogueado();
+        
+        JSONObject body = new JSONObject();
+        body.append("password", pass);
+        body.append("username", cedula);
+        
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            
+            HttpResponse response;
+            
+            HttpPost postRequest = new HttpPost("http://tsi-diego.eastus.cloudapp.azure.com:8080/miudelar-server/admin/login");
+            
+            StringEntity entity = new StringEntity(body.toString());
+            postRequest.setEntity(entity);
+            
+            response = httpClient.execute(postRequest);
+            
+            HttpEntity responseEntity = response.getEntity();
+            
+            if (responseEntity != null) {
+                ul.setToken(EntityUtils.toString(responseEntity));
+                u.setCedula(cedula);
+                u.setPassword(pass);
+                ul.setUsuario(u);
+            }
+            
+            httpClient.getConnectionManager().shutdown();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ul;
+    } 
+ /*   public void saveNotasCurso(Estudiante_Curso e){
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpResponse response; 
@@ -51,5 +92,5 @@ public class MetodosEnvio {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }
