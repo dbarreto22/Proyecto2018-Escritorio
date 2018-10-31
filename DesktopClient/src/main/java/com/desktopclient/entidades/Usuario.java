@@ -3,35 +3,62 @@
  */
 package com.desktopclient.entidades;
 
+import com.desktopclient.datatypes.DtRol;
+import com.desktopclient.datatypes.DtUsuario;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import javax.xml.bind.annotation.*;
 
 /**
  * @author Windows XP
  */
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@Entity
+////@NamedQueries({
+////    @NamedQuery(name = "Usuario.findAll", query = "Select e from Usuario e"),
+////    @NamedQuery(name = "Usuario.findByNombre", query = "Select u from Usuario u where u.nombre=:nombre"),
+////    @NamedQuery(name = "Usuario.findByApellido", query = "Select u from Usuario u where u.apellido=:apellido"),
+////    @NamedQuery(name = "Usuario.findByEmail", query = "Select u from Usuario u where u.email=:email"),
+////    @NamedQuery(name = "Usuario.findByPassword", query = "Select u from Usuario u where u.password=:password")})
 public class Usuario implements Serializable {
 
+//    @Column(unique = true)
+//    @Id
     private String cedula;
 
+//    @Basic
     private String nombre;
 
+//    @Basic
     private String apellido;
 
+//    @Basic
+//    @Pattern(regexp = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])", message = "Email no valido")
     private String email;
 
+//    @Basic
     private String password;
 
+
+//    @OneToMany(targetEntity = Estudiante_Examen.class, fetch = FetchType.EAGER)
     private List<Estudiante_Examen> calificacionesExamenes;
 
+//    @OneToMany(targetEntity = Estudiante_Curso.class, fetch = FetchType.EAGER)
     private List<Estudiante_Curso> calificacionesCursos;
 
+//    @ManyToMany(targetEntity = Rol.class, fetch = FetchType.EAGER)
     private List<Rol> roles;
 
+//    @ManyToMany(targetEntity = Carrera.class, fetch = FetchType.EAGER)
     private List<Carrera> carreras;
 
+//    @ManyToMany(targetEntity = Examen.class, fetch = FetchType.EAGER)
     private List<Examen> inscripcionesExamenes;
 
-    private List<Curso> cursoes;
+//    @ManyToMany(targetEntity = Curso.class, fetch = FetchType.EAGER)
+    private List<Curso> cursos;
 
     public Usuario(String cedula, String nombre, String apellido, String email, String password) {
         this.cedula = cedula;
@@ -39,6 +66,14 @@ public class Usuario implements Serializable {
         this.apellido = apellido;
         this.email = email;
         this.password = password;
+    }
+    
+    public Usuario(DtUsuario usuario) {
+        this.cedula = usuario.getCedula();
+        this.nombre = usuario.getNombre();
+        this.apellido = usuario.getApellido();
+        this.email = usuario.getEmail();
+        this.password = usuario.getPassword();
     }
 
     public Usuario() {
@@ -107,6 +142,14 @@ public class Usuario implements Serializable {
     public void setRoles(List<Rol> roles) {
         this.roles = roles;
     }
+    
+    public void addRol(Rol rol) {
+        this.roles.add(rol);
+    }
+    
+    public void removeRol(Rol rol) {
+        this.roles.remove(rol);
+    }
 
     public List<Carrera> getCarreras() {
         return this.carreras;
@@ -114,6 +157,10 @@ public class Usuario implements Serializable {
 
     public void setCarreras(List<Carrera> carreras) {
         this.carreras = carreras;
+    }
+    
+    public void addCarrera(Carrera carrera) {
+        this.carreras.add(carrera);
     }
 
     public List<Examen> getInscripcionesExamenes() {
@@ -123,13 +170,57 @@ public class Usuario implements Serializable {
     public void setInscripcionesExamenes(List<Examen> inscripcionesExamenes) {
         this.inscripcionesExamenes = inscripcionesExamenes;
     }
+    
+    public void addInscripcionesExamenes(Examen examen) {
+        this.inscripcionesExamenes.add(examen);
+    }   
 
-    public List<Curso> getCursoes() {
-        return this.cursoes;
+    public List<Curso> getCursos() {
+        return this.cursos;
     }
 
-    public void setCursoes(List<Curso> cursoes) {
-        this.cursoes = cursoes;
+    public void setCursos(List<Curso> cursos) {
+        this.cursos = cursos;
     }
+    
+    public void addCurso(Curso curso) {
+        this.cursos.add(curso);
+    }
+    
+    public DtUsuario toDataType() {
+        List <DtRol> dtroles = new ArrayList<DtRol>();
+        this.roles.forEach(rol -> {
+            dtroles.add(new DtRol(rol.getId(), rol.getTipo()));
+        });
+        DtUsuario dtUsuario = new DtUsuario(cedula, nombre, apellido, email, password, dtroles);
+        return dtUsuario;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.cedula);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if (!Objects.equals(this.cedula, other.cedula)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

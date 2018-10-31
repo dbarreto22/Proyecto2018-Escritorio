@@ -5,9 +5,10 @@
  */
 package com.desktopclient.GUI;
 
+import com.desktopclient.Logic.Recursos;
 import com.desktopclient.entidades.Carrera;
 import com.desktopclient.entidades.Asignatura;
-import com.desktopclient.Logic.Recursos;
+import com.desktopclient.Logic.MetodosEnvio;
 import com.desktopclient.datatypes.DtUsuarioLogueado;
 import com.desktopclient.entidades.Curso;
 import java.util.List;
@@ -16,23 +17,23 @@ import javax.swing.JOptionPane;
  *
  * @author Ernesto
  */
-public class HorariosCursos extends javax.swing.JFrame {
+public class HorariosCursos extends javax.swing.JInternalFrame {
     
-    private DtUsuarioLogueado ul;
+    private DtUsuarioLogueado usuariolog;
 
-    public DtUsuarioLogueado getUl() {
-        return ul;
+    public DtUsuarioLogueado getUsuarioLog() {
+        return usuariolog;
     }
 
-    public void setUl(DtUsuarioLogueado ul) {
-        this.ul = ul;
-        cargarCarreras();
+    public void setUsuarioLog(DtUsuarioLogueado usuariolog) {
+        this.usuariolog = usuariolog;
+//        cargarCarreras();
     }
 
     /**
      * Creates new form HorariosCursos
      */    
-    public HorariosCursos() {
+    public HorariosCursos(DtUsuarioLogueado usuariolog) {
         initComponents();
         this.setVisible(rootPaneCheckingEnabled);
     }
@@ -187,81 +188,81 @@ public class HorariosCursos extends javax.swing.JFrame {
     }//GEN-LAST:event_salirMouseClicked
 
     private void CarrerasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CarrerasItemStateChanged
-        // TODO add your handling code here:
-        List<Carrera> carreras = Recursos.getAllCarreras(ul.getToken());
-        long idCarrera = 0;
-        for (int i = 0; i < carreras.size(); i++) {
-            if (carreras.get(i).getNombre().equals(Carreras.getSelectedItem().toString())){
-                idCarrera = carreras.get(i).getCodigo();
-                break;
-            }
-        }
-        
-        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,ul.getToken());
-        Asignatura a = new Asignatura();
-        
-        for (int i = 0; i < asignaturas.size(); i++) {
-            a = asignaturas.get(i);
-            Asignaturas.addItem(a.getNombre());
-        }
-        //System.out.println(Carreras.getSelectedItem().toString());
+//        // TODO add your handling code here:
+//        List<Carrera> carreras = Recursos.getAllCarreras(usuariolog.getToken());
+//        long idCarrera = 0;
+//        for (int i = 0; i < carreras.size(); i++) {
+//            if (carreras.get(i).getNombre().equals(Carreras.getSelectedItem().toString())){
+//                idCarrera = carreras.get(i).getCodigo();
+//                break;
+//            }
+//        }
+//        
+//        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,usuariolog.getToken());
+//        Asignatura a = new Asignatura();
+//        
+//        for (int i = 0; i < asignaturas.size(); i++) {
+//            a = asignaturas.get(i);
+//            Asignaturas.addItem(a.getNombre());
+//        }
+//        //System.out.println(Carreras.getSelectedItem().toString());
     }//GEN-LAST:event_CarrerasItemStateChanged
 
     private void AsignaturasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_AsignaturasItemStateChanged
-        // TODO add your handling code here:
-        List<Curso> cursos = Recursos.getCursosBynC_nA(Carreras.getSelectedItem().toString(), Asignaturas.getSelectedItem().toString(), ul.getToken());
-        Curso c = new Curso();
-        for (int i = 0; i < cursos.size(); i++) {
-            c = cursos.get(i);
-            Asignaturas.addItem(c.getId().toString());
-        }
+//        // TODO add your handling code here:
+//        List<Curso> cursos = Recursos.getCursosBynC_nA(Carreras.getSelectedItem().toString(), Asignaturas.getSelectedItem().toString(), usuariolog.getToken());
+//        Curso c = new Curso();
+//        for (int i = 0; i < cursos.size(); i++) {
+//            c = cursos.get(i);
+//            Asignaturas.addItem(c.getId().toString());
+//        }
     }//GEN-LAST:event_AsignaturasItemStateChanged
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new HorariosCursos().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new HorariosCursos(usuariolog).setVisible(true);
+//            }
+//        });
+//    }
     
-    public void cargarCarreras() {
-        
-        List<Carrera> carreras = Recursos.getAllCarreras(ul.getToken());
-        Carrera c = new Carrera();
-        
-        for (int i = 0; i < carreras.size(); i++) {
-            c = carreras.get(i);
-            Carreras.addItem(c.getNombre());
-        }
-    }
+//    public void cargarCarreras() {
+//        
+//        List<Carrera> carreras = Recursos.getAllCarreras(usuariolog.getToken());
+//        Carrera c = new Carrera();
+//        
+//        for (int i = 0; i < carreras.size(); i++) {
+//            c = carreras.get(i);
+//            Carreras.addItem(c.getNombre());
+//        }
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Asignaturas;

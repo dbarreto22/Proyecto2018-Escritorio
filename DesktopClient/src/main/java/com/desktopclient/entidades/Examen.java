@@ -3,24 +3,41 @@
  */
 package com.desktopclient.entidades;
 
+import com.desktopclient.datatypes.DtAsignatura;
+import com.desktopclient.datatypes.DtAsignatura_Carrera;
+import com.desktopclient.datatypes.DtCarrera;
+import com.desktopclient.datatypes.DtExamen;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
+import javax.xml.bind.annotation.*;
 
 /**
  * @author Windows XP
  */
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@Entity
+//@NamedQueries({
+//    @NamedQuery(name = "Examen.findAll", query = "Select e from Examen e"),
+//    @NamedQuery(name = "Examen.findByFecha", query = "Select e from Examen e where e.fecha=:fecha")})
 public class Examen implements Serializable {
 
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+//    @Basic
     private Date fecha;
 
+    @XmlTransient
+//    @ManyToOne(targetEntity = Asignatura_Carrera.class)
     private Asignatura_Carrera asignatura_Carrera;
 
+    @XmlTransient
+//    @OneToMany(targetEntity = Estudiante_Examen.class, fetch = FetchType.EAGER)
     private List<Estudiante_Examen> calificacionesExamenes;
 
-    private List<Usuario> inscriptos;
 
     public Examen(Long id, Date fecha) {
         this.id = id;
@@ -54,20 +71,47 @@ public class Examen implements Serializable {
         this.asignatura_Carrera = asignatura_Carrera;
     }
 
-    public List<Estudiante_Examen> getCalificacionesExamenes() {
-        return this.calificacionesExamenes;
+//    public List<Estudiante_Examen> getCalificacionesExamenes() {
+//        return this.calificacionesExamenes;
+//    }
+//
+//    public void setCalificacionesExamenes(List<Estudiante_Examen> calificacionesExamenes) {
+//        this.calificacionesExamenes = calificacionesExamenes;
+//    }
+    
+    public DtExamen toDataType(){
+        DtAsignatura_Carrera asignatura_Carrera = new DtAsignatura_Carrera(this.asignatura_Carrera.getId(),
+                new DtCarrera(this.asignatura_Carrera.getCarrera().getCodigo(), this.asignatura_Carrera.getCarrera().getNombre()),
+                new DtAsignatura(this.asignatura_Carrera.getAsignatura().getCodigo(), this.asignatura_Carrera.getAsignatura().getNombre())
+        );
+        return new DtExamen(this.id, this.fecha, asignatura_Carrera);
     }
 
-    public void setCalificacionesExamenes(List<Estudiante_Examen> calificacionesExamenes) {
-        this.calificacionesExamenes = calificacionesExamenes;
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        return hash;
     }
 
-    public List<Usuario> getInscriptos() {
-        return this.inscriptos;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Examen other = (Examen) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
-
-    public void setInscriptos(List<Usuario> inscriptos) {
-        this.inscriptos = inscriptos;
-    }
+    
+    
 
 }

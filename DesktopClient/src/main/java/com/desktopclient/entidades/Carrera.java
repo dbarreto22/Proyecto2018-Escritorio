@@ -3,24 +3,41 @@
  */
 package com.desktopclient.entidades;
 
+import com.desktopclient.datatypes.DtCarrera;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
+import javax.xml.bind.annotation.*;
 
 /**
  * @author Windows XP
  */
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@Entity
+//@NamedQueries({
+//    @NamedQuery(name = "Carrera.findAll", query = "Select e from Carrera e"),
+//    @NamedQuery(name = "Carrera.findByNombre", query = "Select c from Carrera c where c.nombre=:nombre")})
 public class Carrera implements Serializable {
 
+//    @Id
     private Long codigo;
 
+//    @Basic
+//    @Column(unique = true)
     private String nombre;
 
+//    @XmlTransient
+//    @OneToMany(targetEntity = Asignatura_Carrera.class, fetch = FetchType.EAGER)
     private List<Asignatura_Carrera> asignatura_Carreras;
 
-    private List<Usuario> usuarios;
+    /*@XmlTransient
+    @ManyToMany(targetEntity = Usuario.class, mappedBy = "carreras", fetch = FetchType.EAGER)
+    private List<Usuario> usuarios;*/
 
+//    @ManyToMany(targetEntity = Periodo_Examen.class, fetch = FetchType.EAGER)
     private List<Periodo_Examen> periodos_Examenes;
 
+//    @ManyToMany(targetEntity = Asignatura.class, fetch = FetchType.EAGER)
     private List<Asignatura> asignaturas;
 
     public Carrera(Long codigo, String nombre) {
@@ -55,14 +72,6 @@ public class Carrera implements Serializable {
         this.asignatura_Carreras = asignatura_Carreras;
     }
 
-    public List<Usuario> getUsuarios() {
-        return this.usuarios;
-    }
-
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
-
     public List<Periodo_Examen> getPeriodos_Examenes() {
         return this.periodos_Examenes;
     }
@@ -78,5 +87,45 @@ public class Carrera implements Serializable {
     public void setAsignaturas(List<Asignatura> asignaturas) {
         this.asignaturas = asignaturas;
     }
+    
+    public void addAsignatura_Carrera(Asignatura_Carrera asignatura_Carreras){
+        this.asignatura_Carreras.add(asignatura_Carreras);
+    }
+    
+    public void addAsignatura(Asignatura asignatura){
+        this.asignaturas.add(asignatura);
+    }
+    
+    public DtCarrera toDataType(){
+        DtCarrera car = new DtCarrera(codigo, nombre);
+        return car;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + Objects.hashCode(this.codigo);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Carrera other = (Carrera) obj;
+        if (!Objects.equals(this.codigo, other.codigo)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

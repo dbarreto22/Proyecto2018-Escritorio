@@ -3,32 +3,63 @@
  */
 package com.desktopclient.entidades;
 
+import com.desktopclient.datatypes.DtAsignatura;
+import com.desktopclient.datatypes.DtAsignatura_Carrera;
+import com.desktopclient.datatypes.DtCarrera;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
+import javax.xml.bind.annotation.*;
 
 /**
  * @author Windows XP
  */
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@Entity
+//@NamedQuery(name = Asignatura_Carrera.FIND_BY_CODS, query = "SELECT A FROM Asignatura_Carrera A "
+//            + "WHERE A.carrera_codigo = :carrera AND A.asignatura_codigo = :asignatura)")
 public class Asignatura_Carrera implements Serializable {
 
+//    public final static String FIND_BY_CODS = "Asignatura_Carrera.FIND_BY_CODS";
+    
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    private Examen examen;
-
-    private Curso curso;
-
+    
+    @XmlTransient
+//    @OneToMany(targetEntity = Examen.class, fetch = FetchType.EAGER)
+    private List<Examen> examenes;
+    
+    @XmlTransient
+//    @OneToMany(targetEntity = Curso.class, fetch = FetchType.EAGER)
+    private List<Curso> cursos;
+    
+//    @ManyToOne(targetEntity = Carrera.class)
     private Carrera carrera;
 
+//    @ManyToOne(targetEntity = Asignatura.class)
     private Asignatura asignatura;
+    
+//    @ManyToMany(targetEntity = Periodo_Examen.class, fetch = FetchType.EAGER)
+    private List<Periodo_Examen> periodos_Examen;
 
+//    @ManyToMany(targetEntity = Asignatura_Carrera.class, fetch = FetchType.EAGER)
     private List<Asignatura_Carrera> previas;
 
+    @XmlTransient
+//    @ManyToMany(targetEntity = Asignatura_Carrera.class, mappedBy = "previas", fetch = FetchType.EAGER)
     private List<Asignatura_Carrera> esPreviaDe;
 
-    public Asignatura_Carrera(Long id) {
-        this.id = id;
+    public Asignatura_Carrera(Asignatura asignatura, Carrera carrera) {
+        this.carrera = carrera;
+        this.asignatura = asignatura;
     }
-
+    
+    public Asignatura_Carrera(DtAsignatura asignatura, DtCarrera carrera) {
+        this.carrera = new Carrera(carrera.getCodigo(), carrera.getNombre());
+        this.asignatura = new Asignatura(asignatura.getCodigo(), asignatura.getNombre());
+    }
+    
     public Asignatura_Carrera() {
     }
 
@@ -40,20 +71,20 @@ public class Asignatura_Carrera implements Serializable {
         this.id = id;
     }
 
-    public Examen getExamen() {
-        return this.examen;
+    public List<Examen> getExamenes() {
+        return examenes;
     }
 
-    public void setExamen(Examen examen) {
-        this.examen = examen;
+    public void setExamenes(List<Examen> examenes) {
+        this.examenes = examenes;
     }
 
-    public Curso getCurso() {
-        return this.curso;
+    public List<Curso> getCursos() {
+        return cursos;
     }
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
+    public void setCursos(List<Curso> cursos) {
+        this.cursos = cursos;
     }
 
     public Carrera getCarrera() {
@@ -79,6 +110,14 @@ public class Asignatura_Carrera implements Serializable {
     public void setPrevias(List<Asignatura_Carrera> previas) {
         this.previas = previas;
     }
+    
+    public void addPrevia(Asignatura_Carrera previa) {
+        this.previas.add(previa);
+    }
+    
+    public void removePrevia(Asignatura_Carrera previa) {
+        this.previas.remove(previa);
+    }
 
     public List<Asignatura_Carrera> getEsPreviaDe() {
         return this.esPreviaDe;
@@ -87,5 +126,40 @@ public class Asignatura_Carrera implements Serializable {
     public void setEsPreviaDe(List<Asignatura_Carrera> esPreviaDe) {
         this.esPreviaDe = esPreviaDe;
     }
+    
+    public DtAsignatura_Carrera toDataType() {
+        DtAsignatura_Carrera dtcar = new DtAsignatura_Carrera(id, carrera.toDataType(), asignatura.toDataType());
+        this.previas.forEach(previa -> {
+            dtcar.getPrevias().add(previa.toDataType());
+        });
+        return dtcar;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Asignatura_Carrera other = (Asignatura_Carrera) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

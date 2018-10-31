@@ -3,38 +3,54 @@
  */
 package com.desktopclient.entidades;
 
+import com.desktopclient.datatypes.DtEstudiante_Curso;
 import java.io.Serializable;
+import java.util.Objects;
+
+import javax.xml.bind.annotation.*;
 
 /**
  * @author Windows XP
  */
+//@XmlAccessorType(XmlAccessType.FIELD)
+//@Entity
+//@NamedQueries({
+////    @NamedQuery(name = "Estudiante_Curso.findAll", query = "Select e from Estudiante_Curso e"),
+////    @NamedQuery(name = "Estudiante_Curso.findByCalificacion", query = "Select e from Estudiante_Curso e where e.calificacion=:calificacion")
+//        @NamedQuery(name = Estudiante_Curso.FINDBY_ESTUDIANTE_CURSO_ASIGNATURA, 
+//                query = "SELECT C FROM Estudiante_Curso C, Usuario U, Asignatura_Carrera A \n"
+//                + "WHERE U.cedula = :cedula AND C.usuario = U \n"
+//                + "AND A.id = :asignatura_carrera AND C.curso member of A.cursos"),
+//@NamedQuery(name = Estudiante_Curso.GET_MAX_CALIF_ASIG, 
+//                query = "SELECT max(C.calificacion) FROM Estudiante_Curso C, Usuario U, Asignatura_Carrera A \n"
+//                + "WHERE U.cedula = :cedula AND C.usuario = U \n"
+//                + "AND A.id = :asignatura_carrera AND C.curso member of A.cursos")})
+
 public class Estudiante_Curso implements Serializable {
-
-    private Long id;
-
+    public final static String FINDBY_ESTUDIANTE_CURSO_ASIGNATURA = "Estudiante_Curso.FINDBY_ESTUDIANTE_CURSO_ASIGNATURA";
+    public final static String GET_MAX_CALIF_ASIG = "Estudiante_Curso.GET_MAX_CALIF_ASIG";
+    
+//    @Basic
     private Long calificacion;
-
+    
+//   @Id
+//    @ManyToOne(targetEntity = Usuario.class)
     private Usuario usuario;
-
+   
+//   @Id
+//    @ManyToOne(targetEntity = Curso.class)
     private Curso curso;
-
-    public Estudiante_Curso(Long id, Long calificacion) {
-        this.id = id;
-        this.calificacion = calificacion;
-    }
 
     public Estudiante_Curso() {
     }
 
-    public Long getId() {
-        return this.id;
+    public Estudiante_Curso(Long calificacion, Usuario usuario, Curso curso) {
+        this.calificacion = calificacion;
+        this.usuario = usuario;
+        this.curso = curso;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getCalificacion() {
+    
+     public Long getCalificacion() {
         return this.calificacion;
     }
 
@@ -51,11 +67,44 @@ public class Estudiante_Curso implements Serializable {
     }
 
     public Curso getCurso() {
+        System.out.println("curso: " + this.curso.getId());
         return this.curso;
     }
 
     public void setCurso(Curso curso) {
         this.curso = curso;
+    }
+    
+    public DtEstudiante_Curso toDataType(){
+        return new DtEstudiante_Curso(this.calificacion, this.usuario.toDataType(), this.curso.toDataType());
+    }
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.usuario);
+        hash = 37 * hash + Objects.hashCode(this.curso);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Estudiante_Curso other = (Estudiante_Curso) obj;
+        if (!Objects.equals(this.usuario, other.usuario)) {
+            return false;
+        }
+        if (!Objects.equals(this.curso, other.curso)) {
+            return false;
+        }
+        return true;
     }
 
 }
