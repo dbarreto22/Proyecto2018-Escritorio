@@ -82,6 +82,7 @@ public class MetodosEnvio {
     
     public static String ejecutarPostParms(String endpoint, HashMap<String,String> parms){
         String output = "";
+        System.out.println("token: " +token);
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpResponse response;
@@ -146,22 +147,46 @@ public class MetodosEnvio {
     }
     
     public static DtUsuarioLogueado login(String cedula,String pass){
-        
         DtUsuario usuario = new DtUsuario();
         DtUsuarioLogueado usuariolog = new DtUsuarioLogueado();
+        String output = "";
         
         HashMap<String,String> parms = new HashMap<String,String>();
         parms.put("password", pass);
         parms.put("username", cedula);
         
-        String response = ejecutarPostParms("admin/login", parms);
-
-        usuariolog.setToken(response);
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpResponse response;
+            
+            HttpPost postRequest = new HttpPost(urlbase+"admin/login");
+            JsonObject body = new JsonObject();
+            for (HashMap.Entry<String,String> parm: parms.entrySet()) {
+                String key = parm.getKey();
+                String value = parm.getValue();
+                body.addProperty(key, value);
+            }
+            StringEntity entity = new StringEntity(body.toString());
+            postRequest.setEntity(entity);
+            
+            postRequest.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+            response = httpClient.execute(postRequest);
+            HttpEntity responseEntity = response.getEntity();
+            if (responseEntity != null) {
+                //System.out.println(EntityUtils.toString(responseEntity));
+               output = EntityUtils.toString(responseEntity);
+               output = new String(output.getBytes("ISO-8859-1"), "UTF-8");
+            }
+            httpClient.getConnectionManager().shutdown();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        usuariolog.setToken(output);
         usuario.setCedula(cedula);
         usuario.setPassword(pass);
         usuariolog.setUsuario(usuario);
-        
-        token = response;
+        System.out.println("output: " + output);
+        token = output;
             
         return usuariolog;
     } 

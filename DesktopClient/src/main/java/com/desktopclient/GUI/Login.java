@@ -166,8 +166,8 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Error: Usuario o contraseña incorrecta");
             this.jTextField1.setText("");
             this.jPasswordField1.setText("");
-//        } else {
-//            MainMenu menu = new MainMenu();
+        } else {
+            MainMenu menu = new MainMenu();
 //            menu.setUsuarioLog(usuariolog);
             this.dispose();
         }
