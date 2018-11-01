@@ -5,6 +5,7 @@
  */
 package com.desktopclient.GUI;
 
+import com.desktopclient.Logic.MetodosEnvio;
 import com.desktopclient.Logic.Recursos;
 import com.desktopclient.datatypes.DtUsuarioLogueado;
 import java.awt.Image;
@@ -160,14 +161,14 @@ public class Login extends javax.swing.JFrame {
 
     private void iniciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iniciarMouseClicked
         // TODO add your handling code here:
-        DtUsuarioLogueado usuariolog = Recursos.login(this.jTextField1.getText(), this.jPasswordField1.getText());
+        DtUsuarioLogueado usuariolog = MetodosEnvio.login(this.jTextField1.getText(), this.jPasswordField1.getText());
         if (usuariolog.getToken().equals("Error: Usuario o contraseña incorrecta") || usuariolog.getToken().contains("null {")){
             JOptionPane.showMessageDialog(rootPane, "Error: Usuario o contraseña incorrecta");
             this.jTextField1.setText("");
             this.jPasswordField1.setText("");
-        } else {
-            MainMenu menu = new MainMenu();
-            menu.setUsuarioLog(usuariolog);
+//        } else {
+//            MainMenu menu = new MainMenu();
+//            menu.setUsuarioLog(usuariolog);
             this.dispose();
         }
     }//GEN-LAST:event_iniciarMouseClicked

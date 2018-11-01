@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -33,25 +32,17 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Ernesto
  */
-public class GestionCursos extends javax.swing.JInternalFrame {
+public class CursoObj extends javax.swing.JFrame {
     tableUtils tUtils = tableUtils.getInstance();
     private Long idCurso;
-//    private DtUsuarioLogueado usuariolog;
+    private String accion;
+    private Long codigoAsignatura;
 
-//    public DtUsuarioLogueado getUsuarioLog() {
-//        return usuariolog;
-//    }
-//
-//    public void setUsuarioLog(DtUsuarioLogueado usuariolog) {
-//        this.usuariolog = usuariolog;
-//        cargarCarreras();
-//    }
 
     /**
      * Creates new form HorariosCursos
      */    
-    public GestionCursos() {
-//        this.usuariolog = usuariolog;
+    public CursoObj(String accion, Long idCurso) {
         initComponents();
         cargarCarreras();
         tableConstructor();
@@ -68,50 +59,57 @@ public class GestionCursos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        paneldata = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        agregar = new javax.swing.JButton();
-        eliminar = new javax.swing.JButton();
-        editar = new javax.swing.JButton();
-        salir = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tableCursos = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         asignaturaTxt = new javax.swing.JTextField();
+        accionDsp = new javax.swing.JLabel();
+        Buscar = new javax.swing.JButton();
+        paneldata = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        aceptar = new javax.swing.JButton();
+        salir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         Carreras = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        dtpBirthDate = new org.jdesktop.swingx.JXDatePicker();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableCursos = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        Buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Gestión Cursos");
+        setTitle("Curso");
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel2.setText("Asignatura");
+
+        accionDsp.setFont(new java.awt.Font("Segoe UI Black", 1, 17)); // NOI18N
+        accionDsp.setText("Accion");
+        accionDsp.setText(accion);
+
+        Buscar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        Buscar.setText("Buscar");
+        Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarActionPerformed(evt);
+            }
+        });
 
         paneldata.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Cursos");
+        jLabel4.setText("Seleccione asignatura");
 
-        agregar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        agregar.setText("Agregar");
-        agregar.addActionListener(new java.awt.event.ActionListener() {
+        aceptar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        aceptar.setText("Aceptar");
+        aceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregarActionPerformed(evt);
+                aceptarActionPerformed(evt);
             }
         });
-
-        eliminar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        eliminar.setText("Eliminar");
-        eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarActionPerformed(evt);
-            }
-        });
-
-        editar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        editar.setText("Editar");
 
         salir.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         salir.setText("Salir");
@@ -120,6 +118,21 @@ public class GestionCursos extends javax.swing.JInternalFrame {
                 salirMouseClicked(evt);
             }
         });
+
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel1.setText("Carrera");
+
+        Carreras.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CarrerasItemStateChanged(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel3.setText("Fecha");
+
+        dtpBirthDate.setToolTipText("");
+        dtpBirthDate.setDate( new Date(0,0,1) );
 
         tableCursos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -131,74 +144,65 @@ public class GestionCursos extends javax.swing.JInternalFrame {
         ));
         jScrollPane3.setViewportView(tableCursos);
 
+        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("Datos del Curso");
+
         javax.swing.GroupLayout paneldataLayout = new javax.swing.GroupLayout(paneldata);
         paneldata.setLayout(paneldataLayout);
         paneldataLayout.setHorizontalGroup(
             paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldataLayout.createSequentialGroup()
+            .addGroup(paneldataLayout.createSequentialGroup()
                 .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(paneldataLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, paneldataLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
+                        .addGap(242, 242, 242)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(246, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldataLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(paneldataLayout.createSequentialGroup()
                         .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(paneldataLayout.createSequentialGroup()
-                                .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(paneldataLayout.createSequentialGroup()
-                                        .addComponent(editar)
-                                        .addGap(38, 38, 38)
-                                        .addComponent(eliminar))
-                                    .addGroup(paneldataLayout.createSequentialGroup()
-                                        .addComponent(agregar)
-                                        .addGap(119, 119, 119)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addGap(23, 23, 23))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
+                        .addGap(31, 31, 31)
+                        .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Carreras, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dtpBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldataLayout.createSequentialGroup()
+                            .addComponent(aceptar)
+                            .addGap(85, 85, 85)
+                            .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(23, 23, 23))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldataLayout.createSequentialGroup()
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 684, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap()))))
         );
         paneldataLayout.setVerticalGroup(
             paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneldataLayout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
                 .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(agregar)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel1)
+                    .addComponent(Carreras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(dtpBirthDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(eliminar)
-                    .addComponent(editar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(salir)
+                    .addComponent(salir)
+                    .addComponent(aceptar))
                 .addContainerGap())
         );
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel2.setText("Asignatura");
-
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel1.setText("Carrera");
-
-        Carreras.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                CarrerasItemStateChanged(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 17)); // NOI18N
-        jLabel5.setText("Filtros");
-
-        Buscar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        Buscar.setText("Buscar");
-        Buscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BuscarActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -208,36 +212,29 @@ public class GestionCursos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(accionDsp, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(asignaturaTxt))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(26, 26, 26)
-                                .addComponent(Carreras, 0, 319, Short.MAX_VALUE)))
-                        .addGap(99, 99, 99)
+                        .addComponent(jLabel2)
+                        .addGap(26, 26, 26)
+                        .addComponent(asignaturaTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+                        .addGap(78, 78, 78)
                         .addComponent(Buscar)
                         .addGap(132, 132, 132))))
+            .addComponent(paneldata, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(accionDsp, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(Carreras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(asignaturaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Buscar))
-                .addGap(23, 23, 23))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(paneldata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -246,27 +243,23 @@ public class GestionCursos extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(paneldata, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(paneldata, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(19, 19, 19))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+    private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_eliminarActionPerformed
+    }//GEN-LAST:event_aceptarActionPerformed
 
     private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
         // TODO add your handling code here:
@@ -295,14 +288,9 @@ public class GestionCursos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_CarrerasItemStateChanged
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
-        idCurso = 0L;
         panelUtils.getInstance().panelClearData(paneldata);
         tableConstructor();
     }//GEN-LAST:event_BuscarActionPerformed
-
-    private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-       CursoObj ne = new CursoObj("Nuevo", idCurso);
-    }//GEN-LAST:event_agregarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -343,12 +331,13 @@ public class GestionCursos extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Buscar;
     private javax.swing.JComboBox<String> Carreras;
-    private javax.swing.JButton agregar;
+    private javax.swing.JLabel accionDsp;
+    private javax.swing.JButton aceptar;
     private javax.swing.JTextField asignaturaTxt;
-    private javax.swing.JButton editar;
-    private javax.swing.JButton eliminar;
+    private org.jdesktop.swingx.JXDatePicker dtpBirthDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
@@ -359,42 +348,30 @@ public class GestionCursos extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void tableConstructor() {
-        String[] tableHeaders = {"", "Asignatura", "Carrera", "Fecha"};
+        String[] tableHeaders = {"Código", "Nombre"};
         List<Object[]> dataA = new ArrayList<>();
-        String carreraStr = Carreras.getSelectedItem().toString();
-        Long carreraSelected = Long.parseLong(carreraStr.substring(0, carreraStr.indexOf("-")));
-        System.out.println("carreraSelected: " + carreraSelected);
         String asginaturaSelected = asignaturaTxt.getText();
         System.out.println("asginaturaSelected: " + asginaturaSelected);
-        List<DtCurso> listcurso = Recursos.getAllCursos();
-        listcurso.forEach((curso) -> {
+        List<DtAsignatura_Carrera> listAsign = Recursos.getAllAsignaturaCarrera();
+        listAsign.forEach((asig) -> {
             Boolean ok = true;
-            Long codCar = curso.getAsignatura_Carrera().getCarrera().getCodigo();
-            System.out.println("codCar: " + codCar);
-            if (!carreraSelected.equals(0) && !codCar.equals(carreraSelected)) {
+            String asigStr = asig.getAsignatura().getCodigo() + asig.getAsignatura().getNombre();
+            System.out.println("asigStr: " + asigStr);
+            if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asigStr, asginaturaSelected))) {
                 ok = false;
-            } else {
-                String asig = curso.getAsignatura_Carrera().getAsignatura().getCodigo() + curso.getAsignatura_Carrera().getAsignatura().getNombre();
-                System.out.println("asig: " + asig);
-                if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asig, asginaturaSelected))) {
-                    ok = false;
-                }
-                if (ok) {
-                    System.out.println("OK");
-                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    String date = dateFormat.format(curso.getFecha());
-                    System.out.println(date); 
-                    
-                    dataA.add(new Object[]{curso.getId(), curso.getAsignatura_Carrera().getAsignatura().getNombre(),
-                    curso.getAsignatura_Carrera().getCarrera().getNombre(), date});
-                }
+            }
+            if (ok) {
+                System.out.println("OK");
+
+                dataA.add(new Object[]{asig.getAsignatura().getCodigo(),
+                asig.getAsignatura().getNombre()});
             }
         });
         tableCursos = tUtils.tableConfig(tableCursos, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
         System.out.println("dataA.size(): " + dataA.size());
         if (dataA.size() != 0){
             tableCursos.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-            idCurso = Long.parseLong(tableCursos.getValueAt(tableCursos.getSelectedRow(), 0).toString());
+            codigoAsignatura = Long.parseLong(tableCursos.getValueAt(tableCursos.getSelectedRow(), 0).toString());
             });
         }
     }
@@ -407,10 +384,6 @@ public class GestionCursos extends javax.swing.JInternalFrame {
         carreras.forEach(carrera -> {
             Carreras.addItem(carrera.getCodigo()+ "-" +carrera.getNombre());
         });
-//        for (int i = 0; i < carreras.size(); i++) {
-//            c = carreras.get(i);
-//            Carreras.addItem(c.getNombre());
-//        }
     }
 //
 }

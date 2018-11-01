@@ -10,27 +10,15 @@ import com.desktopclient.datatypes.DtCarrera;
 import com.desktopclient.datatypes.DtCurso;
 import com.desktopclient.datatypes.DtUsuario;
 import com.desktopclient.datatypes.DtUsuarioLogueado;
-import com.desktopclient.entidades.*;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.JTable;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
+import com.desktopclient.Logic.ImprovedDateTypeAdapter;
 
 /**
  *
@@ -38,47 +26,32 @@ import org.apache.http.util.EntityUtils;
  */
 public class Recursos {
     
-    static JsonParser parser = new JsonParser();
-    static Gson gson = new Gson();
-    
-    public StaticTableModel staticTableModelBuilder(String[] headers, List<Object[]> data) {
-        StaticTableModel m = new StaticTableModel();
-        for (String h : headers) {
-            m.addColumn(h);
-        }
-        data.forEach((c) -> {
-            m.addRow(c);
-        });
-        return m;
-    }
-    
-    public JTable tableConfig(JTable t, String[] tableHeaders, List<Object[]> data, int selectionMode) {
-        t.setModel(this.staticTableModelBuilder(tableHeaders, data));
-        t.setSelectionMode(selectionMode);
-        return t;
-    }
+    private static JsonParser parser = new JsonParser();
+    private static GsonBuilder builder = new GsonBuilder().registerTypeAdapter(Date.class, new ImprovedDateTypeAdapter()); 
+// Register an adapter to manage the date types as long values 
+    private static Gson gson = builder.create();
     
     
-    public static List<DtCarrera> getAllCarreras(String token){
+    public static List<DtCarrera> getAllCarreras(){
         System.out.println("getAllCarreras");
 //        List<DtCarrera> carreras = new ArrayList<DtCarrera>();
-        String response = MetodosEnvio.ejecutarGet("director/carrera",token);
+        String response = MetodosEnvio.ejecutarGet("director/carrera");
         
         DtCarrera[] mcArray = gson.fromJson(response, DtCarrera[].class);
         List<DtCarrera> carreras = Arrays.asList(mcArray);
         return carreras;
     }
     
-    public static List<DtAsignatura_Carrera> getAllAsignaturaCarrera(String token){
-        String response = MetodosEnvio.ejecutarGet("director/asignaturacarrera",token);
+    public static List<DtAsignatura_Carrera> getAllAsignaturaCarrera(){
+        String response = MetodosEnvio.ejecutarGet("director/asignaturacarrera");
         
         DtAsignatura_Carrera[] mcArray = gson.fromJson(response, DtAsignatura_Carrera[].class);
         List<DtAsignatura_Carrera> asig_car = Arrays.asList(mcArray);
         return asig_car;
     }
     
-    public static List<DtCurso> getAllCursos(String token){
-        String response = MetodosEnvio.ejecutarGet("estudiante/curso",token);
+    public static List<DtCurso> getAllCursos(){
+        String response = MetodosEnvio.ejecutarGet("estudiante/curso");
         
         DtCurso[] mcArray = gson.fromJson(response, DtCurso[].class);
         List<DtCurso> curso = Arrays.asList(mcArray);
@@ -133,24 +106,6 @@ public class Recursos {
     }
 */
     
-    public static DtUsuarioLogueado login(String cedula,String pass){
-        
-        DtUsuario usuario = new DtUsuario();
-        DtUsuarioLogueado usuariolog = new DtUsuarioLogueado();
-        
-        HashMap<String,String> parms = new HashMap<String,String>();
-        parms.put("password", pass);
-        parms.put("username", cedula);
-        
-        String response = MetodosEnvio.ejecutarPost("admin/login", "", parms);
-
-        usuariolog.setToken(response);
-        usuario.setCedula(cedula);
-        usuario.setPassword(pass);
-        usuariolog.setUsuario(usuario);
-            
-        return usuariolog;
-    } 
  /*   public void saveNotasCurso(Estudiante_Curso e){
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();

@@ -9,30 +9,28 @@ import com.desktopclient.Logic.Recursos;
 import com.desktopclient.entidades.Carrera;
 import com.desktopclient.entidades.Asignatura;
 import com.desktopclient.Logic.MetodosEnvio;
+import com.desktopclient.utils.tableUtils;
+import com.desktopclient.datatypes.DtCurso;
 import com.desktopclient.datatypes.DtUsuarioLogueado;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import org.apache.commons.lang3.StringUtils;
 /**
  *
  * @author Ernesto
  */
-public class NotasCurso extends javax.swing.JFrame {
+public class NotasCurso extends javax.swing.JInternalFrame {
     
-    private DtUsuarioLogueado ul;
-
-    public DtUsuarioLogueado getUl() {
-        return ul;
-    }
-
-    public void setUl(DtUsuarioLogueado ul) {
-        this.ul = ul;
-    }
-
     /**
      * Creates new form HorariosCursos
      */    
     public NotasCurso() {
+//        this.ul = ul;
         initComponents();
 //        cargarCarreras();
+//        cargarTabla();
         this.setVisible(true);
     }
     
@@ -51,13 +49,13 @@ public class NotasCurso extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         Carreras = new javax.swing.JComboBox<>();
         Asignaturas = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        estudiantes = new javax.swing.JTable();
         guardar = new javax.swing.JButton();
         salir = new javax.swing.JButton();
         Curso = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableArtists = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,16 +68,6 @@ public class NotasCurso extends javax.swing.JFrame {
                 CarrerasItemStateChanged(evt);
             }
         });
-
-        estudiantes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Cédula", "Nombre", "Nota"
-            }
-        ));
-        jScrollPane1.setViewportView(estudiantes);
 
         guardar.setText("Guardar");
         guardar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -105,6 +93,16 @@ public class NotasCurso extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Estudiantes");
 
+        tableArtists.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "", ""
+            }
+        ));
+        jScrollPane3.setViewportView(tableArtists);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -112,29 +110,32 @@ public class NotasCurso extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Carreras, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(Asignaturas, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Carreras, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Asignaturas, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(112, 112, Short.MAX_VALUE)
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(Curso, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(salir))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(guardar)
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(120, 120, 120)
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(Curso, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(salir))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(guardar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,8 +153,8 @@ public class NotasCurso extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
                 .addComponent(guardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(salir)
@@ -244,18 +245,59 @@ public class NotasCurso extends javax.swing.JFrame {
 //            Carreras.addItem(c.getNombre());
 //        }
 //    }
+    
+//    public void cargarTabla(){
+//        String[] tableHeaders = {"", "Asignatura", "Carrera", "Fecha"};
+//        List<Object[]> dataA = new ArrayList<>();
+////        String carreraStr = Carreras.getSelectedItem().toString();
+//
+//        Long carreraSelected = 2001L;
+//        System.out.println("carreraSelected: " + carreraSelected);
+//
+//        String asginaturaSelected = "";
+//        System.out.println("asginaturaSelected: " + asginaturaSelected);
+//
+//        List<DtCurso> listcurso = Recursos.getAllCursos();
+//        listcurso.forEach((curso) -> {
+//            Boolean ok = true;
+//            Long codCar = curso.getAsignatura_Carrera().getCarrera().getCodigo();
+//            System.out.println("codCar: " + codCar);
+//            if (!carreraSelected.equals(0) && !codCar.equals(carreraSelected)) {
+//                ok = false;
+//            } else {
+//
+//                String asig = curso.getAsignatura_Carrera().getAsignatura().getCodigo() + curso.getAsignatura_Carrera().getAsignatura().getNombre();
+//                System.out.println("asig: " + asig);
+//                if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asig, asginaturaSelected))) {
+//                    ok = false;
+//                }
+//                if (ok) {
+//                    System.out.println("OK");
+////                    dataA.add(new Object[] {"Id","Id2","id3","Id4"});
+//                    dataA.add(new Object[]{curso.getId(), curso.getAsignatura_Carrera().getAsignatura().getNombre(),
+//                        curso.getAsignatura_Carrera().getCarrera().getNombre(), curso.getFecha()});
+//                }
+//            }
+//        });
+//        
+//        System.out.println("dataA: " + dataA.size());
+//        tableArtists = tUtils.tableConfig(tableArtists, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
+//        tableArtists.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+//            Long idCurso = Long.parseLong(tableArtists.getValueAt(tableArtists.getSelectedRow(), 0).toString());
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Asignaturas;
     private javax.swing.JComboBox<String> Carreras;
     private javax.swing.JComboBox<String> Curso;
-    private javax.swing.JTable estudiantes;
     private javax.swing.JButton guardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton salir;
+    private javax.swing.JTable tableArtists;
     // End of variables declaration//GEN-END:variables
 }

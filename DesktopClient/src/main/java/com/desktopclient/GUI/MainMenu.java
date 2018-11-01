@@ -7,7 +7,6 @@
 package com.desktopclient.GUI;
 
 import com.desktopclient.Logic.MetodosEnvio;
-import com.desktopclient.datatypes.DtUsuarioLogueado;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,16 +22,6 @@ import javax.swing.JOptionPane;
  */
 public class MainMenu extends javax.swing.JFrame {
     
-    private DtUsuarioLogueado usuariolog;
-
-    public DtUsuarioLogueado getUsuarioLog() {
-        return usuariolog;
-    }
-
-    public void setUsuarioLog(DtUsuarioLogueado usuariolog) {
-        this.usuariolog = usuariolog;
-    }
-
     /**
      * Creates new form Main
      */
@@ -215,8 +204,7 @@ public class MainMenu extends javax.swing.JFrame {
         }// </editor-fold>//GEN-END:initComponents
 
     private void GestionCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionCursosActionPerformed
-        System.out.println("usuariolog: " + usuariolog.toString());
-        internalFrameBuilder(new GestionCursos(usuariolog));
+        internalFrameBuilder(new GestionCursos());
         
     }//GEN-LAST:event_GestionCursosActionPerformed
 
@@ -231,7 +219,7 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void NotasCursosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotasCursosMousePressed
         // TODO add your handling code here:
-        NotasCurso nc = new NotasCurso();
+         internalFrameBuilder(new NotasCurso());
     }//GEN-LAST:event_NotasCursosMousePressed
 
     private void NotasExamenesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotasExamenesMousePressed

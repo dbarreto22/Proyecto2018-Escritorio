@@ -41,6 +41,7 @@ public class MetodosEnvio {
     
     private static String urlbase = "http://localhost:8080/miudelar-server/";
     private static String ruta = "MiUdelar.png";
+    private static String token;
     
     public static String getUrlBase(){
         return urlbase;
@@ -50,10 +51,13 @@ public class MetodosEnvio {
         return ruta;
     }
     
-    JsonParser parser = new JsonParser();
-    Gson gson = new Gson();
+//    public static void setToken(String token){
+//        this.token = token;
+//    }
     
-    public static String ejecutarGet(String endpoint,String token){
+    private static JsonParser parser = new JsonParser();
+    
+    public static String ejecutarGet(String endpoint){
         System.out.println("token: " + token);
         String retSrc = "";
         try {
@@ -67,7 +71,7 @@ public class MetodosEnvio {
             HttpEntity responseEntity = response.getEntity();
             if (responseEntity != null) {
                 retSrc = EntityUtils.toString(responseEntity);
-                System.out.println(retSrc);
+                retSrc = new String(retSrc.getBytes("ISO-8859-1"), "UTF-8");
             }
             httpClient.getConnectionManager().shutdown();
         } catch (IOException e) {
@@ -76,7 +80,7 @@ public class MetodosEnvio {
         return retSrc;
     }
     
-    public static String ejecutarPost(String endpoint,String token, HashMap<String,String> parms){
+    public static String ejecutarPostParms(String endpoint, HashMap<String,String> parms){
         String output = "";
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -102,6 +106,7 @@ public class MetodosEnvio {
             if (responseEntity != null) {
                 //System.out.println(EntityUtils.toString(responseEntity));
                output = EntityUtils.toString(responseEntity);
+               output = new String(output.getBytes("ISO-8859-1"), "UTF-8");
             }
             httpClient.getConnectionManager().shutdown();
         } catch (IOException e) {
@@ -109,5 +114,56 @@ public class MetodosEnvio {
         }
         return output;
     }
+    
+    public static String ejecutarPostObject(String endpoint, String object){
+        String output = "";
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpResponse response;
+            
+            HttpPost postRequest = new HttpPost(urlbase+endpoint);
+            JsonObject body = parser.parse(object).getAsJsonObject();
+            System.out.println("body: " + body.toString());
+            StringEntity entity = new StringEntity(body.toString());
+            postRequest.setEntity(entity);
+            
+            if (!token.isEmpty()){
+                postRequest.addHeader(HttpHeaders.AUTHORIZATION, "Bearer "+token);
+            }
+            postRequest.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+            response = httpClient.execute(postRequest);
+            HttpEntity responseEntity = response.getEntity();
+            if (responseEntity != null) {
+                //System.out.println(EntityUtils.toString(responseEntity));
+               output = EntityUtils.toString(responseEntity);
+               output = new String(output.getBytes("ISO-8859-1"), "UTF-8");
+            }
+            httpClient.getConnectionManager().shutdown();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+    
+    public static DtUsuarioLogueado login(String cedula,String pass){
+        
+        DtUsuario usuario = new DtUsuario();
+        DtUsuarioLogueado usuariolog = new DtUsuarioLogueado();
+        
+        HashMap<String,String> parms = new HashMap<String,String>();
+        parms.put("password", pass);
+        parms.put("username", cedula);
+        
+        String response = ejecutarPostParms("admin/login", parms);
+
+        usuariolog.setToken(response);
+        usuario.setCedula(cedula);
+        usuario.setPassword(pass);
+        usuariolog.setUsuario(usuario);
+        
+        token = response;
+            
+        return usuariolog;
+    } 
     
 }
