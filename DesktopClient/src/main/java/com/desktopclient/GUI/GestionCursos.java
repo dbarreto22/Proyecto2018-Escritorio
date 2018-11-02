@@ -24,16 +24,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import org.apache.commons.lang3.StringUtils;
+
 /**
  *
  * @author Ernesto
  */
 public class GestionCursos extends javax.swing.JInternalFrame {
+
     tableUtils tUtils = tableUtils.getInstance();
     private Long idCurso;
 //    private DtUsuarioLogueado usuariolog;
@@ -46,18 +49,16 @@ public class GestionCursos extends javax.swing.JInternalFrame {
 //        this.usuariolog = usuariolog;
 //        cargarCarreras();
 //    }
-
     /**
      * Creates new form HorariosCursos
-     */    
+     */
     public GestionCursos() {
 //        this.usuariolog = usuariolog;
         initComponents();
         cargarCarreras();
         tableConstructor();
         this.setVisible(true);
-    }  
-    
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -112,12 +113,22 @@ public class GestionCursos extends javax.swing.JInternalFrame {
 
         editar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         editar.setText("Editar");
+        editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarActionPerformed(evt);
+            }
+        });
 
         salir.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         salir.setText("Salir");
         salir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 salirMouseClicked(evt);
+            }
+        });
+        salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirActionPerformed(evt);
             }
         });
 
@@ -265,7 +276,22 @@ public class GestionCursos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        // TODO add your handling code here:
+        
+        if (idCurso == null || idCurso.equals(0L)) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un curso", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            System.out.println("idCurso: " + idCurso);
+            JFrame frame = new JFrame();
+            String[] options = new String[2];
+            options[0] = new String("Sí");
+            options[1] = new String("No");
+            int dialogButton = JOptionPane.showOptionDialog(frame.getContentPane(), "Está seguro que desea eliminar el curso?", "Curso", 0, JOptionPane.YES_NO_OPTION, null, options, null);
+
+            if (dialogButton == JOptionPane.YES_OPTION) {
+                System.out.println("ELIMINAR");
+                tableConstructor();
+            }
+        }
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
@@ -283,7 +309,7 @@ public class GestionCursos extends javax.swing.JInternalFrame {
 //                break;
 //            }
 //        }
-        
+
 //        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,usuariolog.getToken());
 //        Asignatura a = new Asignatura();
 //        
@@ -301,8 +327,20 @@ public class GestionCursos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BuscarActionPerformed
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-       CursoObj ne = new CursoObj("Nuevo", idCurso);
+        CursoObj ne = new CursoObj("Datos nuevo Curso", idCurso);
     }//GEN-LAST:event_agregarActionPerformed
+
+    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
+        if (idCurso == null || idCurso.equals(0L)) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un curso", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            CursoObj ne = new CursoObj("Editar Curso", idCurso);
+        }
+    }//GEN-LAST:event_editarActionPerformed
+
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_salirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,7 +376,6 @@ public class GestionCursos extends javax.swing.JInternalFrame {
 //            }
 //        });
 //    }
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Buscar;
@@ -383,34 +420,34 @@ public class GestionCursos extends javax.swing.JInternalFrame {
                     System.out.println("OK");
                     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                     String date = dateFormat.format(curso.getFecha());
-                    System.out.println(date); 
-                    
+                    System.out.println(date);
+
                     dataA.add(new Object[]{curso.getId(), curso.getAsignatura_Carrera().getAsignatura().getNombre(),
-                    curso.getAsignatura_Carrera().getCarrera().getNombre(), date});
+                        curso.getAsignatura_Carrera().getCarrera().getNombre(), date});
                 }
             }
         });
         tableCursos = tUtils.tableConfig(tableCursos, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
         System.out.println("dataA.size(): " + dataA.size());
-        if (dataA.size() != 0){
+        if (dataA.size() != 0) {
             tableCursos.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-            idCurso = Long.parseLong(tableCursos.getValueAt(tableCursos.getSelectedRow(), 0).toString());
+                idCurso = Long.parseLong(tableCursos.getValueAt(tableCursos.getSelectedRow(), 0).toString());
             });
         }
     }
 
-    public void cargarCarreras() {
+    private void cargarCarreras() {
         System.out.println("cargarCarreras");
         List<DtCarrera> carreras = Recursos.getAllCarreras();
         System.out.println("carreras: " + carreras.toString());
-        
+
         carreras.forEach(carrera -> {
-            Carreras.addItem(carrera.getCodigo()+ "-" +carrera.getNombre());
+            Carreras.addItem(carrera.getCodigo() + "-" + carrera.getNombre());
         });
 //        for (int i = 0; i < carreras.size(); i++) {
 //            c = carreras.get(i);
 //            Carreras.addItem(c.getNombre());
 //        }
     }
-//
+
 }

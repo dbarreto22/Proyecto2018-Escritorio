@@ -19,6 +19,11 @@ import java.util.HashMap;
 import java.util.List;
 import javax.swing.JTable;
 import com.desktopclient.Logic.ImprovedDateTypeAdapter;
+import com.desktopclient.entidades.Curso;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  *
@@ -50,6 +55,14 @@ public class Recursos {
         return asig_car;
     }
     
+    public static List<DtAsignatura_Carrera> getAsignaturaCarreraByCarrera(Long idCarrera){
+        String response = MetodosEnvio.ejecutarGet("bedelia/asignaturaCarrera/" + idCarrera);
+        
+        DtAsignatura_Carrera[] mcArray = gson.fromJson(response, DtAsignatura_Carrera[].class);
+        List<DtAsignatura_Carrera> asig_car = Arrays.asList(mcArray);
+        return asig_car;
+    }
+    
     public static List<DtCurso> getAllCursos(){
         String response = MetodosEnvio.ejecutarGet("estudiante/curso");
         
@@ -57,7 +70,57 @@ public class Recursos {
         List<DtCurso> curso = Arrays.asList(mcArray);
         return curso;
     }
-//    
+    
+    public static String saveCurso(Long idCurso, Date fecha, Long idAsigCar){
+        String dateS = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha);
+        
+        HashMap<String,String> parms = new HashMap<String,String>();
+        if(idCurso == null){
+            parms.put("idCurso", "0");
+        }else{
+            parms.put("idCurso", idCurso.toString());
+        }
+        parms.put("fecha", dateS);
+        parms.put("idAsigCar", idAsigCar.toString());
+        
+        String response = MetodosEnvio.ejecutarPostParms("bedelia/curso", parms);
+        return response;
+    } 
+    
+    public static String saveExamen(Long idExamen, Date fecha, Long idAsigCar){
+        String dateS = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha);
+        
+        HashMap<String,String> parms = new HashMap<String,String>();
+        if(idExamen == null){
+            parms.put("idExamen", "0");
+        }else{
+            parms.put("idExamen", idExamen.toString());
+        }
+        parms.put("fecha", dateS);
+        parms.put("idAsigCar", idAsigCar.toString());
+        
+        String response = MetodosEnvio.ejecutarPostParms("bedelia/examen", parms);
+        return response;
+    } 
+
+    public static String removeCurso(Long idCurso){
+        HashMap<String,String> parms = new HashMap<String,String>();
+        parms.put("idCurso", idCurso.toString());
+        
+        String response = MetodosEnvio.ejecutarPostParms("bedelia/removecurso", parms);
+        
+        return response;
+    } 
+    
+    public static String removeExamen(Long idExamen){
+        HashMap<String,String> parms = new HashMap<String,String>();
+        parms.put("idExamen", idExamen.toString());
+        
+        String response = MetodosEnvio.ejecutarPostParms("bedelia/removeexamen", parms);
+        
+        return response;
+    } 
+    
 //    public static List<Asignatura> getAsignaturasByCarrera(long idCarrera,String token) {
 //        List<Asignatura> asignaturas = new ArrayList<Asignatura>();
 //        JSONArray jsonArray = MetodosEnvio.ejecutarGet("director/asignatura/carrera/"+idCarrera,token);

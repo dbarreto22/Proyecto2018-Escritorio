@@ -58,7 +58,6 @@ public class MetodosEnvio {
     private static JsonParser parser = new JsonParser();
     
     public static String ejecutarGet(String endpoint){
-        System.out.println("token: " + token);
         String retSrc = "";
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -77,6 +76,7 @@ public class MetodosEnvio {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("retSrc: " + retSrc);
         return retSrc;
     }
     
@@ -116,16 +116,16 @@ public class MetodosEnvio {
         return output;
     }
     
-    public static String ejecutarPostObject(String endpoint, String object){
+    public static String ejecutarPostObject(String endpoint, JsonObject object){
         String output = "";
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpResponse response;
             
             HttpPost postRequest = new HttpPost(urlbase+endpoint);
-            JsonObject body = parser.parse(object).getAsJsonObject();
-            System.out.println("body: " + body.toString());
-            StringEntity entity = new StringEntity(body.toString());
+            
+            System.out.println("object: " + object.toString());
+            StringEntity entity = new StringEntity(object.toString());
             postRequest.setEntity(entity);
             
             if (!token.isEmpty()){
