@@ -95,7 +95,7 @@
                 <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Gestion"/>
               </AccessibilityProperties>
               <Events>
-                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="GestionExamenMousePressed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GestionExamenActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="NotasExamenes">

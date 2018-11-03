@@ -150,9 +150,9 @@ public class MainMenu extends javax.swing.JFrame {
 
             GestionExamen.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
             GestionExamen.setText("Gestión");
-            GestionExamen.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mousePressed(java.awt.event.MouseEvent evt) {
-                    GestionExamenMousePressed(evt);
+            GestionExamen.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    GestionExamenActionPerformed(evt);
                 }
             });
             Examenes.add(GestionExamen);
@@ -212,11 +212,6 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_EscolaridadActionPerformed
 
-    private void GestionExamenMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GestionExamenMousePressed
-        // TODO add your handling code here:
-        PeriodosExamen pe = new PeriodosExamen();
-    }//GEN-LAST:event_GestionExamenMousePressed
-
     private void NotasCursosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotasCursosMousePressed
         // TODO add your handling code here:
          internalFrameBuilder(new NotasCurso());
@@ -230,6 +225,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void CursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CursosActionPerformed
 //        internalFrameBuilder(new GestionCursos(usuariolog));
     }//GEN-LAST:event_CursosActionPerformed
+
+    private void GestionExamenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionExamenActionPerformed
+        internalFrameBuilder(new GestionExamen());
+    }//GEN-LAST:event_GestionExamenActionPerformed
 
     /**
      * @param args the command line arguments

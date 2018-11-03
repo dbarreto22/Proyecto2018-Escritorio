@@ -13,9 +13,9 @@ import com.desktopclient.utils.panelUtils;
 import com.desktopclient.utils.tableUtils;
 import com.desktopclient.datatypes.DtAsignatura_Carrera;
 import com.desktopclient.datatypes.DtCarrera;
-import com.desktopclient.datatypes.DtCurso;
+import com.desktopclient.datatypes.DtExamen;
 import com.desktopclient.datatypes.DtUsuarioLogueado;
-import com.desktopclient.entidades.Curso;
+import com.desktopclient.entidades.Examen;
 import java.awt.BorderLayout;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -33,20 +33,20 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Ernesto
  */
-public class CursoObj extends javax.swing.JFrame {
+public class ExamenObj extends javax.swing.JFrame {
     tableUtils tUtils = tableUtils.getInstance();
-    private Long idCurso;
+    private Long idExamen;
     private String accion;
     private Long idAsigCar;
-    private Curso curso;
+    private Examen examen;
 
 
     /**
-     * Creates new form HorariosCursos
+     * Creates new form HorariosExamens
      */    
-    public CursoObj(String accion, Long idCurso) {
+    public ExamenObj(String accion, Long idExamen) {
         this.accion = accion;
-        this.idCurso = idCurso;
+        this.idExamen = idExamen;
         initComponents();
         loadDataModify();
         setLocationRelativeTo(null);
@@ -310,7 +310,7 @@ public class CursoObj extends javax.swing.JFrame {
         if (idAsigCar == null || idAsigCar == 0L){
             JOptionPane.showMessageDialog(null, "Debe seleccionar una asignatura", "", JOptionPane.ERROR_MESSAGE);
         }else{
-            String result = Recursos.saveCurso(idCurso, fecha.getDate(), idAsigCar);
+            String result = Recursos.saveExamen(idExamen, fecha.getDate(), idAsigCar);
             JOptionPane.showMessageDialog(null, result, "", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_aceptarActionPerformed
@@ -336,20 +336,20 @@ public class CursoObj extends javax.swing.JFrame {
 //                }
 //            }
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosExamens.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosExamens.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosExamens.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosExamens.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
 //
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new HorariosCursos(usuariolog).setVisible(true);
+//                new HorariosExamens(usuariolog).setVisible(true);
 //            }
 //        });
 //    }
@@ -376,7 +376,7 @@ public class CursoObj extends javax.swing.JFrame {
     private void tableConstructor() {
         String[] tableHeaders = {"","Código", "Nombre"};
         List<Object[]> dataA = new ArrayList<>();
-        if (idCurso == null || idCurso == 0L){
+        if (idExamen == null || idExamen == 0L){
             String carreraStr = carrerasCbx.getSelectedItem().toString();
             Long carreraSelected = Long.parseLong(carreraStr.substring(0, carreraStr.indexOf("-")));
             System.out.println("carreraSelected: " + carreraSelected);
@@ -398,8 +398,8 @@ public class CursoObj extends javax.swing.JFrame {
             }
             });
         }else{
-            dataA.add(new Object[]{curso.getAsignatura_Carrera().getId(),curso.getAsignatura_Carrera().getAsignatura().getCodigo(),
-                    curso.getAsignatura_Carrera().getAsignatura().getNombre()});
+            dataA.add(new Object[]{examen.getAsignatura_Carrera().getId(),examen.getAsignatura_Carrera().getAsignatura().getCodigo(),
+                    examen.getAsignatura_Carrera().getAsignatura().getNombre()});
         }
 
         tableAsigCar = tUtils.tableConfig(tableAsigCar, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
@@ -413,8 +413,8 @@ public class CursoObj extends javax.swing.JFrame {
 
     public void cargarCarreras() {
         System.out.println("cargarCarreras");
-        if(idCurso != null && !idCurso.equals(0L)){
-            carrerasCbx.addItem(curso.getAsignatura_Carrera().getCarrera().getCodigo()+ "-" +curso.getAsignatura_Carrera().getCarrera().getNombre());
+        if(idExamen != null && !idExamen.equals(0L)){
+            carrerasCbx.addItem(examen.getAsignatura_Carrera().getCarrera().getCodigo()+ "-" +examen.getAsignatura_Carrera().getCarrera().getNombre());
         }else{
             List<DtCarrera> carreras = Recursos.getAllCarreras();
             System.out.println("carreras: " + carreras.toString());
@@ -426,15 +426,15 @@ public class CursoObj extends javax.swing.JFrame {
     }
     
     public void loadDataModify(){
-        System.out.println("idCurso: " + idCurso);
-        if(idCurso != null && !idCurso.equals(0L)){
+        System.out.println("idExamen: " + idExamen);
+        if(idExamen != null && !idExamen.equals(0L)){
             jLabel4.setText("Asignatura");
             jLabel2.setVisible(false);
             asignaturaTxt.setVisible(false);
             Buscar.setVisible(false);
-            this.curso = Recursos.getCurso(idCurso);
-            this.idAsigCar =  curso.getAsignatura_Carrera().getId();
-            fecha.setDate(curso.getFecha());
+            this.examen = Recursos.getExamen(idExamen);
+            this.idAsigCar =  examen.getAsignatura_Carrera().getId();
+            fecha.setDate(examen.getFecha());
             tableAsigCar.setEnabled(false);
             carrerasCbx.setEnabled(false);
         }

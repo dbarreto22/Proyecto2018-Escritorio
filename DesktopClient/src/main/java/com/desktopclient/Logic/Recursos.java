@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.swing.JTable;
 import com.desktopclient.Logic.ImprovedDateTypeAdapter;
+import com.desktopclient.datatypes.DtExamen;
 import com.desktopclient.entidades.Curso;
 import com.desktopclient.entidades.Examen;
 import com.google.gson.JsonElement;
@@ -70,6 +71,14 @@ public class Recursos {
         DtCurso[] mcArray = gson.fromJson(response, DtCurso[].class);
         List<DtCurso> curso = Arrays.asList(mcArray);
         return curso;
+    }
+    
+    public static List<DtExamen> getAllExamenes(){
+        String response = MetodosEnvio.ejecutarGet("estudiante/examen");
+        
+        DtExamen[] mcArray = gson.fromJson(response, DtExamen[].class);
+        List<DtExamen> examen = Arrays.asList(mcArray);
+        return examen;
     }
     
     public static Curso getCurso(Long idCurso){
