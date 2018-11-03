@@ -14,6 +14,7 @@ import com.desktopclient.utils.tableUtils;
 import com.desktopclient.datatypes.DtAsignatura_Carrera;
 import com.desktopclient.datatypes.DtCarrera;
 import com.desktopclient.datatypes.DtCurso;
+import com.desktopclient.datatypes.DtEstudiante_Curso;
 import com.desktopclient.datatypes.DtUsuario;
 import com.desktopclient.datatypes.DtUsuarioLogueado;
 import com.desktopclient.entidades.Curso;
@@ -43,6 +44,7 @@ public class NotasCursoObj extends javax.swing.JFrame {
     private String accion;
     private Long idAsigCar;
     private Curso curso;
+    private List<DtEstudiante_Curso> listEst_Curso;
 
 
     /**
@@ -51,8 +53,15 @@ public class NotasCursoObj extends javax.swing.JFrame {
     public NotasCursoObj(String accion, Long idCurso) {
         this.accion = accion;
         this.idCurso = idCurso;
+        
         initComponents();
         setLocationRelativeTo(null);
+        this.listEst_Curso = Recursos.getEstudiantesCalificacionCurso(idCurso);
+        Curso curso = Recursos.getCurso(idCurso);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        cursoData.setText("Asignatura: " +curso.getAsignatura_Carrera().getAsignatura().getNombre() + 
+                " - Carrera: " + curso.getAsignatura_Carrera().getCarrera().getNombre() + 
+                " - Fecha: " + dateFormat.format(curso.getFecha()));
         tableConstructor();
         this.setVisible(true);
     }  
@@ -142,14 +151,13 @@ public class NotasCursoObj extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(paneldataLayout.createSequentialGroup()
-                .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(paneldataLayout.createSequentialGroup()
-                        .addGap(231, 231, 231)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(paneldataLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(cursoData, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(231, 231, 231)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldataLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cursoData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         paneldataLayout.setVerticalGroup(
             paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,20 +287,19 @@ public class NotasCursoObj extends javax.swing.JFrame {
 
     private void tableConstructor() {
         String[] tableHeaders = {"Documento","Nombre","Apellido","Calificación"};
-        List<DtUsuario> list = Recursos.getEstudiantesInscriptosCurso(idCurso);
+              
         List<Object[]> data = new ArrayList<>();
-        list.forEach(estudiante -> {
-            data.add(new Object[] {estudiante.getCedula(),estudiante.getNombre(),estudiante.getApellido(),"0"});
+        listEst_Curso.forEach(curso -> {
+            int calificacion = 0;
+            if (curso.getCalificacion() != null){
+                calificacion = curso.getCalificacion().intValue();
+            }
+            data.add(new Object[] {curso.getUsuario().getCedula(),curso.getUsuario().getNombre(),curso.getUsuario().getApellido(),calificacion});
         });
         tableEstudiantes = tUtils.tablaEditable(tableEstudiantes, tableHeaders, data);
         System.out.println("dataA.size(): " + tableEstudiantes.getRowCount());
         
-        TableColumn notaColumn = tableEstudiantes.getColumnModel().getColumn(3);
-        JComboBox comboBox = new JComboBox();
-        for (int i = 0; i < 13; i++) {
-            comboBox.addItem(i);
-        }
-        notaColumn.setCellEditor(new DefaultCellEditor(comboBox));
+        
         
     }
 

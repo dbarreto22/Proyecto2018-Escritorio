@@ -3,8 +3,11 @@ package com.desktopclient.utils;
 import com.desktopclient.Logic.StaticTableModel;
 import com.desktopclient.Logic.StaticTableModel;
 import java.util.List;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 /* @author agustin */
@@ -47,6 +50,12 @@ public class tableUtils {
     
     public JTable tablaEditable(JTable t, String[] tableHeaders, List<Object[]> data) {
         t.setModel(new tablaEditable(tableHeaders,data));
+        TableColumn notaColumn = t.getColumnModel().getColumn(3);
+        JComboBox comboBox = new JComboBox();
+        for (int i = 0; i < 13; i++) {
+            comboBox.addItem(i);
+        }
+        notaColumn.setCellEditor(new DefaultCellEditor(comboBox));
         return t;
     }
 

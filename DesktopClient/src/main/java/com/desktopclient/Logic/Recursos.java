@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import javax.swing.JTable;
 import com.desktopclient.Logic.ImprovedDateTypeAdapter;
+import com.desktopclient.datatypes.DtEstudiante_Curso;
+import com.desktopclient.datatypes.DtEstudiante_Examen;
 import com.desktopclient.datatypes.DtExamen;
 import com.desktopclient.entidades.Curso;
 import com.desktopclient.entidades.Examen;
@@ -109,6 +111,22 @@ public class Recursos {
         DtUsuario[] mcArray = gson.fromJson(response, DtUsuario[].class);
         List<DtUsuario> usuarios = Arrays.asList(mcArray);
         return usuarios;
+    }
+    
+    public static List<DtEstudiante_Curso> getEstudiantesCalificacionCurso(Long idCurso){
+        String response = MetodosEnvio.ejecutarGet("bedelia/calificacionCurso/" + idCurso);
+        
+        DtEstudiante_Curso[] mcArray = gson.fromJson(response, DtEstudiante_Curso[].class);
+        List<DtEstudiante_Curso> cursos = Arrays.asList(mcArray);
+        return cursos;
+    }  
+    
+    public static List<DtEstudiante_Examen> getEstudiantesCalificacionExamen(Long idExamen){
+        String response = MetodosEnvio.ejecutarGet("bedelia/calificacionExamen/" + idExamen);
+        
+        DtEstudiante_Examen[] mcArray = gson.fromJson(response, DtEstudiante_Examen[].class);
+        List<DtEstudiante_Examen> examenes = Arrays.asList(mcArray);
+        return examenes;
     }
     
     public static String saveCurso(Long idCurso, Date fecha, Long idAsigCar){
