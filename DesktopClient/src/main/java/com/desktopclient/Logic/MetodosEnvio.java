@@ -64,6 +64,7 @@ public class MetodosEnvio {
             HttpResponse response;
             
             HttpGet getRequest = new HttpGet(urlbase+endpoint);
+            System.out.println("urlbase+endpoint: " + urlbase+endpoint);
             getRequest.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON);
             getRequest.addHeader(HttpHeaders.AUTHORIZATION, "Bearer "+ token);
             response = httpClient.execute(getRequest);

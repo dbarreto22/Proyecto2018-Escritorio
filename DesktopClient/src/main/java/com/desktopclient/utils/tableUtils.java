@@ -4,6 +4,8 @@ import com.desktopclient.Logic.StaticTableModel;
 import com.desktopclient.Logic.StaticTableModel;
 import java.util.List;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 
 /* @author agustin */
 public class tableUtils {
@@ -41,6 +43,61 @@ public class tableUtils {
         t.setSelectionMode(selectionMode);
         return t;
     }
-//</editor-fold>
+//</editor-fold>ç
+    
+    public JTable tablaEditable(JTable t, String[] tableHeaders, List<Object[]> data) {
+        t.setModel(new tablaEditable(tableHeaders,data));
+        return t;
+    }
 
+    class tablaEditable extends AbstractTableModel{
+        
+        private String[] columnNames;
+        private List<Object[]> data;
+        
+        tablaEditable(String[] columnNames, List<Object[]> data){
+            this.columnNames = columnNames;
+            this.data = data;
+        }
+
+        @Override
+    public int getColumnCount() {
+        return columnNames.length;
+    }
+
+        @Override
+    public int getRowCount() {
+        return data.size();
+    }
+
+        @Override
+    public String getColumnName(int col) {
+        return columnNames[col];
+    }
+
+        @Override
+    public Object getValueAt(int row, int col) {
+        Object[] object = data.get(row);
+        return object[col];
+    }
+
+    public Class getColumnClass(int c) {
+        return getValueAt(0, c).getClass();
+    }
+
+    /*
+     * Don't need to implement this method unless your table's
+     * editable.
+     */
+    public boolean isCellEditable(int row, int col) {
+        //Note that the data/cell address is constant,
+        //no matter where the cell appears onscreen.
+        if (col == 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+  
+    }
 }

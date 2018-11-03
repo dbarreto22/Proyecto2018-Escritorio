@@ -131,10 +131,10 @@ public class MainMenu extends javax.swing.JFrame {
             GestionCursos.getAccessibleContext().setAccessibleName("Gestion");
 
             NotasCursos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-            NotasCursos.setText("Notas");
-            NotasCursos.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mousePressed(java.awt.event.MouseEvent evt) {
-                    NotasCursosMousePressed(evt);
+            NotasCursos.setText("Calificaciones");
+            NotasCursos.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    NotasCursosActionPerformed(evt);
                 }
             });
             Cursos.add(NotasCursos);
@@ -159,12 +159,7 @@ public class MainMenu extends javax.swing.JFrame {
             GestionExamen.getAccessibleContext().setAccessibleName("Gestion");
 
             NotasExamenes.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-            NotasExamenes.setText("Notas");
-            NotasExamenes.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mousePressed(java.awt.event.MouseEvent evt) {
-                    NotasExamenesMousePressed(evt);
-                }
-            });
+            NotasExamenes.setText("Calificaciones");
             Examenes.add(NotasExamenes);
 
             ActasExamenes.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -212,16 +207,6 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_EscolaridadActionPerformed
 
-    private void NotasCursosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotasCursosMousePressed
-        // TODO add your handling code here:
-         internalFrameBuilder(new NotasCurso());
-    }//GEN-LAST:event_NotasCursosMousePressed
-
-    private void NotasExamenesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotasExamenesMousePressed
-        // TODO add your handling code here:
-        NotasExamen ne = new NotasExamen();
-    }//GEN-LAST:event_NotasExamenesMousePressed
-
     private void CursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CursosActionPerformed
 //        internalFrameBuilder(new GestionCursos(usuariolog));
     }//GEN-LAST:event_CursosActionPerformed
@@ -229,6 +214,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void GestionExamenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionExamenActionPerformed
         internalFrameBuilder(new GestionExamen());
     }//GEN-LAST:event_GestionExamenActionPerformed
+
+    private void NotasCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NotasCursosActionPerformed
+        internalFrameBuilder(new NotasCursos());
+    }//GEN-LAST:event_NotasCursosActionPerformed
 
     /**
      * @param args the command line arguments

@@ -435,7 +435,9 @@ public class GestionExamen extends javax.swing.JInternalFrame {
         System.out.println("dataA.size(): " + dataA.size());
         if (dataA.size() != 0) {
             tableExamenes.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-                idExamen = Long.parseLong(tableExamenes.getValueAt(tableExamenes.getSelectedRow(), 0).toString());
+                if(event.getValueIsAdjusting()){
+                    idExamen = Long.parseLong(tableExamenes.getValueAt(tableExamenes.getSelectedRow(), 0).toString());
+                }
             });
         }
     }

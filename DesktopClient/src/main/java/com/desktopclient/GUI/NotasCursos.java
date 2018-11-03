@@ -35,7 +35,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Ernesto
  */
-public class GestionCursos extends javax.swing.JInternalFrame {
+public class NotasCursos extends javax.swing.JInternalFrame {
 
     tableUtils tUtils = tableUtils.getInstance();
     private Long idCurso;
@@ -52,7 +52,7 @@ public class GestionCursos extends javax.swing.JInternalFrame {
     /**
      * Creates new form HorariosCursos
      */
-    public GestionCursos() {
+    public NotasCursos() {
 //        this.usuariolog = usuariolog;
         initComponents();
         cargarCarreras();
@@ -71,9 +71,6 @@ public class GestionCursos extends javax.swing.JInternalFrame {
 
         paneldata = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        agregar = new javax.swing.JButton();
-        eliminar = new javax.swing.JButton();
-        editar = new javax.swing.JButton();
         salir = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableCursos = new javax.swing.JTable();
@@ -86,7 +83,7 @@ public class GestionCursos extends javax.swing.JInternalFrame {
         Buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Gestión Cursos");
+        setTitle("Calificaciones Cursos");
 
         paneldata.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -94,30 +91,6 @@ public class GestionCursos extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Cursos");
-
-        agregar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        agregar.setText("Agregar");
-        agregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregarActionPerformed(evt);
-            }
-        });
-
-        eliminar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        eliminar.setText("Eliminar");
-        eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarActionPerformed(evt);
-            }
-        });
-
-        editar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        editar.setText("Editar");
-        editar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editarActionPerformed(evt);
-            }
-        });
 
         salir.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         salir.setText("Salir");
@@ -154,17 +127,10 @@ public class GestionCursos extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, paneldataLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
                             .addGroup(paneldataLayout.createSequentialGroup()
-                                .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(paneldataLayout.createSequentialGroup()
-                                        .addComponent(editar)
-                                        .addGap(38, 38, 38)
-                                        .addComponent(eliminar))
-                                    .addGroup(paneldataLayout.createSequentialGroup()
-                                        .addComponent(agregar)
-                                        .addGap(119, 119, 119)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(206, 206, 206)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(23, 23, 23))
         );
@@ -172,16 +138,10 @@ public class GestionCursos extends javax.swing.JInternalFrame {
             paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneldataLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(agregar)
-                    .addComponent(jLabel4))
+                .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(eliminar)
-                    .addComponent(editar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(salir)
                 .addContainerGap())
         );
@@ -275,27 +235,6 @@ public class GestionCursos extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        
-        if (idCurso == null || idCurso.equals(0L)) {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un curso", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            System.out.println("idCurso: " + idCurso);
-            JFrame frame = new JFrame();
-            String[] options = new String[2];
-            options[0] = new String("Sí");
-            options[1] = new String("No");
-            int dialogButton = JOptionPane.showOptionDialog(frame.getContentPane(), "Está seguro que desea eliminar el curso?", "Curso", 0, JOptionPane.YES_NO_OPTION, null, options, null);
-
-            if (dialogButton == JOptionPane.YES_OPTION) {
-                System.out.println("ELIMINAR");
-                String result = Recursos.removeCurso(idCurso);
-                JOptionPane.showMessageDialog(null, result, "", JOptionPane.INFORMATION_MESSAGE);
-                tableConstructor();
-            }
-        }
-    }//GEN-LAST:event_eliminarActionPerformed
-
     private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
         // TODO add your handling code here:
         this.dispose();
@@ -327,18 +266,6 @@ public class GestionCursos extends javax.swing.JInternalFrame {
         panelUtils.getInstance().panelClearData(paneldata);
         tableConstructor();
     }//GEN-LAST:event_BuscarActionPerformed
-
-    private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-        CursoObj ne = new CursoObj("Datos nuevo Curso", 0L);
-    }//GEN-LAST:event_agregarActionPerformed
-
-    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
-        if (idCurso == null || idCurso.equals(0L)) {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un curso", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            CursoObj ne = new CursoObj("Editar Curso", idCurso);
-        }
-    }//GEN-LAST:event_editarActionPerformed
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
         this.dispose();
@@ -382,10 +309,7 @@ public class GestionCursos extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Buscar;
     private javax.swing.JComboBox<String> Carreras;
-    private javax.swing.JButton agregar;
     private javax.swing.JTextField asignaturaTxt;
-    private javax.swing.JButton editar;
-    private javax.swing.JButton eliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -433,9 +357,12 @@ public class GestionCursos extends javax.swing.JInternalFrame {
         System.out.println("dataA.size(): " + dataA.size());
         if (dataA.size() != 0) {
             tableCursos.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-                if(event.getValueIsAdjusting()){
-                    idCurso = Long.parseLong(tableCursos.getValueAt(tableCursos.getSelectedRow(), 0).toString());
-                }
+               if(event.getValueIsAdjusting()){
+                idCurso = Long.parseLong(tableCursos.getValueAt(tableCursos.getSelectedRow(), 0).toString());
+                System.out.println("NOTAS CURSO OBJ");
+                NotasCursoObj nc = new NotasCursoObj("Calificaciones fin de Curso", idCurso);
+            }
+                
             });
         }
     }

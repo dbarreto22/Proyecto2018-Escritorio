@@ -94,6 +94,22 @@ public class Recursos {
         Examen examen = gson.fromJson(response, Examen.class);
         return examen;
     }
+       
+    public static List<DtUsuario> getEstudiantesInscriptosCurso(Long idCurso){
+        String response = MetodosEnvio.ejecutarGet("bedelia/estudiantesCurso/" + idCurso);
+        
+        DtUsuario[] mcArray = gson.fromJson(response, DtUsuario[].class);
+        List<DtUsuario> usuarios = Arrays.asList(mcArray);
+        return usuarios;
+    }  
+    
+    public static List<DtUsuario> getEstudiantesInscriptosExamen(Long idExamen){
+        String response = MetodosEnvio.ejecutarGet("bedelia/estudiantesExamen/" + idExamen);
+        
+        DtUsuario[] mcArray = gson.fromJson(response, DtUsuario[].class);
+        List<DtUsuario> usuarios = Arrays.asList(mcArray);
+        return usuarios;
+    }
     
     public static String saveCurso(Long idCurso, Date fecha, Long idAsigCar){
         String dateS = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha);
