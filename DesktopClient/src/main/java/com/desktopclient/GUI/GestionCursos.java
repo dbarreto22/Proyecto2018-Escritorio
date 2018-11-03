@@ -289,6 +289,8 @@ public class GestionCursos extends javax.swing.JInternalFrame {
 
             if (dialogButton == JOptionPane.YES_OPTION) {
                 System.out.println("ELIMINAR");
+                String result = Recursos.removeCurso(idCurso);
+                JOptionPane.showMessageDialog(null, result, "", JOptionPane.INFORMATION_MESSAGE);
                 tableConstructor();
             }
         }
@@ -327,7 +329,7 @@ public class GestionCursos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BuscarActionPerformed
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-        CursoObj ne = new CursoObj("Datos nuevo Curso", idCurso);
+        CursoObj ne = new CursoObj("Datos nuevo Curso", 0L);
     }//GEN-LAST:event_agregarActionPerformed
 
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed

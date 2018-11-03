@@ -16,6 +16,7 @@ import com.desktopclient.datatypes.DtCarrera;
 import com.desktopclient.datatypes.DtCurso;
 import com.desktopclient.datatypes.DtUsuarioLogueado;
 import com.desktopclient.entidades.Curso;
+import java.awt.BorderLayout;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,7 +37,8 @@ public class CursoObj extends javax.swing.JFrame {
     tableUtils tUtils = tableUtils.getInstance();
     private Long idCurso;
     private String accion;
-    private Long codigoAsignatura;
+    private Long idAsigCar;
+    private Curso curso;
 
 
     /**
@@ -44,7 +46,9 @@ public class CursoObj extends javax.swing.JFrame {
      */    
     public CursoObj(String accion, Long idCurso) {
         this.accion = accion;
+        this.idCurso = idCurso;
         initComponents();
+        loadDataModify();
         setLocationRelativeTo(null);
         cargarCarreras();
         tableConstructor();
@@ -68,16 +72,16 @@ public class CursoObj extends javax.swing.JFrame {
         aceptar = new javax.swing.JButton();
         salir = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tableCursos = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        Carreras = new javax.swing.JComboBox<>();
+        tableAsigCar = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         fecha = new org.jdesktop.swingx.JXDatePicker();
+        jLabel1 = new javax.swing.JLabel();
+        carrerasCbx = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         asignaturaTxt = new javax.swing.JTextField();
         Buscar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Curso");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -114,7 +118,7 @@ public class CursoObj extends javax.swing.JFrame {
             }
         });
 
-        tableCursos.setModel(new javax.swing.table.DefaultTableModel(
+        tableAsigCar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -122,50 +126,40 @@ public class CursoObj extends javax.swing.JFrame {
                 "", ""
             }
         ));
-        jScrollPane3.setViewportView(tableCursos);
+        jScrollPane3.setViewportView(tableAsigCar);
 
         javax.swing.GroupLayout paneldataLayout = new javax.swing.GroupLayout(paneldata);
         paneldata.setLayout(paneldataLayout);
         paneldataLayout.setHorizontalGroup(
             paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldataLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(65, 65, 65)
                 .addComponent(aceptar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(82, 82, 82))
             .addGroup(paneldataLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 684, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(paneldataLayout.createSequentialGroup()
-                        .addGap(229, 229, 229)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(229, 229, 229)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldataLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(229, 229, 229))
         );
         paneldataLayout.setVerticalGroup(
             paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneldataLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(24, 24, 24)
                 .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(aceptar)
                     .addComponent(salir))
                 .addContainerGap())
         );
-
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel1.setText("Carrera");
-
-        Carreras.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                CarrerasItemStateChanged(evt);
-            }
-        });
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel3.setText("Fecha");
@@ -175,8 +169,23 @@ public class CursoObj extends javax.swing.JFrame {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         fecha.setFormats(dateFormat);
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jLabel1.setText("Carrera");
+
+        carrerasCbx.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                carrerasCbxItemStateChanged(evt);
+            }
+        });
+
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel2.setText("Asignatura");
+
+        asignaturaTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                asignaturaTxtActionPerformed(evt);
+            }
+        });
 
         Buscar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         Buscar.setText("Buscar");
@@ -191,29 +200,31 @@ public class CursoObj extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(47, 47, 47)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(paneldata, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addComponent(accionDsp)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Carreras, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(carrerasCbx, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(paneldata, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(accionDsp)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(asignaturaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
                 .addComponent(Buscar)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(185, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,20 +232,20 @@ public class CursoObj extends javax.swing.JFrame {
                 .addComponent(accionDsp, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(Carreras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Buscar)
+                    .addComponent(jLabel1)
+                    .addComponent(carrerasCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
                     .addComponent(asignaturaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(paneldata, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                    .addComponent(Buscar))
+                .addGap(18, 18, 18)
+                .addComponent(paneldata, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -242,9 +253,9 @@ public class CursoObj extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,49 +265,55 @@ public class CursoObj extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel2.setSize(720, 533);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
-        String result = Recursos.saveCurso(idCurso, fecha.getDate(), codigoAsignatura);
-        JOptionPane.showMessageDialog(null, result, "", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_aceptarActionPerformed
+    private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
+        idAsigCar = 0L;
+        panelUtils.getInstance().panelClearData(paneldata);
+        tableConstructor();
+    }//GEN-LAST:event_BuscarActionPerformed
+
+    private void carrerasCbxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_carrerasCbxItemStateChanged
+        // TODO add your handling code here:
+        //        List<Carrera> carreras = Recursos.getAllCarreras(usuariolog.getToken());
+        //        long idCarrera = 0;
+        //        for (int i = 0; i < carreras.size(); i++) {
+            //            if (carreras.get(i).getNombre().equals(Carreras.getSelectedItem().toString())){
+                //                idCarrera = carreras.get(i).getCodigo();
+                //                break;
+                //            }
+            //        }
+
+        //        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,usuariolog.getToken());
+        //        Asignatura a = new Asignatura();
+        //
+        //        for (int i = 0; i < asignaturas.size(); i++) {
+            //            a = asignaturas.get(i);
+            //            Asignaturas.addItem(a.getNombre());
+            //        }
+        //System.out.println(Carreras.getSelectedItem().toString());
+    }//GEN-LAST:event_carrerasCbxItemStateChanged
+
+    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_salirActionPerformed
 
     private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_salirMouseClicked
 
-    private void CarrerasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CarrerasItemStateChanged
+    private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
+        String result = Recursos.saveCurso(idCurso, fecha.getDate(), idAsigCar);
+        JOptionPane.showMessageDialog(null, result, "", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_aceptarActionPerformed
+
+    private void asignaturaTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignaturaTxtActionPerformed
         // TODO add your handling code here:
-//        List<Carrera> carreras = Recursos.getAllCarreras(usuariolog.getToken());
-//        long idCarrera = 0;
-//        for (int i = 0; i < carreras.size(); i++) {
-//            if (carreras.get(i).getNombre().equals(Carreras.getSelectedItem().toString())){
-//                idCarrera = carreras.get(i).getCodigo();
-//                break;
-//            }
-//        }
-        
-//        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,usuariolog.getToken());
-//        Asignatura a = new Asignatura();
-//        
-//        for (int i = 0; i < asignaturas.size(); i++) {
-//            a = asignaturas.get(i);
-//            Asignaturas.addItem(a.getNombre());
-//        }
-        //System.out.println(Carreras.getSelectedItem().toString());
-    }//GEN-LAST:event_CarrerasItemStateChanged
-
-    private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
-        codigoAsignatura = 0L;
-        panelUtils.getInstance().panelClearData(paneldata);
-        tableConstructor();
-    }//GEN-LAST:event_BuscarActionPerformed
-
-    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_salirActionPerformed
+    }//GEN-LAST:event_asignaturaTxtActionPerformed
 
     /**
      * @param args the command line arguments
@@ -336,10 +353,10 @@ public class CursoObj extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Buscar;
-    private javax.swing.JComboBox<String> Carreras;
     private javax.swing.JLabel accionDsp;
     private javax.swing.JButton aceptar;
     private javax.swing.JTextField asignaturaTxt;
+    private javax.swing.JComboBox<String> carrerasCbx;
     private org.jdesktop.swingx.JXDatePicker fecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -349,49 +366,74 @@ public class CursoObj extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel paneldata;
     private javax.swing.JButton salir;
-    private javax.swing.JTable tableCursos;
+    private javax.swing.JTable tableAsigCar;
     // End of variables declaration//GEN-END:variables
 
     private void tableConstructor() {
         String[] tableHeaders = {"","Código", "Nombre"};
         List<Object[]> dataA = new ArrayList<>();
-        String carreraStr = Carreras.getSelectedItem().toString();
-        Long carreraSelected = Long.parseLong(carreraStr.substring(0, carreraStr.indexOf("-")));
-        System.out.println("carreraSelected: " + carreraSelected);
-        String asginaturaSelected = asignaturaTxt.getText();
-        System.out.println("asginaturaSelected: " + asginaturaSelected);
-         List<DtAsignatura_Carrera> listAsign = Recursos.getAsignaturaCarreraByCarrera(carreraSelected);
-            listAsign.forEach((asig) -> {
-            Boolean ok = true;
-            String asigStr = asig.getAsignatura().getCodigo() + asig.getAsignatura().getNombre();
-            System.out.println("asigStr: " + asigStr);
-            if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asigStr, asginaturaSelected))) {
-                ok = false;
-            }
-            if (ok) {
-                System.out.println("OK");
+        if (idCurso == null || idCurso == 0L){
+            String carreraStr = carrerasCbx.getSelectedItem().toString();
+            Long carreraSelected = Long.parseLong(carreraStr.substring(0, carreraStr.indexOf("-")));
+            System.out.println("carreraSelected: " + carreraSelected);
+            String asginaturaSelected = asignaturaTxt.getText();
+            System.out.println("asginaturaSelected: " + asginaturaSelected);
+             List<DtAsignatura_Carrera> listAsign = Recursos.getAsignaturaCarreraByCarrera(carreraSelected);
+                listAsign.forEach((asig) -> {
+                Boolean ok = true;
+                String asigStr = asig.getAsignatura().getCodigo() + asig.getAsignatura().getNombre();
+                System.out.println("asigStr: " + asigStr);
+                if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asigStr, asginaturaSelected))) {
+                    ok = false;
+                }
+                if (ok) {
+                    System.out.println("OK");
 
-                dataA.add(new Object[]{asig.getId(),asig.getAsignatura().getCodigo(),
-                asig.getAsignatura().getNombre()});
+                    dataA.add(new Object[]{asig.getId(),asig.getAsignatura().getCodigo(),
+                    asig.getAsignatura().getNombre()});
             }
-        });
-        tableCursos = tUtils.tableConfig(tableCursos, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
+            });
+        }else{
+            dataA.add(new Object[]{curso.getAsignatura_Carrera().getId(),curso.getAsignatura_Carrera().getAsignatura().getCodigo(),
+                    curso.getAsignatura_Carrera().getAsignatura().getNombre()});
+        }
+
+        tableAsigCar = tUtils.tableConfig(tableAsigCar, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
         System.out.println("dataA.size(): " + dataA.size());
         if (dataA.size() != 0){
-            tableCursos.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-            codigoAsignatura = Long.parseLong(tableCursos.getValueAt(tableCursos.getSelectedRow(), 0).toString());
+            tableAsigCar.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+            idAsigCar = Long.parseLong(tableAsigCar.getValueAt(tableAsigCar.getSelectedRow(), 0).toString());
             });
         }
     }
 
     public void cargarCarreras() {
         System.out.println("cargarCarreras");
-        List<DtCarrera> carreras = Recursos.getAllCarreras();
-        System.out.println("carreras: " + carreras.toString());
-        
-        carreras.forEach(carrera -> {
-            Carreras.addItem(carrera.getCodigo()+ "-" +carrera.getNombre());
+        if(idCurso != null && !idCurso.equals(0L)){
+            carrerasCbx.addItem(curso.getAsignatura_Carrera().getCarrera().getCodigo()+ "-" +curso.getAsignatura_Carrera().getCarrera().getNombre());
+        }else{
+            List<DtCarrera> carreras = Recursos.getAllCarreras();
+            System.out.println("carreras: " + carreras.toString());
+            carreras.forEach(carrera -> {
+            carrerasCbx.addItem(carrera.getCodigo()+ "-" +carrera.getNombre());
         });
+        }
+        
+    }
+    
+    public void loadDataModify(){
+        System.out.println("idCurso: " + idCurso);
+        if(idCurso != null && !idCurso.equals(0L)){
+            jLabel4.setText("Asignatura");
+            jLabel2.setVisible(false);
+            asignaturaTxt.setVisible(false);
+            Buscar.setVisible(false);
+            this.curso = Recursos.getCurso(idCurso);
+            this.idAsigCar =  curso.getAsignatura_Carrera().getId();
+            fecha.setDate(curso.getFecha());
+            tableAsigCar.setEnabled(false);
+            carrerasCbx.setEnabled(false);
+        }
     }
 //
 }

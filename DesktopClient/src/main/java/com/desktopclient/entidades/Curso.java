@@ -33,13 +33,29 @@ public class Curso implements Serializable {
 
     @XmlTransient
     private List<Estudiante_Curso> calificacionesCursos;
-
-//    @XmlTransient
-//    @ManyToMany(targetEntity = Usuario.class, mappedBy = "cursos", fetch = FetchType.EAGER)
-//    private List<Usuario> inscriptos;
-
-    public Curso(Long id) {
+    
+    
+ public Curso(Long id) {
         this.id = id;
+    }
+
+    public Curso(Date fecha, Asignatura_Carrera asignatura_Carrera) {
+        this.fecha = fecha;
+        this.asignatura_Carrera = asignatura_Carrera;
+    }
+
+    public Curso(Long id, Date fecha, Asignatura_Carrera asignatura_Carrera, List<Horario> horarios, List<Estudiante_Curso> calificacionesCursos) {
+        this.id = id;
+        this.fecha = fecha;
+        this.asignatura_Carrera = asignatura_Carrera;
+        this.horarios = horarios;
+        this.calificacionesCursos = calificacionesCursos;
+    }
+    
+    public Curso(Long id, Date fecha, Asignatura_Carrera asignatura_Carrera) {
+        this.id = id;
+        this.fecha = fecha;
+        this.asignatura_Carrera = asignatura_Carrera;
     }
     
     public Curso(DtCurso curso) {
@@ -76,7 +92,6 @@ public class Curso implements Serializable {
     }
 
     public Asignatura_Carrera getAsignatura_Carrera() {
-        System.out.println("asignatura_Carrera: " + asignatura_Carrera.getId());
         return asignatura_Carrera;
     }
 
@@ -138,6 +153,4 @@ public class Curso implements Serializable {
         return true;
     }
     
-    
-
 }

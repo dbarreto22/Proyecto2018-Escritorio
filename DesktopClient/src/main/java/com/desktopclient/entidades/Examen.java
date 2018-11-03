@@ -8,7 +8,7 @@ import com.desktopclient.datatypes.DtAsignatura_Carrera;
 import com.desktopclient.datatypes.DtCarrera;
 import com.desktopclient.datatypes.DtExamen;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.xml.bind.annotation.*;
@@ -39,14 +39,37 @@ public class Examen implements Serializable {
     private List<Estudiante_Examen> calificacionesExamenes;
 
 
-    public Examen(Long id, Date fecha) {
+  public Examen(Long id, java.util.Date fecha) {
         this.id = id;
         this.fecha = fecha;
     }
 
+    public Examen(DtExamen examen) {
+        this.fecha = examen.getFecha();
+        this.asignatura_Carrera = new Asignatura_Carrera(examen.getAsignatura_Carrera().getAsignatura(), examen.getAsignatura_Carrera().getCarrera());
+    }
+    
     public Examen() {
     }
 
+    public Examen(java.util.Date fecha, Asignatura_Carrera asignatura_Carrera) {
+        this.fecha = fecha;
+        this.asignatura_Carrera = asignatura_Carrera;
+    }
+
+    public Examen(Long id, java.util.Date fecha, Asignatura_Carrera asignatura_Carrera) {
+        this.id = id;
+        this.fecha = fecha;
+        this.asignatura_Carrera = asignatura_Carrera;
+    }
+
+    public Examen(Long id, java.util.Date fecha, Asignatura_Carrera asignatura_Carrera, List<Estudiante_Examen> calificacionesExamenes) {
+        this.id = id;
+        this.fecha = fecha;
+        this.asignatura_Carrera = asignatura_Carrera;
+        this.calificacionesExamenes = calificacionesExamenes;
+    }
+    
     public Long getId() {
         return this.id;
     }
@@ -55,11 +78,11 @@ public class Examen implements Serializable {
         this.id = id;
     }
 
-    public Date getFecha() {
+    public java.util.Date getFecha() {
         return this.fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(java.util.Date fecha) {
         this.fecha = fecha;
     }
 
@@ -112,6 +135,4 @@ public class Examen implements Serializable {
         return true;
     }
     
-    
-
 }

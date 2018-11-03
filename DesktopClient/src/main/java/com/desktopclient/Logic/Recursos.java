@@ -20,6 +20,7 @@ import java.util.List;
 import javax.swing.JTable;
 import com.desktopclient.Logic.ImprovedDateTypeAdapter;
 import com.desktopclient.entidades.Curso;
+import com.desktopclient.entidades.Examen;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.text.SimpleDateFormat;
@@ -69,6 +70,20 @@ public class Recursos {
         DtCurso[] mcArray = gson.fromJson(response, DtCurso[].class);
         List<DtCurso> curso = Arrays.asList(mcArray);
         return curso;
+    }
+    
+    public static Curso getCurso(Long idCurso){
+        String response = MetodosEnvio.ejecutarGet("bedelia/curso/" + idCurso);
+        
+        Curso curso = gson.fromJson(response, Curso.class);
+        return curso;
+    }
+    
+       public static Examen getExamen(Long idExamen){
+        String response = MetodosEnvio.ejecutarGet("bedelia/examen/" + idExamen);
+        
+        Examen examen = gson.fromJson(response, Examen.class);
+        return examen;
     }
     
     public static String saveCurso(Long idCurso, Date fecha, Long idAsigCar){

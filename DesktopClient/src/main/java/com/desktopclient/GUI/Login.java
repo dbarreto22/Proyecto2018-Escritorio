@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 /**
@@ -162,7 +163,7 @@ public class Login extends javax.swing.JFrame {
     private void iniciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iniciarMouseClicked
         // TODO add your handling code here:
         DtUsuarioLogueado usuariolog = MetodosEnvio.login(this.jTextField1.getText(), this.jPasswordField1.getText());
-        if (usuariolog.getToken().equals("Error: Usuario o contraseña incorrecta") || usuariolog.getToken().contains("null {")){
+        if (StringUtils.containsIgnoreCase(usuariolog.getToken(), "Error") || usuariolog.getToken().contains("null {")){
             JOptionPane.showMessageDialog(rootPane, "Error: Usuario o contraseña incorrecta");
             this.jTextField1.setText("");
             this.jPasswordField1.setText("");
