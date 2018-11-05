@@ -119,7 +119,7 @@ public class Recursos {
         DtEstudiante_Curso[] mcArray = gson.fromJson(response, DtEstudiante_Curso[].class);
         List<DtEstudiante_Curso> cursos = Arrays.asList(mcArray);
         return cursos;
-    }  
+    }     
     
     public static List<DtEstudiante_Examen> getEstudiantesCalificacionExamen(Long idExamen){
         String response = MetodosEnvio.ejecutarGet("bedelia/calificacionExamen/" + idExamen);
@@ -127,6 +127,34 @@ public class Recursos {
         DtEstudiante_Examen[] mcArray = gson.fromJson(response, DtEstudiante_Examen[].class);
         List<DtEstudiante_Examen> examenes = Arrays.asList(mcArray);
         return examenes;
+    }
+    
+    public static String SetNotasCurso(List<DtEstudiante_Curso> cursos) {
+        String response = "";
+        cursos.forEach(est_cur -> {
+            HashMap<String, String> parms = new HashMap<String, String>();
+            parms.put("idCurso", est_cur.getCurso().getId().toString());       
+            parms.put("cedula", est_cur.getUsuario().getCedula());
+            parms.put("calificacion", est_cur.getCalificacion().toString());
+            
+            MetodosEnvio.ejecutarPostParms("bedelia/notasCurso", parms);
+        });
+
+        return response;
+    }
+    
+    public static String SetNotasExamen(List<DtEstudiante_Examen> examenes) {
+        String response = "";
+        examenes.forEach(est_cur -> {
+            HashMap<String, String> parms = new HashMap<String, String>();
+            parms.put("idExamen", est_cur.getExamen().getId().toString());       
+            parms.put("cedula", est_cur.getUsuario().getCedula());
+            parms.put("calificacion", est_cur.getCalificacion().toString());
+            
+            MetodosEnvio.ejecutarPostParms("bedelia/notasExamen", parms);
+        });
+
+        return response;
     }
     
     public static String saveCurso(Long idCurso, Date fecha, Long idAsigCar){

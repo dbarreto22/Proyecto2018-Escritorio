@@ -45,6 +45,7 @@ public class NotasCursoObj extends javax.swing.JFrame {
     private Long idAsigCar;
     private Curso curso;
     private List<DtEstudiante_Curso> listEst_Curso;
+    private List<Object[]> data;
 
 
     /**
@@ -229,12 +230,11 @@ public class NotasCursoObj extends javax.swing.JFrame {
     }//GEN-LAST:event_salirMouseClicked
 
     private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
-//        if (idAsigCar == null || idAsigCar == 0L){
-//            JOptionPane.showMessageDialog(null, "Debe seleccionar una asignatura", "", JOptionPane.ERROR_MESSAGE);
-//        }else{
-//            String result = Recursos.saveCurso(idCurso, fecha.getDate(), idAsigCar);
-//            JOptionPane.showMessageDialog(null, result, "", JOptionPane.INFORMATION_MESSAGE);
-//        }
+        listEst_Curso.
+        Object[] dataAr = data.get(1);
+        System.out.println("dataAr[3]: " + dataAr[3]);
+        
+//        getValuesTable();
     }//GEN-LAST:event_aceptarActionPerformed
 
     /**
@@ -286,21 +286,23 @@ public class NotasCursoObj extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void tableConstructor() {
-        String[] tableHeaders = {"Documento","Nombre","Apellido","Calificación"};
-              
-        List<Object[]> data = new ArrayList<>();
+        String[] tableHeaders = {"Documento", "Nombre", "Apellido", "Calificación"};
+
+        data = new ArrayList<>();
         listEst_Curso.forEach(curso -> {
             int calificacion = 0;
-            if (curso.getCalificacion() != null){
+            if (curso.getCalificacion() != null) {
                 calificacion = curso.getCalificacion().intValue();
             }
-            data.add(new Object[] {curso.getUsuario().getCedula(),curso.getUsuario().getNombre(),curso.getUsuario().getApellido(),calificacion});
+            data.add(new Object[]{curso.getUsuario().getCedula(), curso.getUsuario().getNombre(), curso.getUsuario().getApellido(), calificacion});
         });
         tableEstudiantes = tUtils.tablaEditable(tableEstudiantes, tableHeaders, data);
         System.out.println("dataA.size(): " + tableEstudiantes.getRowCount());
-        
-        
-        
+        }
+    
+//    private void getValuesTable() {
+//        for (int i = 0; !data.isEmpty(); i++) {
+//            data
+//        }
+//    }
     }
-
-}

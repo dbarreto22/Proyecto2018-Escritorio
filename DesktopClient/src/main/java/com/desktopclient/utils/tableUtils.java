@@ -2,6 +2,8 @@ package com.desktopclient.utils;
 
 import com.desktopclient.Logic.StaticTableModel;
 import com.desktopclient.Logic.StaticTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
@@ -56,6 +58,17 @@ public class tableUtils {
             comboBox.addItem(i);
         }
         notaColumn.setCellEditor(new DefaultCellEditor(comboBox));
+       
+        comboBox.addActionListener (new ActionListener () {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox j=(JComboBox) e.getSource();
+                
+                System.out.println(j.getItemAt(j.getSelectedIndex()));
+            	System.out.println(j.getSelectedIndex());
+            	System.out.println("------------------------------------");
+            }
+        });
         return t;
     }
 
@@ -88,6 +101,14 @@ public class tableUtils {
     public Object getValueAt(int row, int col) {
         Object[] object = data.get(row);
         return object[col];
+    }
+    
+     @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex)
+    {
+        Object[] row = data.get(rowIndex);
+        row[columnIndex] = aValue;
+        data.set(rowIndex, row);
     }
 
     public Class getColumnClass(int c) {
