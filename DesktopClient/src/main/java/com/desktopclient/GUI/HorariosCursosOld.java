@@ -10,31 +10,35 @@ import com.desktopclient.entidades.Carrera;
 import com.desktopclient.entidades.Asignatura;
 import com.desktopclient.Logic.MetodosEnvio;
 import com.desktopclient.datatypes.DtUsuarioLogueado;
+import com.desktopclient.entidades.Curso;
 import java.util.List;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Ernesto
  */
-public class NotasExamen extends javax.swing.JFrame {
+public class HorariosCursosOld extends javax.swing.JInternalFrame {
     
-    private DtUsuarioLogueado ul;
+    private DtUsuarioLogueado usuariolog;
 
-    public DtUsuarioLogueado getUl() {
-        return ul;
+    public DtUsuarioLogueado getUsuarioLog() {
+        return usuariolog;
     }
 
-    public void setUl(DtUsuarioLogueado ul) {
-        this.ul = ul;
+    public void setUsuarioLog(DtUsuarioLogueado usuariolog) {
+        this.usuariolog = usuariolog;
+//        cargarCarreras();
     }
 
     /**
      * Creates new form HorariosCursos
      */    
-    public NotasExamen() {
+    public HorariosCursosOld(DtUsuarioLogueado usuariolog) {
         initComponents();
-//        cargarCarreras();
-        this.setVisible(true);
+        this.setVisible(rootPaneCheckingEnabled);
     }
+
+    
     
     
 
@@ -53,13 +57,15 @@ public class NotasExamen extends javax.swing.JFrame {
         Asignaturas = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         horarios = new javax.swing.JTable();
-        guardar = new javax.swing.JButton();
+        editar = new javax.swing.JButton();
+        eliminar = new javax.swing.JButton();
+        agregar = new javax.swing.JButton();
         salir = new javax.swing.JButton();
-        Curso = new javax.swing.JComboBox<>();
+        anio = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Carrera");
 
@@ -71,22 +77,32 @@ public class NotasExamen extends javax.swing.JFrame {
             }
         });
 
+        Asignaturas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                AsignaturasItemStateChanged(evt);
+            }
+        });
+
         horarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Cédula", "Nombre", "Nota"
+                "Día", "Hora de inicio", "Hora de fin"
             }
         ));
         jScrollPane1.setViewportView(horarios);
 
-        guardar.setText("Guardar");
-        guardar.addActionListener(new java.awt.event.ActionListener() {
+        editar.setText("Editar");
+
+        eliminar.setText("Eliminar");
+        eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                guardarActionPerformed(evt);
+                eliminarActionPerformed(evt);
             }
         });
+
+        agregar.setText("Agregar");
 
         salir.setText("Salir");
         salir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -95,10 +111,10 @@ public class NotasExamen extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Período");
+        jLabel3.setText("Curso");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Estudiantes");
+        jLabel4.setText("Horarios");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,6 +125,9 @@ public class NotasExamen extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(salir))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -120,13 +139,13 @@ public class NotasExamen extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(Curso, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(salir))
+                        .addComponent(anio, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(guardar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(editar)
+                        .addGap(18, 18, 18)
+                        .addComponent(eliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(agregar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -140,14 +159,17 @@ public class NotasExamen extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(Asignaturas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Curso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(anio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(guardar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(agregar)
+                    .addComponent(eliminar)
+                    .addComponent(editar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(salir)
                 .addContainerGap())
@@ -156,6 +178,10 @@ public class NotasExamen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eliminarActionPerformed
+
     private void salirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salirMouseClicked
         // TODO add your handling code here:
         this.dispose();
@@ -163,7 +189,7 @@ public class NotasExamen extends javax.swing.JFrame {
 
     private void CarrerasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CarrerasItemStateChanged
 //        // TODO add your handling code here:
-//        List<Carrera> carreras = Recursos.getAllCarreras(ul.getToken());
+//        List<Carrera> carreras = Recursos.getAllCarreras(usuariolog.getToken());
 //        long idCarrera = 0;
 //        for (int i = 0; i < carreras.size(); i++) {
 //            if (carreras.get(i).getNombre().equals(Carreras.getSelectedItem().toString())){
@@ -172,7 +198,7 @@ public class NotasExamen extends javax.swing.JFrame {
 //            }
 //        }
 //        
-//        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,ul.getToken());
+//        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,usuariolog.getToken());
 //        Asignatura a = new Asignatura();
 //        
 //        for (int i = 0; i < asignaturas.size(); i++) {
@@ -182,9 +208,15 @@ public class NotasExamen extends javax.swing.JFrame {
 //        //System.out.println(Carreras.getSelectedItem().toString());
     }//GEN-LAST:event_CarrerasItemStateChanged
 
-    private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_guardarActionPerformed
+    private void AsignaturasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_AsignaturasItemStateChanged
+//        // TODO add your handling code here:
+//        List<Curso> cursos = Recursos.getCursosBynC_nA(Carreras.getSelectedItem().toString(), Asignaturas.getSelectedItem().toString(), usuariolog.getToken());
+//        Curso c = new Curso();
+//        for (int i = 0; i < cursos.size(); i++) {
+//            c = cursos.get(i);
+//            Asignaturas.addItem(c.getId().toString());
+//        }
+    }//GEN-LAST:event_AsignaturasItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -203,30 +235,27 @@ public class NotasExamen extends javax.swing.JFrame {
 //                }
 //            }
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(NotasExamen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosCursosOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(NotasExamen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosCursosOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(NotasExamen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosCursosOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(NotasExamen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosCursosOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
-//        //</editor-fold>
-//        //</editor-fold>
-//        //</editor-fold>
 //        //</editor-fold>
 //
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new NotasExamen().setVisible(true);
+//                new HorariosCursosOld(usuariolog).setVisible(true);
 //            }
 //        });
 //    }
     
 //    public void cargarCarreras() {
 //        
-//        List<Carrera> carreras = Recursos.getAllCarreras(ul.getToken());
+//        List<Carrera> carreras = Recursos.getAllCarreras(usuariolog.getToken());
 //        Carrera c = new Carrera();
 //        
 //        for (int i = 0; i < carreras.size(); i++) {
@@ -238,8 +267,10 @@ public class NotasExamen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Asignaturas;
     private javax.swing.JComboBox<String> Carreras;
-    private javax.swing.JComboBox<String> Curso;
-    private javax.swing.JButton guardar;
+    private javax.swing.JButton agregar;
+    private javax.swing.JComboBox<String> anio;
+    private javax.swing.JButton editar;
+    private javax.swing.JButton eliminar;
     private javax.swing.JTable horarios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

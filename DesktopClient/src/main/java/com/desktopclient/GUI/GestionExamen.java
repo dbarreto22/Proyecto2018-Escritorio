@@ -432,11 +432,12 @@ public class GestionExamen extends javax.swing.JInternalFrame {
             }
         });
         tableExamenes = tUtils.tableConfig(tableExamenes, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
+        tableExamenes.removeColumn(tableExamenes.getColumnModel().getColumn(0));
         System.out.println("dataA.size(): " + dataA.size());
         if (dataA.size() != 0) {
             tableExamenes.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
                 if(event.getValueIsAdjusting()){
-                    idExamen = Long.parseLong(tableExamenes.getValueAt(tableExamenes.getSelectedRow(), 0).toString());
+                    idExamen = Long.parseLong(tableExamenes.getModel().getValueAt(tableExamenes.getSelectedRow(), 0).toString());
                 }
             });
         }

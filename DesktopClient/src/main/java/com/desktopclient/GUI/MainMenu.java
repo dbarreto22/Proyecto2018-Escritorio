@@ -160,6 +160,11 @@ public class MainMenu extends javax.swing.JFrame {
 
             NotasExamenes.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
             NotasExamenes.setText("Calificaciones");
+            NotasExamenes.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    NotasExamenesActionPerformed(evt);
+                }
+            });
             Examenes.add(NotasExamenes);
 
             ActasExamenes.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -218,6 +223,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void NotasCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NotasCursosActionPerformed
         internalFrameBuilder(new NotasCursos());
     }//GEN-LAST:event_NotasCursosActionPerformed
+
+    private void NotasExamenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NotasExamenesActionPerformed
+       internalFrameBuilder(new NotasExamenes());
+    }//GEN-LAST:event_NotasExamenesActionPerformed
 
     /**
      * @param args the command line arguments

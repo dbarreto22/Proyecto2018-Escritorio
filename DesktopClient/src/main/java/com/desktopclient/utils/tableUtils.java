@@ -54,9 +54,19 @@ public class tableUtils {
         t.setModel(new tablaEditable(tableHeaders,data));
         TableColumn notaColumn = t.getColumnModel().getColumn(3);
         JComboBox comboBox = new JComboBox();
-        for (int i = 0; i < 13; i++) {
-            comboBox.addItem(i);
-        }
+        comboBox.addItem(0L);
+        comboBox.addItem(1L);
+        comboBox.addItem(2L);
+        comboBox.addItem(3L);
+        comboBox.addItem(4L);
+        comboBox.addItem(5L);
+        comboBox.addItem(6L);
+        comboBox.addItem(7L);
+        comboBox.addItem(8L);
+        comboBox.addItem(9L);
+        comboBox.addItem(10L);
+        comboBox.addItem(11L);
+        comboBox.addItem(12L);
         notaColumn.setCellEditor(new DefaultCellEditor(comboBox));
        
         comboBox.addActionListener (new ActionListener () {

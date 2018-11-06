@@ -5,17 +5,17 @@
  */
 package com.desktopclient.GUI;
 
-import com.desktopclient.Logic.Recursos;
 import com.desktopclient.entidades.Carrera;
 import com.desktopclient.entidades.Asignatura;
 import com.desktopclient.Logic.MetodosEnvio;
+import com.desktopclient.Logic.Recursos;
 import com.desktopclient.utils.panelUtils;
 import com.desktopclient.utils.tableUtils;
 import com.desktopclient.datatypes.DtAsignatura_Carrera;
 import com.desktopclient.datatypes.DtCarrera;
-import com.desktopclient.datatypes.DtCurso;
+import com.desktopclient.datatypes.DtExamen;
 import com.desktopclient.datatypes.DtUsuarioLogueado;
-import com.desktopclient.entidades.Curso;
+import com.desktopclient.entidades.Examen;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,10 +35,10 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Ernesto
  */
-public class NotasCursos extends javax.swing.JInternalFrame {
+public class NotasExamenes extends javax.swing.JInternalFrame {
 
     tableUtils tUtils = tableUtils.getInstance();
-    private Long idCurso;
+    private Long idExamen;
 //    private DtUsuarioLogueado usuariolog;
 
 //    public DtUsuarioLogueado getUsuarioLog() {
@@ -50,9 +50,9 @@ public class NotasCursos extends javax.swing.JInternalFrame {
 //        cargarCarreras();
 //    }
     /**
-     * Creates new form HorariosCursos
+     * Creates new form HorariosExamenes
      */
-    public NotasCursos() {
+    public NotasExamenes() {
 //        this.usuariolog = usuariolog;
         initComponents();
         cargarCarreras();
@@ -73,7 +73,7 @@ public class NotasCursos extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         salir = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tableCursos = new javax.swing.JTable();
+        tableExamenes = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         asignaturaTxt = new javax.swing.JTextField();
@@ -83,14 +83,14 @@ public class NotasCursos extends javax.swing.JInternalFrame {
         Buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Calificaciones Cursos");
+        setTitle("Calificaciones Exámenes");
 
         paneldata.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Cursos");
+        jLabel4.setText("Exámenes");
 
         salir.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         salir.setText("Salir");
@@ -105,7 +105,7 @@ public class NotasCursos extends javax.swing.JInternalFrame {
             }
         });
 
-        tableCursos.setModel(new javax.swing.table.DefaultTableModel(
+        tableExamenes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -113,7 +113,7 @@ public class NotasCursos extends javax.swing.JInternalFrame {
                 "", ""
             }
         ));
-        jScrollPane3.setViewportView(tableCursos);
+        jScrollPane3.setViewportView(tableExamenes);
 
         javax.swing.GroupLayout paneldataLayout = new javax.swing.GroupLayout(paneldata);
         paneldata.setLayout(paneldataLayout);
@@ -145,6 +145,8 @@ public class NotasCursos extends javax.swing.JInternalFrame {
                 .addComponent(salir)
                 .addContainerGap())
         );
+
+        jLabel4.getAccessibleContext().setAccessibleName("examenes");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -242,7 +244,7 @@ public class NotasCursos extends javax.swing.JInternalFrame {
 
     private void CarrerasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CarrerasItemStateChanged
         // TODO add your handling code here:
-//        List<Carrera> carreras = Recursos.getAllCarreras(usuariolog.getToken());
+//        List<Carrera> carreras = Reexamenes.getAllCarreras(usuariolog.getToken());
 //        long idCarrera = 0;
 //        for (int i = 0; i < carreras.size(); i++) {
 //            if (carreras.get(i).getNombre().equals(Carreras.getSelectedItem().toString())){
@@ -251,7 +253,7 @@ public class NotasCursos extends javax.swing.JInternalFrame {
 //            }
 //        }
 
-//        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,usuariolog.getToken());
+//        List<Asignatura> asignaturas = Reexamenes.getAsignaturasByCarrera(idCarrera,usuariolog.getToken());
 //        Asignatura a = new Asignatura();
 //        
 //        for (int i = 0; i < asignaturas.size(); i++) {
@@ -262,7 +264,7 @@ public class NotasCursos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_CarrerasItemStateChanged
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
-        idCurso = 0L;
+        idExamen = 0L;
         panelUtils.getInstance().panelClearData(paneldata);
         tableConstructor();
     }//GEN-LAST:event_BuscarActionPerformed
@@ -288,20 +290,20 @@ public class NotasCursos extends javax.swing.JInternalFrame {
 //                }
 //            }
 //        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosExamenes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosExamenes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosExamenes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(HorariosCursos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//            java.util.logging.Logger.getLogger(HorariosExamenes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 //        }
 //        //</editor-fold>
 //
 //        /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new HorariosCursos(usuariolog).setVisible(true);
+//                new HorariosExamenes(usuariolog).setVisible(true);
 //            }
 //        });
 //    }
@@ -318,7 +320,7 @@ public class NotasCursos extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel paneldata;
     private javax.swing.JButton salir;
-    private javax.swing.JTable tableCursos;
+    private javax.swing.JTable tableExamenes;
     // End of variables declaration//GEN-END:variables
 
     private void tableConstructor() {
@@ -329,15 +331,15 @@ public class NotasCursos extends javax.swing.JInternalFrame {
         System.out.println("carreraSelected: " + carreraSelected);
         String asginaturaSelected = asignaturaTxt.getText();
         System.out.println("asginaturaSelected: " + asginaturaSelected);
-        List<DtCurso> listcurso = Recursos.getAllCursos();
-        listcurso.forEach((curso) -> {
+        List<DtExamen> listexamen = Recursos.getAllExamenes();
+        listexamen.forEach((examen) -> {
             Boolean ok = true;
-            Long codCar = curso.getAsignatura_Carrera().getCarrera().getCodigo();
+            Long codCar = examen.getAsignatura_Carrera().getCarrera().getCodigo();
             System.out.println("codCar: " + codCar);
             if (!carreraSelected.equals(0) && !codCar.equals(carreraSelected)) {
                 ok = false;
             } else {
-                String asig = curso.getAsignatura_Carrera().getAsignatura().getCodigo() + curso.getAsignatura_Carrera().getAsignatura().getNombre();
+                String asig = examen.getAsignatura_Carrera().getAsignatura().getCodigo() + examen.getAsignatura_Carrera().getAsignatura().getNombre();
                 System.out.println("asig: " + asig);
                 if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asig, asginaturaSelected))) {
                     ok = false;
@@ -345,25 +347,24 @@ public class NotasCursos extends javax.swing.JInternalFrame {
                 if (ok) {
                     System.out.println("OK");
                     DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    String date = dateFormat.format(curso.getFecha());
+                    String date = dateFormat.format(examen.getFecha());
                     System.out.println(date);
 
-                    dataA.add(new Object[]{curso.getId(), curso.getAsignatura_Carrera().getAsignatura().getNombre(),
-                        curso.getAsignatura_Carrera().getCarrera().getNombre(), date});
+                    dataA.add(new Object[]{examen.getId(), examen.getAsignatura_Carrera().getAsignatura().getNombre(),
+                        examen.getAsignatura_Carrera().getCarrera().getNombre(), date});
                 }
             }
         });
-        tableCursos = tUtils.tableConfig(tableCursos, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
-        tableCursos.removeColumn(tableCursos.getColumnModel().getColumn(0));
+        tableExamenes = tUtils.tableConfig(tableExamenes, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
+        tableExamenes.removeColumn(tableExamenes.getColumnModel().getColumn(0));
         System.out.println("dataA.size(): " + dataA.size());
         if (dataA.size() != 0) {
-            tableCursos.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+            tableExamenes.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
                if(event.getValueIsAdjusting()){
-                idCurso = Long.parseLong(tableCursos.getModel().getValueAt(tableCursos.getSelectedRow(), 0).toString());
-                System.out.println("NOTAS CURSO OBJ");
-                NotasCursoObj nc = new NotasCursoObj("Calificaciones fin de Curso", idCurso);
+                idExamen = Long.parseLong(tableExamenes.getModel().getValueAt(tableExamenes.getSelectedRow(), 0).toString());
+                System.out.println("NOTAS EXAMEN OBJ");
+                NotasExamenObj nc = new NotasExamenObj("Resultados Examen", idExamen);
             }
-                
             });
         }
     }

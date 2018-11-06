@@ -137,7 +137,8 @@ public class Recursos {
             parms.put("cedula", est_cur.getUsuario().getCedula());
             parms.put("calificacion", est_cur.getCalificacion().toString());
             
-            MetodosEnvio.ejecutarPostParms("bedelia/notasCurso", parms);
+            String response1 = MetodosEnvio.ejecutarPostParms("bedelia/notasCurso", parms);
+            System.out.println("response1: " + response1);
         });
 
         return response;

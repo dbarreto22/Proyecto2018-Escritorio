@@ -9,12 +9,12 @@ package com.desktopclient.GUI;
  *
  * @author Ernesto
  */
-public class AgregarHorarioCurso extends javax.swing.JFrame {
+public class AgregarHorarioCursoOld extends javax.swing.JFrame {
 
     /**
      * Creates new form AgregarHorarioCurso
      */
-    public AgregarHorarioCurso() {
+    public AgregarHorarioCursoOld() {
         initComponents();
     }
 
@@ -60,20 +60,21 @@ public class AgregarHorarioCurso extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarHorarioCurso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarHorarioCursoOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarHorarioCurso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarHorarioCursoOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarHorarioCurso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarHorarioCursoOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarHorarioCurso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AgregarHorarioCursoOld.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AgregarHorarioCurso().setVisible(true);
+                new AgregarHorarioCursoOld().setVisible(true);
             }
         });
     }

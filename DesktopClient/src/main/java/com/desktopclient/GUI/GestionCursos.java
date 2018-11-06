@@ -430,11 +430,12 @@ public class GestionCursos extends javax.swing.JInternalFrame {
             }
         });
         tableCursos = tUtils.tableConfig(tableCursos, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
+        tableCursos.removeColumn(tableCursos.getColumnModel().getColumn(0));
         System.out.println("dataA.size(): " + dataA.size());
         if (dataA.size() != 0) {
             tableCursos.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
                 if(event.getValueIsAdjusting()){
-                    idCurso = Long.parseLong(tableCursos.getValueAt(tableCursos.getSelectedRow(), 0).toString());
+                    idCurso = Long.parseLong(tableCursos.getModel().getValueAt(tableCursos.getSelectedRow(), 0).toString());
                 }
             });
         }
