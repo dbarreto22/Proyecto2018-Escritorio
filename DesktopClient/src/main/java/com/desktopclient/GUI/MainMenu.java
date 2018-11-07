@@ -6,11 +6,14 @@
 
 package com.desktopclient.GUI;
 
+import com.desktopclient.Logic.JPanelWithBackground;
 import com.desktopclient.Logic.MetodosEnvio;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
@@ -27,6 +30,7 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu() {
         initComponents();
+        
         setLocationRelativeTo(null);
         this.setVisible(rootPaneCheckingEnabled);
     }
@@ -43,8 +47,7 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
-        desktop = new javax.swing.JDesktopPane();
-        logo = new javax.swing.JLabel();
+        desktop = desktop = new com.desktopclient.Logic.JPanelWithBackground(".\\Logo_MiUdelar.jpg");
         jMenuBar1 = new javax.swing.JMenuBar();
         Cursos = new javax.swing.JMenu();
         GestionCursos = new javax.swing.JMenuItem();
@@ -65,153 +68,124 @@ public class MainMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        desktop.setOpaque(false);
         desktop.setPreferredSize(new java.awt.Dimension(1125, 800));
-
-        logo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        logo.setText("jLabel1");
-        logo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-
-        desktop.setLayer(logo, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
         desktop.setLayout(desktopLayout);
         desktopLayout.setHorizontalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(desktopLayout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+            .addGap(0, 1125, Short.MAX_VALUE)
         );
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(desktopLayout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(263, Short.MAX_VALUE))
+            .addGap(0, 800, Short.MAX_VALUE)
         );
 
-        //logo.setText("");
-        //BufferedImage img;
-        //String ruta = MetodosEnvio.getRuta();
-        //try{
-            //    System.out.println(ruta);
-            //    if (!ruta.isEmpty()) {
-                ////        System.out.println(getClass()getResource("resources/MiUdelar.png"));
-                //        img = ImageIO.read(;
-                    //        ImageIcon icon = new ImageIcon(img);
-                    //        logo.setIcon(icon);
-                    //    }
-                //}
-            //catch (IOException ex) {
-                //            System.out.println(ex);
-                //        }
-            //
-            logo.getAccessibleContext().setAccessibleName("logo");
+        jMenuBar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuBar1.setMaximumSize(new java.awt.Dimension(397, 32769));
+        jMenuBar1.setPreferredSize(new java.awt.Dimension(397, 26));
 
-            jMenuBar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-            jMenuBar1.setMaximumSize(new java.awt.Dimension(397, 32769));
-            jMenuBar1.setPreferredSize(new java.awt.Dimension(397, 26));
+        Cursos.setText("Cursos");
+        Cursos.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        Cursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CursosActionPerformed(evt);
+            }
+        });
 
-            Cursos.setText("Cursos");
-            Cursos.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-            Cursos.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    CursosActionPerformed(evt);
-                }
-            });
+        GestionCursos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        GestionCursos.setText("Gestión");
+        GestionCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GestionCursosActionPerformed(evt);
+            }
+        });
+        Cursos.add(GestionCursos);
+        GestionCursos.getAccessibleContext().setAccessibleName("Gestion");
 
-            GestionCursos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-            GestionCursos.setText("Gestión");
-            GestionCursos.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    GestionCursosActionPerformed(evt);
-                }
-            });
-            Cursos.add(GestionCursos);
-            GestionCursos.getAccessibleContext().setAccessibleName("Gestion");
+        NotasCursos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        NotasCursos.setText("Calificaciones");
+        NotasCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NotasCursosActionPerformed(evt);
+            }
+        });
+        Cursos.add(NotasCursos);
 
-            NotasCursos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-            NotasCursos.setText("Calificaciones");
-            NotasCursos.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    NotasCursosActionPerformed(evt);
-                }
-            });
-            Cursos.add(NotasCursos);
+        ActasCursos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        ActasCursos.setText("Actas");
+        ActasCursos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActasCursosActionPerformed(evt);
+            }
+        });
+        Cursos.add(ActasCursos);
 
-            ActasCursos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-            ActasCursos.setText("Actas");
-            ActasCursos.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    ActasCursosActionPerformed(evt);
-                }
-            });
-            Cursos.add(ActasCursos);
+        jMenuBar1.add(Cursos);
 
-            jMenuBar1.add(Cursos);
+        Examenes.setText("Exámenes");
+        Examenes.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
 
-            Examenes.setText("Exámenes");
-            Examenes.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        GestionExamen.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        GestionExamen.setText("Gestión");
+        GestionExamen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GestionExamenActionPerformed(evt);
+            }
+        });
+        Examenes.add(GestionExamen);
+        GestionExamen.getAccessibleContext().setAccessibleName("Gestion");
 
-            GestionExamen.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-            GestionExamen.setText("Gestión");
-            GestionExamen.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    GestionExamenActionPerformed(evt);
-                }
-            });
-            Examenes.add(GestionExamen);
-            GestionExamen.getAccessibleContext().setAccessibleName("Gestion");
+        NotasExamenes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        NotasExamenes.setText("Calificaciones");
+        NotasExamenes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NotasExamenesActionPerformed(evt);
+            }
+        });
+        Examenes.add(NotasExamenes);
 
-            NotasExamenes.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-            NotasExamenes.setText("Calificaciones");
-            NotasExamenes.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    NotasExamenesActionPerformed(evt);
-                }
-            });
-            Examenes.add(NotasExamenes);
+        ActasExamenes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        ActasExamenes.setText("Actas");
+        ActasExamenes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActasExamenesActionPerformed(evt);
+            }
+        });
+        Examenes.add(ActasExamenes);
 
-            ActasExamenes.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-            ActasExamenes.setText("Actas");
-            ActasExamenes.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    ActasExamenesActionPerformed(evt);
-                }
-            });
-            Examenes.add(ActasExamenes);
+        jMenuBar1.add(Examenes);
 
-            jMenuBar1.add(Examenes);
+        Estudiantes.setText("Estudiantes");
+        Estudiantes.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
 
-            Estudiantes.setText("Estudiantes");
-            Estudiantes.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        Escolaridad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        Escolaridad.setText("Escolaridad");
+        Escolaridad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EscolaridadActionPerformed(evt);
+            }
+        });
+        Estudiantes.add(Escolaridad);
 
-            Escolaridad.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-            Escolaridad.setText("Escolaridad");
-            Escolaridad.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    EscolaridadActionPerformed(evt);
-                }
-            });
-            Estudiantes.add(Escolaridad);
+        jMenuBar1.add(Estudiantes);
 
-            jMenuBar1.add(Estudiantes);
+        setJMenuBar(jMenuBar1);
 
-            setJMenuBar(jMenuBar1);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
-            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-            getContentPane().setLayout(layout);
-            layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            );
-            layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            );
-
-            pack();
-        }// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
     private void GestionCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GestionCursosActionPerformed
         internalFrameBuilder(new GestionCursos());
@@ -309,6 +283,5 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JLabel logo;
     // End of variables declaration//GEN-END:variables
 }

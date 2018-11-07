@@ -90,6 +90,7 @@ public class NotasCursoObj extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Curso");
+        setBackground(new java.awt.Color(245, 245, 245));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -97,6 +98,7 @@ public class NotasCursoObj extends javax.swing.JFrame {
         accionDsp.setText("Accion");
         accionDsp.setText(accion);
 
+        paneldata.setBackground(new java.awt.Color(245, 245, 245));
         paneldata.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -104,16 +106,20 @@ public class NotasCursoObj extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Calificaciones");
 
-        aceptar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        aceptar.setBackground(new java.awt.Color(204, 204, 255));
+        aceptar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         aceptar.setText("Aceptar");
+        aceptar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         aceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aceptarActionPerformed(evt);
             }
         });
 
-        salir.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        salir.setBackground(new java.awt.Color(102, 204, 255));
+        salir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         salir.setText("Salir");
+        salir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         salir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 salirMouseClicked(evt);
@@ -144,9 +150,9 @@ public class NotasCursoObj extends javax.swing.JFrame {
             paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldataLayout.createSequentialGroup()
                 .addGap(65, 65, 65)
-                .addComponent(aceptar)
+                .addComponent(aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(82, 82, 82))
             .addGroup(paneldataLayout.createSequentialGroup()
                 .addContainerGap()
@@ -172,8 +178,8 @@ public class NotasCursoObj extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47)
                 .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(aceptar)
-                    .addComponent(salir))
+                    .addComponent(aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 

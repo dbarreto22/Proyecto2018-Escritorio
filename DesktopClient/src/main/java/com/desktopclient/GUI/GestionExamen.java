@@ -85,9 +85,11 @@ public class GestionExamen extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         Buscar = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(245, 245, 245));
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestión Exámenes");
 
+        paneldata.setBackground(new java.awt.Color(245, 245, 245));
         paneldata.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -95,32 +97,40 @@ public class GestionExamen extends javax.swing.JInternalFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Exámenes");
 
-        agregar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        agregar.setBackground(new java.awt.Color(204, 204, 255));
+        agregar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         agregar.setText("Agregar");
+        agregar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         agregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agregarActionPerformed(evt);
             }
         });
 
-        eliminar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        eliminar.setBackground(new java.awt.Color(204, 204, 255));
+        eliminar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         eliminar.setText("Eliminar");
+        eliminar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eliminarActionPerformed(evt);
             }
         });
 
-        editar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        editar.setBackground(new java.awt.Color(204, 204, 255));
+        editar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         editar.setText("Editar");
+        editar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editarActionPerformed(evt);
             }
         });
 
-        salir.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        salir.setBackground(new java.awt.Color(102, 204, 255));
+        salir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         salir.setText("Salir");
+        salir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         salir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 salirMouseClicked(evt);
@@ -150,7 +160,7 @@ public class GestionExamen extends javax.swing.JInternalFrame {
                 .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(paneldataLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, paneldataLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,11 +168,11 @@ public class GestionExamen extends javax.swing.JInternalFrame {
                             .addGroup(paneldataLayout.createSequentialGroup()
                                 .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(paneldataLayout.createSequentialGroup()
-                                        .addComponent(editar)
+                                        .addComponent(editar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(38, 38, 38)
-                                        .addComponent(eliminar))
+                                        .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(paneldataLayout.createSequentialGroup()
-                                        .addComponent(agregar)
+                                        .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(119, 119, 119)
                                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
@@ -173,19 +183,20 @@ public class GestionExamen extends javax.swing.JInternalFrame {
             .addGroup(paneldataLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(agregar)
+                    .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(eliminar)
-                    .addComponent(editar))
+                    .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(salir)
+                .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
+        jPanel2.setBackground(new java.awt.Color(240, 245, 245));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -203,8 +214,10 @@ public class GestionExamen extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 17)); // NOI18N
         jLabel5.setText("Filtros");
 
-        Buscar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        Buscar.setBackground(new java.awt.Color(204, 204, 255));
+        Buscar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Buscar.setText("Buscar");
+        Buscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BuscarActionPerformed(evt);
@@ -232,7 +245,7 @@ public class GestionExamen extends javax.swing.JInternalFrame {
                                 .addGap(26, 26, 26)
                                 .addComponent(Carreras, 0, 319, Short.MAX_VALUE)))
                         .addGap(99, 99, 99)
-                        .addComponent(Buscar)
+                        .addComponent(Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(132, 132, 132))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -247,7 +260,7 @@ public class GestionExamen extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(asignaturaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Buscar))
+                    .addComponent(Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
 
@@ -260,7 +273,7 @@ public class GestionExamen extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(paneldata, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

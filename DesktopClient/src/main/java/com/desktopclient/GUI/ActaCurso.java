@@ -93,9 +93,11 @@ public class ActaCurso extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         Buscar = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(245, 245, 245));
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Actas Fin de Curso");
 
+        paneldata.setBackground(new java.awt.Color(245, 245, 245));
         paneldata.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -103,8 +105,11 @@ public class ActaCurso extends javax.swing.JInternalFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Cursos");
 
-        salir.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        salir.setBackground(new java.awt.Color(102, 204, 255));
+        salir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         salir.setText("Salir");
+        salir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        salir.setPreferredSize(new java.awt.Dimension(49, 19));
         salir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 salirMouseClicked(evt);
@@ -134,8 +139,8 @@ public class ActaCurso extends javax.swing.JInternalFrame {
                 .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(paneldataLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, paneldataLayout.createSequentialGroup()
+                        .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(paneldataLayout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE)
@@ -152,11 +157,12 @@ public class ActaCurso extends javax.swing.JInternalFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(salir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
+        jPanel2.setBackground(new java.awt.Color(240, 245, 245));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -174,8 +180,10 @@ public class ActaCurso extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI Black", 1, 17)); // NOI18N
         jLabel5.setText("Filtros");
 
-        Buscar.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        Buscar.setBackground(new java.awt.Color(204, 204, 255));
+        Buscar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Buscar.setText("Buscar");
+        Buscar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BuscarActionPerformed(evt);
@@ -201,10 +209,10 @@ public class ActaCurso extends javax.swing.JInternalFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(26, 26, 26)
-                                .addComponent(Carreras, 0, 319, Short.MAX_VALUE)))
-                        .addGap(99, 99, 99)
-                        .addComponent(Buscar)
-                        .addGap(132, 132, 132))))
+                                .addComponent(Carreras, 0, 349, Short.MAX_VALUE)))
+                        .addGap(75, 75, 75)
+                        .addComponent(Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(98, 98, 98))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,7 +226,7 @@ public class ActaCurso extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(asignaturaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Buscar))
+                    .addComponent(Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
 
