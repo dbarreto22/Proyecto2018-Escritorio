@@ -121,6 +121,14 @@ public class Recursos {
         return cursos;
     }     
     
+    public static List<DtUsuario> getAllEstudiantes(){
+        String response = MetodosEnvio.ejecutarGet("bedelia/estudiantesCarrera");
+        
+        DtUsuario[] mcArray = gson.fromJson(response, DtUsuario[].class);
+        List<DtUsuario> usuarios = Arrays.asList(mcArray);
+        return usuarios;
+    }
+    
     public static List<DtEstudiante_Examen> getEstudiantesCalificacionExamen(Long idExamen){
         String response = MetodosEnvio.ejecutarGet("bedelia/calificacionExamen/" + idExamen);
         
@@ -207,6 +215,21 @@ public class Recursos {
         
         return response;
     } 
+    
+    public static String getActaExamen(Long idExamen){
+        String response = MetodosEnvio.ejecutarGetActa("bedelia/actaExamen/" + idExamen);
+        return response;
+    }
+    
+    public static String getActaFinCurso(Long idCurso){
+        String response = MetodosEnvio.ejecutarGetActa("bedelia/actaCurso/" + idCurso);
+        return response;
+    }
+    
+    public static String getEscolaridad(String cedula, Long codigoCarrera){
+        String response = MetodosEnvio.ejecutarGetActa("bedelia/escolaridad/" + cedula + "/" + codigoCarrera);
+        return response;
+    }
     
 //    public static List<Asignatura> getAsignaturasByCarrera(long idCarrera,String token) {
 //        List<Asignatura> asignaturas = new ArrayList<Asignatura>();

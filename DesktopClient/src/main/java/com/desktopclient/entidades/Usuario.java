@@ -3,6 +3,7 @@
  */
 package com.desktopclient.entidades;
 
+import com.desktopclient.datatypes.DtCarrera;
 import com.desktopclient.datatypes.DtRol;
 import com.desktopclient.datatypes.DtUsuario;
 import java.io.Serializable;
@@ -193,6 +194,15 @@ public class Usuario implements Serializable {
             dtroles.add(new DtRol(rol.getId(), rol.getTipo()));
         });
         DtUsuario dtUsuario = new DtUsuario(cedula, nombre, apellido, email, password, dtroles);
+        return dtUsuario;
+    }
+    
+    public DtUsuario toDataCarrera() {
+        List <DtCarrera> dtcarrera = new ArrayList<DtCarrera>();
+        this.carreras.forEach(carrera -> {
+            dtcarrera.add(new DtCarrera(carrera.getCodigo(), carrera.getNombre()));
+        });
+        DtUsuario dtUsuario = new DtUsuario(cedula, nombre, apellido, email, dtcarrera);
         return dtUsuario;
     }
 

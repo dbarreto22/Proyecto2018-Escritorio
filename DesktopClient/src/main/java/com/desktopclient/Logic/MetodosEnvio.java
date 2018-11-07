@@ -81,6 +81,30 @@ public class MetodosEnvio {
         return retSrc;
     }
     
+    public static String ejecutarGetActa(String endpoint){
+        String retSrc = "";
+        try {
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpResponse response;
+            
+            HttpGet getRequest = new HttpGet(urlbase+endpoint);
+            System.out.println("urlbase+endpoint: " + urlbase+endpoint);
+            getRequest.addHeader(HttpHeaders.ACCEPT, MediaType.TEXT_PLAIN);
+            getRequest.addHeader(HttpHeaders.AUTHORIZATION, "Bearer "+ token);
+            response = httpClient.execute(getRequest);
+            HttpEntity responseEntity = response.getEntity();
+            if (responseEntity != null) {
+                retSrc = EntityUtils.toString(responseEntity);
+                retSrc = new String(retSrc.getBytes("ISO-8859-1"), "UTF-8");
+            }
+            httpClient.getConnectionManager().shutdown();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("retSrc: " + retSrc);
+        return retSrc;
+    }
+    
     public static String ejecutarPostParms(String endpoint, HashMap<String,String> parms){
         String output = "";
         System.out.println("token: " +token);

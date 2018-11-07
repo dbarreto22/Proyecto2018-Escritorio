@@ -1,0 +1,1 @@
+java -jar .\DesktopClient\target\DesktopClient-1.0-SNAPSHOT.jar

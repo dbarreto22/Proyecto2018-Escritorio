@@ -77,17 +77,17 @@ public class MainMenu extends javax.swing.JFrame {
         desktop.setLayout(desktopLayout);
         desktopLayout.setHorizontalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
-                .addContainerGap(927, Short.MAX_VALUE)
-                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
+            .addGroup(desktopLayout.createSequentialGroup()
+                .addGap(127, 127, 127)
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(151, Short.MAX_VALUE))
         );
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
-                .addContainerGap(570, Short.MAX_VALUE)
-                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+            .addGroup(desktopLayout.createSequentialGroup()
+                .addGap(69, 69, 69)
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(263, Short.MAX_VALUE))
         );
 
         //logo.setText("");
@@ -141,6 +141,11 @@ public class MainMenu extends javax.swing.JFrame {
 
             ActasCursos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
             ActasCursos.setText("Actas");
+            ActasCursos.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    ActasCursosActionPerformed(evt);
+                }
+            });
             Cursos.add(ActasCursos);
 
             jMenuBar1.add(Cursos);
@@ -169,6 +174,11 @@ public class MainMenu extends javax.swing.JFrame {
 
             ActasExamenes.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
             ActasExamenes.setText("Actas");
+            ActasExamenes.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    ActasExamenesActionPerformed(evt);
+                }
+            });
             Examenes.add(ActasExamenes);
 
             jMenuBar1.add(Examenes);
@@ -209,7 +219,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_GestionCursosActionPerformed
 
     private void EscolaridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EscolaridadActionPerformed
-        // TODO add your handling code here:
+        internalFrameBuilder(new ActaEscolaridad());
     }//GEN-LAST:event_EscolaridadActionPerformed
 
     private void CursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CursosActionPerformed
@@ -228,6 +238,14 @@ public class MainMenu extends javax.swing.JFrame {
        internalFrameBuilder(new NotasExamenes());
     }//GEN-LAST:event_NotasExamenesActionPerformed
 
+    private void ActasCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActasCursosActionPerformed
+         internalFrameBuilder(new ActaCurso());
+    }//GEN-LAST:event_ActasCursosActionPerformed
+
+    private void ActasExamenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActasExamenesActionPerformed
+        internalFrameBuilder(new ActaExamen());
+    }//GEN-LAST:event_ActasExamenesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -242,38 +260,38 @@ public class MainMenu extends javax.swing.JFrame {
         internal.setLocation((desktop.getWidth() - internal.getWidth()) / 2, (desktop.getHeight() -100 - internal.getHeight()) / 2);
     }
     
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainMenu().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(MainMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new MainMenu().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem ActasCursos;

@@ -89,7 +89,7 @@ public class NotasExamenObj extends javax.swing.JFrame {
         examenData = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Curso");
+        setTitle("Examen");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -217,6 +217,8 @@ public class NotasExamenObj extends javax.swing.JFrame {
         );
 
         jPanel2.setSize(720, 533);
+
+        getAccessibleContext().setAccessibleName("Examen");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

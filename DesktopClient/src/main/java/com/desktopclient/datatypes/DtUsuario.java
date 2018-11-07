@@ -50,6 +50,14 @@ public class DtUsuario implements Serializable {
         this.email = email;
         this.password = password;
     }
+    
+    public DtUsuario(String cedula, String nombre, String apellido, String email, List<DtCarrera> carreras) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.carreras = carreras;
+    }
 
     public DtUsuario() {
     }
