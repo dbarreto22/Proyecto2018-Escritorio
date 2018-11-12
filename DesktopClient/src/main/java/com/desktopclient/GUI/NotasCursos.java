@@ -248,24 +248,6 @@ public class NotasCursos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_salirMouseClicked
 
     private void CarrerasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CarrerasItemStateChanged
-        // TODO add your handling code here:
-//        List<Carrera> carreras = Recursos.getAllCarreras(usuariolog.getToken());
-//        long idCarrera = 0;
-//        for (int i = 0; i < carreras.size(); i++) {
-//            if (carreras.get(i).getNombre().equals(Carreras.getSelectedItem().toString())){
-//                idCarrera = carreras.get(i).getCodigo();
-//                break;
-//            }
-//        }
-
-//        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,usuariolog.getToken());
-//        Asignatura a = new Asignatura();
-//        
-//        for (int i = 0; i < asignaturas.size(); i++) {
-//            a = asignaturas.get(i);
-//            Asignaturas.addItem(a.getNombre());
-//        }
-        //System.out.println(Carreras.getSelectedItem().toString());
     }//GEN-LAST:event_CarrerasItemStateChanged
 
     private void BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarActionPerformed
@@ -329,50 +311,53 @@ public class NotasCursos extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void tableConstructor() {
-        String[] tableHeaders = {"", "Asignatura", "Carrera", "Fecha"};
-        List<Object[]> dataA = new ArrayList<>();
-        String carreraStr = Carreras.getSelectedItem().toString();
-        Long carreraSelected = Long.parseLong(carreraStr.substring(0, carreraStr.indexOf("-")));
-        System.out.println("carreraSelected: " + carreraSelected);
-        String asginaturaSelected = asignaturaTxt.getText();
-        System.out.println("asginaturaSelected: " + asginaturaSelected);
         List<DtCurso> listcurso = Recursos.getAllCursos();
-        listcurso.forEach((curso) -> {
-            Boolean ok = true;
-            Long codCar = curso.getAsignatura_Carrera().getCarrera().getCodigo();
-            System.out.println("codCar: " + codCar);
-            if (!carreraSelected.equals(0) && !codCar.equals(carreraSelected)) {
-                ok = false;
-            } else {
-                String asig = curso.getAsignatura_Carrera().getAsignatura().getCodigo() + curso.getAsignatura_Carrera().getAsignatura().getNombre();
-                System.out.println("asig: " + asig);
-                if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asig, asginaturaSelected))) {
+        if (checkLastStatusOK()) {
+            String[] tableHeaders = {"", "Asignatura", "Carrera", "Fecha"};
+            List<Object[]> dataA = new ArrayList<>();
+            String carreraStr = Carreras.getSelectedItem().toString();
+            Long carreraSelected = Long.parseLong(carreraStr.substring(0, carreraStr.indexOf("-")));  
+            String asginaturaSelected = asignaturaTxt.getText();
+            listcurso.forEach((curso) -> {
+                Boolean ok = true;
+                Long codCar = curso.getAsignatura_Carrera().getCarrera().getCodigo();
+                System.out.println("codCar: " + codCar);
+                if (!carreraSelected.equals(0) && !codCar.equals(carreraSelected)) {
                     ok = false;
-                }
-                if (ok) {
-                    System.out.println("OK");
-                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    String date = dateFormat.format(curso.getFecha());
-                    System.out.println(date);
+                } else {
+                    String asig = curso.getAsignatura_Carrera().getAsignatura().getCodigo() + curso.getAsignatura_Carrera().getAsignatura().getNombre();
+                    System.out.println("asig: " + asig);
+                    if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asig, asginaturaSelected))) {
+                        ok = false;
+                    }
+                    if (ok) {
+                        System.out.println("OK");
+                        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String date = dateFormat.format(curso.getFecha());
+                        System.out.println(date);
 
-                    dataA.add(new Object[]{curso.getId(), curso.getAsignatura_Carrera().getAsignatura().getNombre(),
-                        curso.getAsignatura_Carrera().getCarrera().getNombre(), date});
+                        dataA.add(new Object[]{curso.getId(), curso.getAsignatura_Carrera().getAsignatura().getNombre(),
+                            curso.getAsignatura_Carrera().getCarrera().getNombre(), date});
+                    }
                 }
-            }
-        });
-        tableCursos = tUtils.tableConfig(tableCursos, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
-        tableCursos.removeColumn(tableCursos.getColumnModel().getColumn(0));
-        System.out.println("dataA.size(): " + dataA.size());
-        if (dataA.size() != 0) {
-            tableCursos.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-               if(event.getValueIsAdjusting()){
-                idCurso = Long.parseLong(tableCursos.getModel().getValueAt(tableCursos.getSelectedRow(), 0).toString());
-                System.out.println("NOTAS CURSO OBJ");
-                NotasCursoObj nc = new NotasCursoObj("Calificaciones fin de Curso", idCurso);
-            }
-                
             });
+            tableCursos = tUtils.tableConfig(tableCursos, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
+            tableCursos.removeColumn(tableCursos.getColumnModel().getColumn(0));
+            System.out.println("dataA.size(): " + dataA.size());
+            if (dataA.size() != 0) {
+                tableCursos.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+                    if (event.getValueIsAdjusting()) {
+                        idCurso = Long.parseLong(tableCursos.getModel().getValueAt(tableCursos.getSelectedRow(), 0).toString());
+                        System.out.println("NOTAS CURSO OBJ");
+                        NotasCursoObj nc = new NotasCursoObj("Calificaciones fin de Curso", idCurso);
+                    }
+
+                });
+            }
+        } else {
+            this.dispose();
         }
+
     }
 
     private void cargarCarreras() {
@@ -387,6 +372,21 @@ public class NotasCursos extends javax.swing.JInternalFrame {
 //            c = carreras.get(i);
 //            Carreras.addItem(c.getNombre());
 //        }
+    }
+
+    private boolean checkLastStatusOK() {
+        System.out.println("checkLastStatusOK");
+        int lastStatus = MetodosEnvio.getLastStatus();
+        if (lastStatus == 403) {
+            JOptionPane.showMessageDialog(null, "La sesión expiró. \n Vuelva a loguearse por favor.", "", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            if (lastStatus == 401) {
+                JOptionPane.showMessageDialog(null, "Acceso denegado.", "", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
     }
 
 }

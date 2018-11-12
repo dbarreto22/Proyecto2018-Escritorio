@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -39,9 +40,11 @@ import org.apache.http.util.EntityUtils;
  */
 public class MetodosEnvio {
     
-    private static String urlbase = "http://localhost:8080/miudelar-server/";
+    private static String urlbase = "https://localhost:9443/miudelar-server/";
     private static String ruta = "MiUdelar.png";
     private static String token;
+    private static int lastStatus;
+    
     
     public static String getUrlBase(){
         return urlbase;
@@ -51,10 +54,10 @@ public class MetodosEnvio {
         return ruta;
     }
     
-//    public static void setToken(String token){
-//        this.token = token;
-//    }
-    
+    public static int getLastStatus(){
+        return lastStatus;
+    }
+           
     private static JsonParser parser = new JsonParser();
     
     public static String ejecutarGet(String endpoint){
@@ -68,11 +71,17 @@ public class MetodosEnvio {
             getRequest.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON);
             getRequest.addHeader(HttpHeaders.AUTHORIZATION, "Bearer "+ token);
             response = httpClient.execute(getRequest);
-            HttpEntity responseEntity = response.getEntity();
-            if (responseEntity != null) {
-                retSrc = EntityUtils.toString(responseEntity);
-                retSrc = new String(retSrc.getBytes("ISO-8859-1"), "UTF-8");
+            lastStatus = response.getStatusLine().getStatusCode();
+            
+            if (lastStatus == 200){
+                HttpEntity responseEntity = response.getEntity();
+            
+                if (responseEntity != null) {
+                    retSrc = EntityUtils.toString(responseEntity);
+                    retSrc = new String(retSrc.getBytes("ISO-8859-1"), "UTF-8");
+                }
             }
+            
             httpClient.getConnectionManager().shutdown();
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,11 +101,14 @@ public class MetodosEnvio {
             getRequest.addHeader(HttpHeaders.ACCEPT, MediaType.TEXT_PLAIN);
             getRequest.addHeader(HttpHeaders.AUTHORIZATION, "Bearer "+ token);
             response = httpClient.execute(getRequest);
+            lastStatus = response.getStatusLine().getStatusCode();
+            
             HttpEntity responseEntity = response.getEntity();
             if (responseEntity != null) {
                 retSrc = EntityUtils.toString(responseEntity);
                 retSrc = new String(retSrc.getBytes("ISO-8859-1"), "UTF-8");
             }
+            
             httpClient.getConnectionManager().shutdown();
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,12 +140,15 @@ public class MetodosEnvio {
             }
             postRequest.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
             response = httpClient.execute(postRequest);
+            lastStatus = response.getStatusLine().getStatusCode();
+            
             HttpEntity responseEntity = response.getEntity();
             if (responseEntity != null) {
                 //System.out.println(EntityUtils.toString(responseEntity));
                output = EntityUtils.toString(responseEntity);
                output = new String(output.getBytes("ISO-8859-1"), "UTF-8");
             }
+            
             httpClient.getConnectionManager().shutdown();
         } catch (IOException e) {
             e.printStackTrace();
@@ -158,11 +173,15 @@ public class MetodosEnvio {
             }
             postRequest.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
             response = httpClient.execute(postRequest);
-            HttpEntity responseEntity = response.getEntity();
-            if (responseEntity != null) {
-                //System.out.println(EntityUtils.toString(responseEntity));
-               output = EntityUtils.toString(responseEntity);
-               output = new String(output.getBytes("ISO-8859-1"), "UTF-8");
+            lastStatus = response.getStatusLine().getStatusCode();
+            
+            if (lastStatus == 200){
+                HttpEntity responseEntity = response.getEntity();
+                if (responseEntity != null) {
+                    //System.out.println(EntityUtils.toString(responseEntity));
+                   output = EntityUtils.toString(responseEntity);
+                   output = new String(output.getBytes("ISO-8859-1"), "UTF-8");
+                }
             }
             httpClient.getConnectionManager().shutdown();
         } catch (IOException e) {
@@ -183,6 +202,9 @@ public class MetodosEnvio {
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpResponse response;
+            
+            System.out.println("keyStore: " + System.getProperty("javax.net.ssl.keyStore").toString());
+            System.out.println("truststore: " + System.getProperty("javax.net.ssl.trustStore").toString());
             
             HttpPost postRequest = new HttpPost(urlbase+"admin/login");
             JsonObject body = new JsonObject();

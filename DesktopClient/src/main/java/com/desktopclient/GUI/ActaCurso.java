@@ -50,25 +50,12 @@ public class ActaCurso extends javax.swing.JInternalFrame {
 
     tableUtils tUtils = tableUtils.getInstance();
     private Long idCurso;
-//    private DtUsuarioLogueado usuariolog;
 
-//    public DtUsuarioLogueado getUsuarioLog() {
-//        return usuariolog;
-//    }
-//
-//    public void setUsuarioLog(DtUsuarioLogueado usuariolog) {
-//        this.usuariolog = usuariolog;
-//        cargarCarreras();
-//    }
-    /**
-     * Creates new form HorariosCursos
-     */
     public ActaCurso() {
 //        this.usuariolog = usuariolog;
         initComponents();
         cargarCarreras();
         tableConstructor();
-        this.setVisible(true);
     }
 
     /**
@@ -341,103 +328,109 @@ public class ActaCurso extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void tableConstructor() {
-        String[] tableHeaders = {"", "Asignatura", "Carrera", "Fecha"};
-        List<Object[]> dataA = new ArrayList<>();
-        String carreraStr = Carreras.getSelectedItem().toString();
-        Long carreraSelected = Long.parseLong(carreraStr.substring(0, carreraStr.indexOf("-")));
-        System.out.println("carreraSelected: " + carreraSelected);
-        String asginaturaSelected = asignaturaTxt.getText();
-        System.out.println("asginaturaSelected: " + asginaturaSelected);
         List<DtCurso> listcurso = Recursos.getAllCursos();
-        listcurso.forEach((curso) -> {
-            Boolean ok = true;
-            Long codCar = curso.getAsignatura_Carrera().getCarrera().getCodigo();
-            System.out.println("codCar: " + codCar);
-            if (!carreraSelected.equals(0) && !codCar.equals(carreraSelected)) {
-                ok = false;
-            } else {
-                String asig = curso.getAsignatura_Carrera().getAsignatura().getCodigo() + curso.getAsignatura_Carrera().getAsignatura().getNombre();
-                System.out.println("asig: " + asig);
-                if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asig, asginaturaSelected))) {
+        if (checkLastStatusOK()) {
+            String[] tableHeaders = {"", "Asignatura", "Carrera", "Fecha"};
+            List<Object[]> dataA = new ArrayList<>();
+            String carreraStr = Carreras.getSelectedItem().toString();
+            Long carreraSelected = Long.parseLong(carreraStr.substring(0, carreraStr.indexOf("-")));
+            String asginaturaSelected = asignaturaTxt.getText();
+            listcurso.forEach((curso) -> {
+                Boolean ok = true;
+                Long codCar = curso.getAsignatura_Carrera().getCarrera().getCodigo();
+                if (!carreraSelected.equals(0) && !codCar.equals(carreraSelected)) {
                     ok = false;
-                }
-                if (ok) {
-                    System.out.println("OK");
-                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    String date = dateFormat.format(curso.getFecha());
-                    System.out.println(date);
+                } else {
+                    String asig = curso.getAsignatura_Carrera().getAsignatura().getCodigo() + curso.getAsignatura_Carrera().getAsignatura().getNombre();
+                    if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asig, asginaturaSelected))) {
+                        ok = false;
+                    }
+                    if (ok) {
+                        System.out.println("OK");
+                        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        String date = dateFormat.format(curso.getFecha());
+                        System.out.println(date);
 
-                    dataA.add(new Object[]{curso.getId(), curso.getAsignatura_Carrera().getAsignatura().getNombre(),
-                        curso.getAsignatura_Carrera().getCarrera().getNombre(), date});
+                        dataA.add(new Object[]{curso.getId(), curso.getAsignatura_Carrera().getAsignatura().getNombre(),
+                            curso.getAsignatura_Carrera().getCarrera().getNombre(), date});
+                    }
                 }
-            }
-        });
-        tableCursos = tUtils.tableConfig(tableCursos, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
-        tableCursos.removeColumn(tableCursos.getColumnModel().getColumn(0));
-        System.out.println("dataA.size(): " + dataA.size());
-        if (dataA.size() != 0) {
-            tableCursos.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-                if (event.getValueIsAdjusting()) {
-                    idCurso = Long.parseLong(tableCursos.getModel().getValueAt(tableCursos.getSelectedRow(), 0).toString());
-                    getActa();
-                    
-                   
-                }
-
             });
+            tableCursos = tUtils.tableConfig(tableCursos, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
+            tableCursos.removeColumn(tableCursos.getColumnModel().getColumn(0));
+            if (dataA.size() != 0) {
+                tableCursos.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+                    if (event.getValueIsAdjusting()) {
+                        idCurso = Long.parseLong(tableCursos.getModel().getValueAt(tableCursos.getSelectedRow(), 0).toString());
+                        getActa();
+                    }
+                });
+            }
+        }else{
+            this.dispose();
         }
     }
 
     private void cargarCarreras() {
         System.out.println("cargarCarreras");
         List<DtCarrera> carreras = Recursos.getAllCarreras();
-        System.out.println("carreras: " + carreras.toString());
-
         carreras.forEach(carrera -> {
             Carreras.addItem(carrera.getCodigo() + "-" + carrera.getNombre());
         });
-//        for (int i = 0; i < carreras.size(); i++) {
-//            c = carreras.get(i);
-//            Carreras.addItem(c.getNombre());
-//        }
     }
     
     private void getActa() {
-        try {
-            System.out.println("LLAMO ARCHIVO CURSO OBJ");
-            String pdfb64 = Recursos.getActaFinCurso(idCurso);
-            System.out.println("pdfb64: " + pdfb64);
-            BASE64Decoder decoder = new BASE64Decoder();
-            byte[] decodedBytes;
-            FileOutputStream fop;
-            decodedBytes = new BASE64Decoder().decodeBuffer(pdfb64);
-            String fileName = ".\\actas\\acta_" + randomUUID() + ".pdf";
-            System.out.println("fileName: " + fileName);
-            
-//            String filePath = new File("").getAbsolutePath();
-//            String fullpath = filePath + fileName;
-//            System.out.println("fullpath: " + fullpath);
-            
-            File file = new File(".",fileName);
-            file.createNewFile();
-            fop = new FileOutputStream(file);
 
-            fop.write(decodedBytes);
+        System.out.println("LLAMO ARCHIVO CURSO OBJ");
+        String pdfb64 = Recursos.getActaFinCurso(idCurso);
+        if (checkLastStatusOK()) {
+            try {
+                BASE64Decoder decoder = new BASE64Decoder();
+                byte[] decodedBytes;
+                FileOutputStream fop;
+                decodedBytes = new BASE64Decoder().decodeBuffer(pdfb64);
+                String fileName = "./actas/acta_" + randomUUID() + ".pdf";
+                System.out.println("fileName: " + fileName);
 
-            fop.flush();
-            fop.close();
+                File file = new File(".", fileName);
+                file.createNewFile();
+                fop = new FileOutputStream(file);
 
-            if (Desktop.isDesktopSupported()) {
-                if (file.exists()) {
-                    Desktop.getDesktop().open(file);
-                } else {
-                    System.out.println("No existe el archivo");
+                fop.write(decodedBytes);
+
+                fop.flush();
+                fop.close();
+
+                if (Desktop.isDesktopSupported()) {
+                    if (file.exists()) {
+                        Desktop.getDesktop().open(file);
+                    } else {
+                        System.out.println("No existe el archivo");
+                    }
                 }
-            }
             } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException : " + ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ActaCurso.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("FileNotFoundException : " + ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ActaCurso.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            this.dispose();
         }
+
+    }
+    
+    private boolean checkLastStatusOK(){
+        System.out.println("checkLastStatusOK");
+        int lastStatus = MetodosEnvio.getLastStatus();
+        if (lastStatus == 403){
+            JOptionPane.showMessageDialog(null, "La sesión expiró. \n Vuelva a loguearse por favor.", "", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else{
+            if (lastStatus == 401){
+                JOptionPane.showMessageDialog(null, "Acceso denegado.", "", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
     }
 }   

@@ -314,74 +314,98 @@ public class ActaEscolaridad extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void tableConstructor() {
-        String[] tableHeaders = {"Documento", "Nombre", "Apellido", "Carrera código","Nombre"};
-        List<Object[]> dataA = new ArrayList<>();
         List<DtUsuario> listestudiante = Recursos.getAllEstudiantes();
-        String docEstudianteSelected = docEstudianteTxt.getText();
-        String nombreEstudianteSelected = nombreEstudianteTxt.getText();
-        listestudiante.forEach(estudiante -> {
-            Boolean ok = true;
-            System.out.println("estudiante: " + estudiante.getCedula());
-            if (docEstudianteSelected != "" && (!StringUtils.containsIgnoreCase(estudiante.getCedula(), docEstudianteSelected))
-                    || nombreEstudianteSelected != "" && (!StringUtils.containsIgnoreCase(estudiante.getApellido() + estudiante.getNombre(), nombreEstudianteSelected))) {
-            } else {
-                System.out.println("OK");
-                estudiante.getCarreras().forEach(carrera -> {
-                    dataA.add(new Object[]{estudiante.getCedula(), estudiante.getNombre(), estudiante.getApellido(),
-                        carrera.getCodigo(),carrera.getNombre()});
-                });
+        if (checkLastStatusOK()) {
+            String[] tableHeaders = {"Documento", "Nombre", "Apellido", "Carrera código", "Nombre"};
+            List<Object[]> dataA = new ArrayList<>();
 
-            }
-        });
-        tableEstudiantes = tUtils.tableConfig(tableEstudiantes, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
-        System.out.println("dataA.size(): " + dataA.size());
-        if (dataA.size() != 0) {
-            tableEstudiantes.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-                if (event.getValueIsAdjusting()) {
-                    String cedula = tableEstudiantes.getModel().getValueAt(tableEstudiantes.getSelectedRow(), 0).toString();
-                    Long codigoCarrera = Long.parseLong(tableEstudiantes.getModel().getValueAt(tableEstudiantes.getSelectedRow(), 3).toString());
-                    getEscolaridad(cedula, codigoCarrera);
+            String docEstudianteSelected = docEstudianteTxt.getText();
+            String nombreEstudianteSelected = nombreEstudianteTxt.getText();
+            listestudiante.forEach(estudiante -> {
+                Boolean ok = true;
+                System.out.println("estudiante: " + estudiante.getCedula());
+                if (docEstudianteSelected != "" && (!StringUtils.containsIgnoreCase(estudiante.getCedula(), docEstudianteSelected))
+                        || nombreEstudianteSelected != "" && (!StringUtils.containsIgnoreCase(estudiante.getApellido() + estudiante.getNombre(), nombreEstudianteSelected))) {
+                } else {
+                    System.out.println("OK");
+                    estudiante.getCarreras().forEach(carrera -> {
+                        dataA.add(new Object[]{estudiante.getCedula(), estudiante.getNombre(), estudiante.getApellido(),
+                            carrera.getCodigo(), carrera.getNombre()});
+                    });
+
                 }
             });
+            tableEstudiantes = tUtils.tableConfig(tableEstudiantes, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
+            System.out.println("dataA.size(): " + dataA.size());
+            if (dataA.size() != 0) {
+                tableEstudiantes.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
+                    if (event.getValueIsAdjusting()) {
+                        String cedula = tableEstudiantes.getModel().getValueAt(tableEstudiantes.getSelectedRow(), 0).toString();
+                        Long codigoCarrera = Long.parseLong(tableEstudiantes.getModel().getValueAt(tableEstudiantes.getSelectedRow(), 3).toString());
+                        getEscolaridad(cedula, codigoCarrera);
+                    }
+                });
+            }
+        }else{
+            this.dispose();
         }
     }
 
     private void getEscolaridad(String cedula, Long codigoCarrera) {
-        try {
-            System.out.println("LLAMO ARCHIVO CURSO OBJ");
-            String pdfb64 = Recursos.getEscolaridad(cedula,codigoCarrera);
-            System.out.println("pdfb64: " + pdfb64);
-            BASE64Decoder decoder = new BASE64Decoder();
-            byte[] decodedBytes;
-            FileOutputStream fop;
-            decodedBytes = new BASE64Decoder().decodeBuffer(pdfb64);
-            String fileName = ".\\actas\\acta_" + randomUUID() + ".pdf";
-            System.out.println("fileName: " + fileName);
-            
+        String pdfb64 = Recursos.getEscolaridad(cedula, codigoCarrera);
+        if (checkLastStatusOK()) {
+            try {
+                System.out.println("LLAMO ARCHIVO CURSO OBJ");
+                System.out.println("pdfb64: " + pdfb64);
+                BASE64Decoder decoder = new BASE64Decoder();
+                byte[] decodedBytes;
+                FileOutputStream fop;
+                decodedBytes = new BASE64Decoder().decodeBuffer(pdfb64);
+                String fileName = ".\\actas\\acta_" + randomUUID() + ".pdf";
+                System.out.println("fileName: " + fileName);
+
 //            String filePath = new File("").getAbsolutePath();
 //            String fullpath = filePath + fileName;
 //            System.out.println("fullpath: " + fullpath);
-            
-            File file = new File(".",fileName);
-            file.createNewFile();
-            fop = new FileOutputStream(file);
+                File file = new File(".", fileName);
+                file.createNewFile();
+                fop = new FileOutputStream(file);
 
-            fop.write(decodedBytes);
+                fop.write(decodedBytes);
 
-            fop.flush();
-            fop.close();
+                fop.flush();
+                fop.close();
 
-            if (Desktop.isDesktopSupported()) {
-                if (file.exists()) {
-                    Desktop.getDesktop().open(file);
-                } else {
-                    System.out.println("No existe el archivo");
+                if (Desktop.isDesktopSupported()) {
+                    if (file.exists()) {
+                        Desktop.getDesktop().open(file);
+                    } else {
+                        System.out.println("No existe el archivo");
+                    }
                 }
-            }
             } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException : " + ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ActaEscolaridad.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("FileNotFoundException : " + ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ActaEscolaridad.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }else{
+            this.dispose();
         }
     }
-}   
+
+    private boolean checkLastStatusOK() {
+        System.out.println("checkLastStatusOK");
+        int lastStatus = MetodosEnvio.getLastStatus();
+        if (lastStatus == 403) {
+            JOptionPane.showMessageDialog(null, "La sesión expiró. \n Vuelva a loguearse por favor.", "", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            if (lastStatus == 401) {
+                JOptionPane.showMessageDialog(null, "Acceso denegado.", "", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
+    }
+}

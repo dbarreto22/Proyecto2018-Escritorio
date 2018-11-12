@@ -85,6 +85,11 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuBar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenuBar1.setMaximumSize(new java.awt.Dimension(397, 32769));
         jMenuBar1.setPreferredSize(new java.awt.Dimension(397, 26));
+        jMenuBar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuBar1MouseClicked(evt);
+            }
+        });
 
         Cursos.setText("Cursos");
         Cursos.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -159,6 +164,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         Estudiantes.setText("Estudiantes");
         Estudiantes.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        Estudiantes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                EstudiantesMouseClicked(evt);
+            }
+        });
 
         Escolaridad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         Escolaridad.setText("Escolaridad");
@@ -219,6 +229,14 @@ public class MainMenu extends javax.swing.JFrame {
     private void ActasExamenesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActasExamenesActionPerformed
         internalFrameBuilder(new ActaExamen());
     }//GEN-LAST:event_ActasExamenesActionPerformed
+
+    private void jMenuBar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuBar1MouseClicked
+       
+    }//GEN-LAST:event_jMenuBar1MouseClicked
+
+    private void EstudiantesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EstudiantesMouseClicked
+         System.out.println("DJFAKLSDJFKLDASJFL");
+    }//GEN-LAST:event_EstudiantesMouseClicked
 
     /**
      * @param args the command line arguments

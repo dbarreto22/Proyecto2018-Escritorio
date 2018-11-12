@@ -29,21 +29,22 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import org.apache.commons.lang3.StringUtils;
+
 /**
  *
  * @author Ernesto
  */
 public class ExamenObj extends javax.swing.JFrame {
+
     tableUtils tUtils = tableUtils.getInstance();
     private Long idExamen;
     private String accion;
     private Long idAsigCar;
     private Examen examen;
 
-
     /**
      * Creates new form HorariosExamens
-     */    
+     */
     public ExamenObj(String accion, Long idExamen) {
         this.accion = accion;
         this.idExamen = idExamen;
@@ -53,8 +54,7 @@ public class ExamenObj extends javax.swing.JFrame {
         cargarCarreras();
         tableConstructor();
         this.setVisible(true);
-    }  
-    
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -290,19 +290,19 @@ public class ExamenObj extends javax.swing.JFrame {
         //        List<Carrera> carreras = Recursos.getAllCarreras(usuariolog.getToken());
         //        long idCarrera = 0;
         //        for (int i = 0; i < carreras.size(); i++) {
-            //            if (carreras.get(i).getNombre().equals(Carreras.getSelectedItem().toString())){
-                //                idCarrera = carreras.get(i).getCodigo();
-                //                break;
-                //            }
-            //        }
+        //            if (carreras.get(i).getNombre().equals(Carreras.getSelectedItem().toString())){
+        //                idCarrera = carreras.get(i).getCodigo();
+        //                break;
+        //            }
+        //        }
 
         //        List<Asignatura> asignaturas = Recursos.getAsignaturasByCarrera(idCarrera,usuariolog.getToken());
         //        Asignatura a = new Asignatura();
         //
         //        for (int i = 0; i < asignaturas.size(); i++) {
-            //            a = asignaturas.get(i);
-            //            Asignaturas.addItem(a.getNombre());
-            //        }
+        //            a = asignaturas.get(i);
+        //            Asignaturas.addItem(a.getNombre());
+        //        }
         //System.out.println(Carreras.getSelectedItem().toString());
     }//GEN-LAST:event_carrerasCbxItemStateChanged
 
@@ -316,9 +316,9 @@ public class ExamenObj extends javax.swing.JFrame {
     }//GEN-LAST:event_salirMouseClicked
 
     private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
-        if (idAsigCar == null || idAsigCar == 0L){
+        if (idAsigCar == null || idAsigCar == 0L) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una asignatura", "", JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             String result = Recursos.saveExamen(idExamen, fecha.getDate(), idAsigCar);
             JOptionPane.showMessageDialog(null, result, "", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -362,7 +362,6 @@ public class ExamenObj extends javax.swing.JFrame {
 //            }
 //        });
 //    }
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Buscar;
@@ -383,70 +382,91 @@ public class ExamenObj extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void tableConstructor() {
-        String[] tableHeaders = {"","Código", "Nombre"};
+        String[] tableHeaders = {"", "Código", "Nombre"};
         List<Object[]> dataA = new ArrayList<>();
-        if (idExamen == null || idExamen == 0L){
-            String carreraStr = carrerasCbx.getSelectedItem().toString();
-            Long carreraSelected = Long.parseLong(carreraStr.substring(0, carreraStr.indexOf("-")));
-            System.out.println("carreraSelected: " + carreraSelected);
-            String asginaturaSelected = asignaturaTxt.getText();
-            System.out.println("asginaturaSelected: " + asginaturaSelected);
-             List<DtAsignatura_Carrera> listAsign = Recursos.getAsignaturaCarreraByCarrera(carreraSelected);
-                listAsign.forEach((asig) -> {
-                Boolean ok = true;
-                String asigStr = asig.getAsignatura().getCodigo() + asig.getAsignatura().getNombre();
-                System.out.println("asigStr: " + asigStr);
-                if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asigStr, asginaturaSelected))) {
-                    ok = false;
-                }
-                if (ok) {
-                    System.out.println("OK");
-
-                    dataA.add(new Object[]{asig.getId(),asig.getAsignatura().getCodigo(),
-                    asig.getAsignatura().getNombre()});
+        Long carreraSelected = 0L;
+        if (idExamen == null || idExamen == 0L) {
+            if(carrerasCbx.getSelectedItem()!= null){
+                String carreraStr = carrerasCbx.getSelectedItem().toString();
+                carreraSelected = Long.parseLong(carreraStr.substring(0, carreraStr.indexOf("-")));
             }
-            });
-        }else{
-            dataA.add(new Object[]{examen.getAsignatura_Carrera().getId(),examen.getAsignatura_Carrera().getAsignatura().getCodigo(),
-                    examen.getAsignatura_Carrera().getAsignatura().getNombre()});
+
+            String asginaturaSelected = asignaturaTxt.getText();
+            List<DtAsignatura_Carrera> listAsign = Recursos.getAsignaturaCarreraByCarrera(carreraSelected);
+            if (checkLastStatusOK()) {
+                listAsign.forEach((asig) -> {
+                    Boolean ok = true;
+                    String asigStr = asig.getAsignatura().getCodigo() + asig.getAsignatura().getNombre();
+                    System.out.println("asigStr: " + asigStr);
+                    if (asginaturaSelected != "" && (!StringUtils.containsIgnoreCase(asigStr, asginaturaSelected))) {
+                        ok = false;
+                    }
+                    if (ok) {
+                        System.out.println("OK");
+
+                        dataA.add(new Object[]{asig.getId(), asig.getAsignatura().getCodigo(),
+                            asig.getAsignatura().getNombre()});
+                    }
+                });
+            } else {
+                this.dispose();
+            }
+
+        } else {
+            dataA.add(new Object[]{examen.getAsignatura_Carrera().getId(), examen.getAsignatura_Carrera().getAsignatura().getCodigo(),
+                examen.getAsignatura_Carrera().getAsignatura().getNombre()});
         }
 
         tableAsigCar = tUtils.tableConfig(tableAsigCar, tableHeaders, dataA, ListSelectionModel.SINGLE_SELECTION);
-        System.out.println("dataA.size(): " + dataA.size());
-        if (dataA.size() != 0){
+        tableAsigCar.removeColumn(tableAsigCar.getColumnModel().getColumn(0));
+        if (dataA.size() != 0) {
             tableAsigCar.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-            idAsigCar = Long.parseLong(tableAsigCar.getValueAt(tableAsigCar.getSelectedRow(), 0).toString());
+                idAsigCar = Long.parseLong(tableAsigCar.getValueAt(tableAsigCar.getSelectedRow(), 0).toString());
             });
         }
     }
 
     public void cargarCarreras() {
         System.out.println("cargarCarreras");
-        if(idExamen != null && !idExamen.equals(0L)){
-            carrerasCbx.addItem(examen.getAsignatura_Carrera().getCarrera().getCodigo()+ "-" +examen.getAsignatura_Carrera().getCarrera().getNombre());
-        }else{
+        if (idExamen != null && !idExamen.equals(0L)) {
+            carrerasCbx.addItem(examen.getAsignatura_Carrera().getCarrera().getCodigo() + "-" + examen.getAsignatura_Carrera().getCarrera().getNombre());
+        } else {
             List<DtCarrera> carreras = Recursos.getAllCarreras();
             System.out.println("carreras: " + carreras.toString());
             carreras.forEach(carrera -> {
-            carrerasCbx.addItem(carrera.getCodigo()+ "-" +carrera.getNombre());
-        });
+                carrerasCbx.addItem(carrera.getCodigo() + "-" + carrera.getNombre());
+            });
         }
-        
+
     }
-    
-    public void loadDataModify(){
+
+    public void loadDataModify() {
         System.out.println("idExamen: " + idExamen);
-        if(idExamen != null && !idExamen.equals(0L)){
+        if (idExamen != null && !idExamen.equals(0L)) {
             jLabel4.setText("Asignatura");
             jLabel2.setVisible(false);
             asignaturaTxt.setVisible(false);
             Buscar.setVisible(false);
             this.examen = Recursos.getExamen(idExamen);
-            this.idAsigCar =  examen.getAsignatura_Carrera().getId();
+            this.idAsigCar = examen.getAsignatura_Carrera().getId();
             fecha.setDate(examen.getFecha());
             tableAsigCar.setEnabled(false);
             carrerasCbx.setEnabled(false);
         }
     }
-//
+
+    private boolean checkLastStatusOK() {
+        System.out.println("checkLastStatusOK");
+        int lastStatus = MetodosEnvio.getLastStatus();
+        if (lastStatus == 403) {
+            JOptionPane.showMessageDialog(null, "La sesión expiró. \n Vuelva a loguearse por favor.", "", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            if (lastStatus == 401) {
+                JOptionPane.showMessageDialog(null, "Acceso denegado.", "", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
+    }
 }

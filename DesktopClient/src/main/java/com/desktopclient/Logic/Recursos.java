@@ -27,6 +27,7 @@ import com.desktopclient.entidades.Examen;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -43,57 +44,77 @@ public class Recursos {
     
     public static List<DtCarrera> getAllCarreras(){
         System.out.println("getAllCarreras");
-//        List<DtCarrera> carreras = new ArrayList<DtCarrera>();
+        List<DtCarrera> carreras = new ArrayList<>();
         String response = MetodosEnvio.ejecutarGet("director/carrera");
+        if (!response.equals("")){
+            DtCarrera[] mcArray = gson.fromJson(response, DtCarrera[].class);
+            carreras = Arrays.asList(mcArray);
+        }
         
-        DtCarrera[] mcArray = gson.fromJson(response, DtCarrera[].class);
-        List<DtCarrera> carreras = Arrays.asList(mcArray);
         return carreras;
     }
     
     public static List<DtAsignatura_Carrera> getAllAsignaturaCarrera(){
+        List<DtAsignatura_Carrera> asig_car = new ArrayList<>();
         String response = MetodosEnvio.ejecutarGet("director/asignaturacarrera");
         
-        DtAsignatura_Carrera[] mcArray = gson.fromJson(response, DtAsignatura_Carrera[].class);
-        List<DtAsignatura_Carrera> asig_car = Arrays.asList(mcArray);
+        if (!response.equals("")){
+            DtAsignatura_Carrera[] mcArray = gson.fromJson(response, DtAsignatura_Carrera[].class);
+            asig_car = Arrays.asList(mcArray);
+        }    
         return asig_car;
     }
     
     public static List<DtAsignatura_Carrera> getAsignaturaCarreraByCarrera(Long idCarrera){
+        List<DtAsignatura_Carrera> asig_car = new ArrayList<>();
         String response = MetodosEnvio.ejecutarGet("bedelia/asignaturaCarrera/" + idCarrera);
         
-        DtAsignatura_Carrera[] mcArray = gson.fromJson(response, DtAsignatura_Carrera[].class);
-        List<DtAsignatura_Carrera> asig_car = Arrays.asList(mcArray);
+        if (!response.equals("")){
+            DtAsignatura_Carrera[] mcArray = gson.fromJson(response, DtAsignatura_Carrera[].class);
+            asig_car = Arrays.asList(mcArray);
+        }
         return asig_car;
     }
     
     public static List<DtCurso> getAllCursos(){
+        List<DtCurso> cursos = new ArrayList<>();
+        
         String response = MetodosEnvio.ejecutarGet("estudiante/curso");
         
-        DtCurso[] mcArray = gson.fromJson(response, DtCurso[].class);
-        List<DtCurso> curso = Arrays.asList(mcArray);
-        return curso;
+        if (!response.equals("")){
+            DtCurso[] mcArray = gson.fromJson(response, DtCurso[].class);
+            cursos = Arrays.asList(mcArray);
+        }    
+        return cursos;
     }
     
     public static List<DtExamen> getAllExamenes(){
+        List<DtExamen> examen = new ArrayList<>();
         String response = MetodosEnvio.ejecutarGet("estudiante/examen");
         
-        DtExamen[] mcArray = gson.fromJson(response, DtExamen[].class);
-        List<DtExamen> examen = Arrays.asList(mcArray);
+        if (!response.equals("")){
+            DtExamen[] mcArray = gson.fromJson(response, DtExamen[].class);
+            examen = Arrays.asList(mcArray);
+        }
         return examen;
     }
     
     public static Curso getCurso(Long idCurso){
+        Curso curso = new Curso();
         String response = MetodosEnvio.ejecutarGet("bedelia/curso/" + idCurso);
-        
-        Curso curso = gson.fromJson(response, Curso.class);
+        if (!response.equals("")){
+            curso = gson.fromJson(response, Curso.class);
+        }
         return curso;
     }
     
        public static Examen getExamen(Long idExamen){
+        Examen examen = new Examen();
         String response = MetodosEnvio.ejecutarGet("bedelia/examen/" + idExamen);
         
-        Examen examen = gson.fromJson(response, Examen.class);
+        if (!response.equals("")){
+            examen = gson.fromJson(response, Examen.class);
+        }
         return examen;
     }
        

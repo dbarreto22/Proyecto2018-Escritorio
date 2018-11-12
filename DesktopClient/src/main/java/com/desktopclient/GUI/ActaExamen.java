@@ -338,14 +338,16 @@ public class ActaExamen extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void tableConstructor() {
-        String[] tableHeaders = {"", "Asignatura", "Carrera", "Fecha"};
+        List<DtExamen> listexamen = Recursos.getAllExamenes();
+        if(checkLastStatusOK()){
+            String[] tableHeaders = {"", "Asignatura", "Carrera", "Fecha"};
         List<Object[]> dataA = new ArrayList<>();
         String carreraStr = Carreras.getSelectedItem().toString();
         Long carreraSelected = Long.parseLong(carreraStr.substring(0, carreraStr.indexOf("-")));
         System.out.println("carreraSelected: " + carreraSelected);
         String asginaturaSelected = asignaturaTxt.getText();
         System.out.println("asginaturaSelected: " + asginaturaSelected);
-        List<DtExamen> listexamen = Recursos.getAllExamenes();
+        
         listexamen.forEach((examen) -> {
             Boolean ok = true;
             Long codCar = examen.getAsignatura_Carrera().getCarrera().getCodigo();
@@ -377,12 +379,14 @@ public class ActaExamen extends javax.swing.JInternalFrame {
                 if (event.getValueIsAdjusting()) {
                     idExamen = Long.parseLong(tableExamenes.getModel().getValueAt(tableExamenes.getSelectedRow(), 0).toString());
                     getActa();
-                    
-                   
                 }
 
             });
         }
+        }else{
+            this.dispose();
+        }
+        
     }
 
     private void cargarCarreras() {
@@ -400,9 +404,11 @@ public class ActaExamen extends javax.swing.JInternalFrame {
     }
     
     private void getActa() {
-        try {
+        String pdfb64 = Recursos.getActaExamen(idExamen);
+        if (checkLastStatusOK()){
+            try {
             System.out.println("LLAMO ARCHIVO EXAMEN OBJ");
-            String pdfb64 = Recursos.getActaExamen(idExamen);
+            
             System.out.println("pdfb64: " + pdfb64);
             BASE64Decoder decoder = new BASE64Decoder();
             byte[] decodedBytes;
@@ -436,5 +442,23 @@ public class ActaExamen extends javax.swing.JInternalFrame {
         } catch (IOException ex) {
             Logger.getLogger(ActaExamen.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }else{
+            this.dispose();
+        }
+    }
+    
+     private boolean checkLastStatusOK(){
+        System.out.println("checkLastStatusOK");
+        int lastStatus = MetodosEnvio.getLastStatus();
+        if (lastStatus == 403){
+            JOptionPane.showMessageDialog(null, "La sesión expiró. \n Vuelva a loguearse por favor.", "", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else{
+            if (lastStatus == 401){
+                JOptionPane.showMessageDialog(null, "Acceso denegado.", "", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
     }
 }   

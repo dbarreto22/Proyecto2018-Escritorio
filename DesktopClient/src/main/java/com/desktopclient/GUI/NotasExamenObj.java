@@ -250,7 +250,9 @@ public class NotasExamenObj extends javax.swing.JFrame {
                 listEst_Examen.set(i, est_cur);
             }
             Recursos.SetNotasExamen(listEst_Examen);
-            JOptionPane.showMessageDialog(null, "Ok, Se han cargado las calificaciones", "", JOptionPane.INFORMATION_MESSAGE);
+            if (checkLastStatusOK()){
+                JOptionPane.showMessageDialog(null, "Ok, Se han cargado las calificaciones", "", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
         
     }//GEN-LAST:event_aceptarActionPerformed
@@ -318,9 +320,18 @@ public class NotasExamenObj extends javax.swing.JFrame {
         System.out.println("dataA.size(): " + tableEstudiantes.getRowCount());
         }
     
-//    private void getValuesTable() {
-//        for (int i = 0; !data.isEmpty(); i++) {
-//            data
-//        }
-//    }
+    private boolean checkLastStatusOK() {
+        System.out.println("checkLastStatusOK");
+        int lastStatus = MetodosEnvio.getLastStatus();
+        if (lastStatus == 403) {
+            JOptionPane.showMessageDialog(null, "La sesión expiró. \n Vuelva a loguearse por favor.", "", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            if (lastStatus == 401) {
+                JOptionPane.showMessageDialog(null, "Acceso denegado.", "", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
     }
+}

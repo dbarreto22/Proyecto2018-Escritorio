@@ -7,6 +7,7 @@ package com.desktopclient.GUI;
 
 import com.desktopclient.Logic.MetodosEnvio;
 import com.desktopclient.Logic.Recursos;
+import com.desktopclient.datatypes.DtRol;
 import com.desktopclient.datatypes.DtUsuarioLogueado;
 import java.awt.Image;
 import org.apache.http.HttpEntity;
@@ -17,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -189,15 +191,16 @@ public class Login extends javax.swing.JFrame {
 
     private void iniciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iniciarMouseClicked
         // TODO add your handling code here:
+        setTruststore_Keystore();
         DtUsuarioLogueado usuariolog = MetodosEnvio.login(this.jTextField1.getText(), this.jPasswordField1.getText());
         if (StringUtils.containsIgnoreCase(usuariolog.getToken(), "Error") || usuariolog.getToken().contains("null {")){
-            JOptionPane.showMessageDialog(rootPane, "Error: Usuario o contraseña incorrecta");
+            JOptionPane.showMessageDialog(rootPane, "Usuario o contraseña incorrecta", "", JOptionPane.ERROR_MESSAGE);
             this.jTextField1.setText("");
             this.jPasswordField1.setText("");
         } else {
-            MainMenu menu = new MainMenu();
-//            menu.setUsuarioLog(usuariolog);
-            this.dispose();
+                MainMenu menu = new MainMenu();
+//              menu.setUsuarioLog(usuariolog);
+                this.dispose();
         }
     }//GEN-LAST:event_iniciarMouseClicked
 
@@ -233,7 +236,15 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-
+        
+    private static void setTruststore_Keystore(){
+        System.out.println("SET");
+        System.setProperty("javax.net.ssl.keyStore", "./cert/application.keystore");
+        System.setProperty("javax.net.ssl.trustStore", "./cert/mytruststore.truststore");
+        System.setProperty("javax.net.ssl.trustStorePassword", "password");
+        System.setProperty("javax.net.ssl.keyStorePassword", "password");
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Login;
     private javax.swing.JButton iniciar;
