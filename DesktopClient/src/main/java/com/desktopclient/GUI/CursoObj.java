@@ -418,7 +418,7 @@ public class CursoObj extends javax.swing.JFrame {
         tableAsigCar.removeColumn(tableAsigCar.getColumnModel().getColumn(0));
         if (dataA.size() != 0) {
             tableAsigCar.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-                idAsigCar = Long.parseLong(tableAsigCar.getValueAt(tableAsigCar.getSelectedRow(), 0).toString());
+                idAsigCar = Long.parseLong(tableAsigCar.getModel().getValueAt(tableAsigCar.getSelectedRow(), 0).toString());
             });
         }
     }

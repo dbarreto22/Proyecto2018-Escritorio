@@ -82,7 +82,7 @@ public class ExamenObj extends javax.swing.JFrame {
         Buscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Curso");
+        setTitle("Examen");
         setBackground(new java.awt.Color(245, 245, 245));
 
         jPanel2.setBackground(new java.awt.Color(240, 245, 245));
@@ -421,7 +421,7 @@ public class ExamenObj extends javax.swing.JFrame {
         tableAsigCar.removeColumn(tableAsigCar.getColumnModel().getColumn(0));
         if (dataA.size() != 0) {
             tableAsigCar.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-                idAsigCar = Long.parseLong(tableAsigCar.getValueAt(tableAsigCar.getSelectedRow(), 0).toString());
+                idAsigCar = Long.parseLong(tableAsigCar.getModel().getValueAt(tableAsigCar.getSelectedRow(), 0).toString());
             });
         }
     }

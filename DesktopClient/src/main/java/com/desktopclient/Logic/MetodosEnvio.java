@@ -40,7 +40,7 @@ import org.apache.http.util.EntityUtils;
  */
 public class MetodosEnvio {
     
-    private static String urlbase = "https://localhost:9443/miudelar-server/";
+    private static String urlbase = "http://localhost:8080/miudelar-server/";
     private static String ruta = "MiUdelar.png";
     private static String token;
     private static int lastStatus;
@@ -130,10 +130,13 @@ public class MetodosEnvio {
                 String key = parm.getKey();
                 String value = parm.getValue();
                 body.addProperty(key, value);
+                System.out.println("key: " + key);
+                System.out.println("value: " + value);
             }
             
             StringEntity entity = new StringEntity(body.toString());
             postRequest.setEntity(entity);
+            
             
             if (!token.isEmpty()){
                 postRequest.addHeader(HttpHeaders.AUTHORIZATION, "Bearer "+token);

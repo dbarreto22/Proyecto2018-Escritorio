@@ -346,11 +346,11 @@ public class NotasCursos extends javax.swing.JInternalFrame {
             System.out.println("dataA.size(): " + dataA.size());
             if (dataA.size() != 0) {
                 tableCursos.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
-                    if (event.getValueIsAdjusting()) {
+//                    if (event.getValueIsAdjusting()) {
                         idCurso = Long.parseLong(tableCursos.getModel().getValueAt(tableCursos.getSelectedRow(), 0).toString());
                         System.out.println("NOTAS CURSO OBJ");
                         NotasCursoObj nc = new NotasCursoObj("Calificaciones fin de Curso", idCurso);
-                    }
+//                    }
 
                 });
             }
