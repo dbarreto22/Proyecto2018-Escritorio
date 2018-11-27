@@ -9,6 +9,7 @@ import com.desktopclient.Logic.Recursos;
 import com.desktopclient.entidades.Carrera;
 import com.desktopclient.entidades.Asignatura;
 import com.desktopclient.Logic.MetodosEnvio;
+import com.desktopclient.Logic.MyFrame;
 import com.desktopclient.utils.panelUtils;
 import com.desktopclient.utils.tableUtils;
 import com.desktopclient.datatypes.DtAsignatura_Carrera;
@@ -39,7 +40,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Ernesto
  */
-public class NotasExamenObj extends javax.swing.JFrame {
+public class NotasExamenObj extends MyFrame {
     tableUtils tUtils = tableUtils.getInstance();
     private Long idExamen;
     private String accion;
@@ -245,9 +246,9 @@ public class NotasExamenObj extends javax.swing.JFrame {
                 Object[] dataAr = data.get(i);
                 Long calificacion = (Long) dataAr[3];
                 System.out.println("calificacion: " + calificacion);
-                DtEstudiante_Examen est_cur = listEst_Examen.get(i);
-                est_cur.setCalificacion(calificacion);
-                listEst_Examen.set(i, est_cur);
+                DtEstudiante_Examen est_exa = listEst_Examen.get(i);
+                est_exa.setCalificacion(calificacion);
+                listEst_Examen.set(i, est_exa);
             }
             Recursos.SetNotasExamen(listEst_Examen);
             if (checkLastStatusOK()){
@@ -317,7 +318,7 @@ public class NotasExamenObj extends javax.swing.JFrame {
             data.add(new Object[]{examen.getUsuario().getCedula(), examen.getUsuario().getNombre(), examen.getUsuario().getApellido(), calificacion});
         });
         tableEstudiantes = tUtils.tablaEditable(tableEstudiantes, tableHeaders, data);
-        System.out.println("dataA.size(): " + tableEstudiantes.getRowCount());
+            System.out.println("dataA.size(): " + tableEstudiantes.getRowCount());
         }
     
     private boolean checkLastStatusOK() {

@@ -9,6 +9,7 @@ import com.desktopclient.Logic.Recursos;
 import com.desktopclient.entidades.Carrera;
 import com.desktopclient.entidades.Asignatura;
 import com.desktopclient.Logic.MetodosEnvio;
+import com.desktopclient.Logic.MyFrame;
 import com.desktopclient.utils.panelUtils;
 import com.desktopclient.utils.tableUtils;
 import com.desktopclient.datatypes.DtAsignatura_Carrera;
@@ -34,7 +35,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Ernesto
  */
-public class ExamenObj extends javax.swing.JFrame {
+public class ExamenObj extends MyFrame {
 
     tableUtils tUtils = tableUtils.getInstance();
     private Long idExamen;

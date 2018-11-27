@@ -9,6 +9,7 @@ import com.desktopclient.Logic.Recursos;
 import com.desktopclient.entidades.Carrera;
 import com.desktopclient.entidades.Asignatura;
 import com.desktopclient.Logic.MetodosEnvio;
+import com.desktopclient.Logic.MyFrame;
 import com.desktopclient.utils.panelUtils;
 import com.desktopclient.utils.tableUtils;
 import com.desktopclient.datatypes.DtAsignatura_Carrera;
@@ -39,7 +40,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Ernesto
  */
-public class NotasCursoObj extends javax.swing.JFrame {
+public class NotasCursoObj extends MyFrame {
     tableUtils tUtils = tableUtils.getInstance();
     private Long idCurso;
     private String accion;
@@ -156,7 +157,7 @@ public class NotasCursoObj extends javax.swing.JFrame {
                 .addGap(82, 82, 82))
             .addGroup(paneldataLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(paneldataLayout.createSequentialGroup()
                 .addGap(231, 231, 231)

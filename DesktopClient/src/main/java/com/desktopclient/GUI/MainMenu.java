@@ -8,6 +8,7 @@ package com.desktopclient.GUI;
 
 import com.desktopclient.Logic.JPanelWithBackground;
 import com.desktopclient.Logic.MetodosEnvio;
+import com.desktopclient.Logic.MyFrame;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
@@ -23,7 +25,7 @@ import javax.swing.JOptionPane;
  *
  * @author eperroux
  */
-public class MainMenu extends javax.swing.JFrame {
+public class MainMenu extends JFrame {
     
     /**
      * Creates new form Main

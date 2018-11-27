@@ -175,13 +175,14 @@ public class Recursos {
     
     public static String SetNotasExamen(List<DtEstudiante_Examen> examenes) {
         String response = "";
-        examenes.forEach(est_cur -> {
+        examenes.forEach(est_exa -> {
             HashMap<String, String> parms = new HashMap<String, String>();
-            parms.put("idExamen", est_cur.getExamen().getId().toString());       
-            parms.put("cedula", est_cur.getUsuario().getCedula());
-            parms.put("calificacion", est_cur.getCalificacion().toString());
+            parms.put("idExamen", est_exa.getExamen().getId().toString());       
+            parms.put("cedula", est_exa.getUsuario().getCedula());
+            parms.put("calificacion", est_exa.getCalificacion().toString());
             
-            MetodosEnvio.ejecutarPostParms("bedelia/notasExamen", parms);
+            String response1 = MetodosEnvio.ejecutarPostParms("bedelia/notasExamen", parms);
+            System.out.println("response1: " + response1);
         });
 
         return response;
