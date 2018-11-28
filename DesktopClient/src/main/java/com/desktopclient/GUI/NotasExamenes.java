@@ -74,6 +74,7 @@ public class NotasExamenes extends javax.swing.JInternalFrame {
         salir = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableExamenes = new javax.swing.JTable();
+        cargar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         asignaturaTxt = new javax.swing.JTextField();
@@ -119,23 +120,39 @@ public class NotasExamenes extends javax.swing.JInternalFrame {
         ));
         jScrollPane3.setViewportView(tableExamenes);
 
+        cargar.setBackground(new java.awt.Color(102, 204, 255));
+        cargar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        cargar.setText("Cargar");
+        cargar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        cargar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cargarMouseClicked(evt);
+            }
+        });
+        cargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cargarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout paneldataLayout = new javax.swing.GroupLayout(paneldata);
         paneldata.setLayout(paneldataLayout);
         paneldataLayout.setHorizontalGroup(
             paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldataLayout.createSequentialGroup()
-                .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(paneldataLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, paneldataLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)))
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
                 .addGap(23, 23, 23))
             .addGroup(paneldataLayout.createSequentialGroup()
                 .addGap(266, 266, 266)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneldataLayout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(cargar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
         );
         paneldataLayout.setVerticalGroup(
             paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,8 +161,10 @@ public class NotasExamenes extends javax.swing.JInternalFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addGroup(paneldataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(salir, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cargar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -279,6 +298,16 @@ public class NotasExamenes extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_salirActionPerformed
 
+    private void cargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cargarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cargarMouseClicked
+
+    private void cargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarActionPerformed
+        // TODO add your handling code here:
+        System.out.println("NOTAS EXAMEN OBJ");
+        NotasExamenObj nc = new NotasExamenObj("Resultados Examen", idExamen);
+    }//GEN-LAST:event_cargarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -318,6 +347,7 @@ public class NotasExamenes extends javax.swing.JInternalFrame {
     private javax.swing.JButton Buscar;
     private javax.swing.JComboBox<String> Carreras;
     private javax.swing.JTextField asignaturaTxt;
+    private javax.swing.JButton cargar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
@@ -367,8 +397,6 @@ public class NotasExamenes extends javax.swing.JInternalFrame {
                 tableExamenes.getSelectionModel().addListSelectionListener((ListSelectionEvent event) -> {
                     if (event.getValueIsAdjusting()) {
                         idExamen = Long.parseLong(tableExamenes.getModel().getValueAt(tableExamenes.getSelectedRow(), 0).toString());
-                        System.out.println("NOTAS EXAMEN OBJ");
-                        NotasExamenObj nc = new NotasExamenObj("Resultados Examen", idExamen);
                     }
                 });
             }

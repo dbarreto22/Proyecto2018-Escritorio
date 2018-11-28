@@ -31,6 +31,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -40,7 +42,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Ernesto
  */
-public class NotasExamenObj extends MyFrame {
+public class NotasExamenObj extends JFrame {
     tableUtils tUtils = tableUtils.getInstance();
     private Long idExamen;
     private String accion;
